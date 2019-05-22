@@ -15,11 +15,37 @@ namespace RegExGen
         [STAThread]
         static void Main()
         {
-            TestRegExp();
+            //TestRegExp();
+            TestAutomata();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
             
+        }
+
+        public static void TestAutomata()
+        {
+            char[] alphabet = { 'a', 'b' };
+            Automata m = new Automata(alphabet);
+
+            m.addTransition(new Transition("q0", 'a', "q1"));
+            m.addTransition(new Transition("q0", 'b', "q4"));
+            m.addTransition(new Transition("q1", 'a', "q4"));
+            m.addTransition(new Transition("q1", 'b', "q2"));
+            m.addTransition(new Transition("q2", 'a', "q3"));
+            m.addTransition(new Transition("q2", 'b', "q4"));
+            m.addTransition(new Transition("q3", 'a', "q1"));
+            m.addTransition(new Transition("q3", 'b', "q2"));
+            m.addTransition(new Transition("q4", 'a'));
+            m.addTransition(new Transition("q4", 'b'));
+
+            //1 begintoestand
+            m.defineAsStartState("q0");
+
+            //2 eindtoestanden
+            m.defineAsFinalState("q2");
+            m.defineAsFinalState("q3");
+
         }
 
         private static RegExp expr1, expr2, expr3, expr4, expr5, a, b, all;
