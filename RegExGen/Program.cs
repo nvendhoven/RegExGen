@@ -15,12 +15,19 @@ namespace RegExGen
         [STAThread]
         static void Main()
         {
-            //TestRegExp();
+            TestRegExp();
             TestAutomata();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
             
+        }
+
+        public static void TestRegExpToAutomata()
+        {
+            RegExp regExp = new RegExp("baa");
+            Automata automata = ThompsonConverter.RegExToAutomata(regExp);
+            Debug.WriteLine(automata.ToString());
         }
 
         public static void TestAutomata()
@@ -53,7 +60,7 @@ namespace RegExGen
         public static void TestRegExp()
         {
             Debug.WriteLine("Start Test");
-           a = new RegExp("a");
+            a = new RegExp("a");
             b = new RegExp("b");
 
             // expr1: "baa"

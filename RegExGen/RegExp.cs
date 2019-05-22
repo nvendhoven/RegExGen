@@ -12,10 +12,10 @@ namespace RegExGen
     {
         public enum Operator { PLUS, STAR, OR, DOT, ONE }
 
-        Operator regOperator;
-        string terminals;
-        RegExp left;
-        RegExp right;
+        private Operator regOperator;
+        private string terminals;
+        private RegExp left;
+        private RegExp right;
         /*
         public static Comparer<string> compareByLength(string s1,string s2) // = new Comparer<string>();
         {
@@ -25,8 +25,25 @@ namespace RegExGen
                 { return s1.Length - s2.Length; }
         }
         */
+        public Operator GetRegOperator()
+        {
+            return regOperator;
+        }
 
+        public string GetRegTerminals()
+        {
+            return terminals;
+        }
 
+        public RegExp GetLeftRegExp()
+        {
+            return left;
+        }
+
+        public RegExp GetRightRegExp()
+        {
+            return right;
+        }
 
         private class compareByLengthHelper : IComparer<string>
         {
