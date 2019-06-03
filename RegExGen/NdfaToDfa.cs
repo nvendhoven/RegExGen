@@ -39,8 +39,9 @@ namespace RegExGen
             var testAutomata = new Automata(new[] { 'x', 'y' });
            
             var beginNode = "1";
-            testAutomata.defineAsStartState(beginNode);
             var endNode = "2";
+
+            testAutomata.defineAsStartState(beginNode);
             testAutomata.defineAsFinalState(endNode);
 
             testAutomata.addTransition(new Transition(beginNode, 'x', endNode));

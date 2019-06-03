@@ -64,24 +64,9 @@ namespace RegExGen
             }
         }
 
-        public string getFromState()
-        {
-            return fromState;
-        }
-
-        public string getToState()
-        {
-            return toState;
-        }
-
-        public char getSymbol()
-        {
-            return symbol;
-        }
-
         public String toString()
         {
-            return "(" + this.getFromState() + ", " + this.getSymbol() + ")" + "-->" + this.getToState();
+            return "(" + fromState + ", " + symbol + ")" + "-->" + toState;
         }
     }
 }

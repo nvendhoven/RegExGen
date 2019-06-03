@@ -60,22 +60,19 @@ namespace RegExGen
 
         public void addTransition(Transition t)
         {
-            transitions.Add(t);
-            states.Add(t.getFromState());
-            states.Add(t.getToState());
+            states.Add(t.fromState);
+            states.Add(t.toState);
         }
 
         public void defineAsStartState(string t)
         {
             // if already in states no problem because a Set will remove duplicates.
-            states.Add(t);
             startStates.Add(t);
         }
 
         public void defineAsFinalState(string t)
         {
             // if already in states no problem because a Set will remove duplicates.
-            states.Add(t);
             finalStates.Add(t);
         }
 
@@ -92,7 +89,7 @@ namespace RegExGen
         {
             return new SortedSet<string>(
             transitions.Where(transition => transition.symbol == withSymbol)
-                .Select(transitionWithSymbol => transitionWithSymbol.getToState())
+                .Select(transitionWithSymbol => transitionWithSymbol.toState)
             );
         }
 
@@ -112,6 +109,9 @@ namespace RegExGen
 
             // geen epsilon overgangen
             isDFA = isDFA && transitions.Any(transitions => transitions.symbol != Transition.EPSILON);
+
+            // geen meerdere start toestanden
+            isDFA = isDFA && startStates.Count > 1; 
             return isDFA;
         }
     }
