@@ -10,18 +10,20 @@ namespace RegExGen
     class Automata
     {
         // node - edge - node
-        private SortedSet<Transition> transitions;
+        private SortedSet<Transition> transitions = new SortedSet<Transition>();
 
-        private SortedSet<string> states;
+        private SortedSet<string> states {
+            get {
+                return new SortedSet<string>( 
+                    transitions.SelectMany(tr => new[] { tr.toState, tr.fromState }));}
+        }
         private SortedSet<string> startStates;
-        private SortedSet<string> finalStates;
+        private SortedSet<string> finalStates; 
         // alphabet
         private SortedSet<char> symbols;
 
         public Automata()
         {
-            transitions = new SortedSet<Transition>();
-            states = new SortedSet<string>();
             startStates = new SortedSet<string>();
             finalStates = new SortedSet<string>();
             this.setAlphabet(new SortedSet<char>());
@@ -29,8 +31,6 @@ namespace RegExGen
 
         public Automata(char[] s)
         {
-            transitions = new SortedSet<Transition>();
-            states = new SortedSet<string>();
             startStates = new SortedSet<string>();
             finalStates = new SortedSet<string>();
             this.setAlphabet(new SortedSet<char>(s.ToList()));
@@ -38,8 +38,6 @@ namespace RegExGen
 
         public Automata(SortedSet<char> symbols)
         {
-            transitions = new SortedSet<Transition>();
-            states = new SortedSet<string>();
             startStates = new SortedSet<string>();
             finalStates = new SortedSet<string>();
             this.setAlphabet(symbols);
@@ -89,27 +87,32 @@ namespace RegExGen
                 Debug.WriteLine(t);
             }
         }
-        /*
+
+        public SortedSet<string> getToStates(string from, char withSymbol)
+        {
+            return new SortedSet<string>(
+            transitions.Where(transition => transition.symbol == withSymbol)
+                .Select(transitionWithSymbol => transitionWithSymbol.getToState())
+            );
+        }
+
         public bool isDFA()
         {
             bool isDFA = true;
 
+            // elke node heeft elk symbool precies 1 keer als uitgaande pijl
             foreach (string from in states)
             {
                 foreach (char symbol in symbols)
                 {
-                    isDFA = isDFA && getToStates(from, symbol).size() == 1;
+                    isDFA = isDFA && getToStates(from, symbol).Count == 1;
+                    if (!isDFA) return false;
                 }
             }
 
+            // geen epsilon overgangen
+            isDFA = isDFA && transitions.Any(transitions => transitions.symbol != Transition.EPSILON);
             return isDFA;
         }
-        */
-
-
-
-
-
-
     }
 }

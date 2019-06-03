@@ -17,6 +17,8 @@ namespace RegExGen
         {
             TestRegExp();
             TestAutomata();
+
+            NdfaToDfa.testAll();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

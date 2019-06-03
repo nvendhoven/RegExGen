@@ -10,9 +10,9 @@ namespace RegExGen
     {
         public static readonly char EPSILON = '$';
 
-        private string fromState;
-        private char symbol;// edge
-        private string toState;
+        public string fromState { get; }
+        public char symbol{ get; }// edge
+        public string toState { get; }
 
         public int CompareTo(Transition other)
         {
