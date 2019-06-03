@@ -8,10 +8,10 @@ namespace RegExGen
 {
     class Transition : IComparable<Transition>   //<T extends Comparable> implements Comparable<Transition<T>>
     {
-        public static char EPSILON = '$';
+        public static readonly char EPSILON = '$';
 
         private string fromState;
-        private char symbol;
+        private char symbol;// edge
         private string toState;
 
         public int CompareTo(Transition other)

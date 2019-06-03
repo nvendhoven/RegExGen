@@ -14,6 +14,7 @@ namespace RegExGen
         private SortedSet<string> states;
         private SortedSet<string> startStates;
         private SortedSet<string> finalStates;
+        // alphabet
         private SortedSet<char> symbols;
 
         public Automata()
