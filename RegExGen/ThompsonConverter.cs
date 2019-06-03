@@ -13,8 +13,8 @@ namespace RegExGen
     {
         public state statenumber = 0;
 
-        private SortedSet<string> startStates;
-        private SortedSet<string> finalStates;
+        private SortedSet<string> startStates = new SortedSet<string>();
+        private SortedSet<string> finalStates = new SortedSet<string>();
         SortedSet<char> symbols = new SortedSet<char>();
         SortedSet<Transition> _transitions = new SortedSet<Transition>();
 
@@ -31,37 +31,32 @@ namespace RegExGen
         {
             SortedSet<Transition> transitions = new SortedSet<Transition>();
             state startState = statenumber;
-            state endState = statenumber + 1;
+            state endState = statenumber;
 
 
             switch (regExp.GetRegOperator())
             {
-                case RegExp.Operator.ONE:
-                {
-                        if (regExp.GetRegTerminals().Length == 1)//Als het maar 1 character is, maak dan 1 transitie.
-                        {
-                            Transition trans = new Transition(startState.ToString(), regExp.GetRegTerminals().ToCharArray()[0], endState.ToString());
-                            finalStates.Add(endState.ToString());
-                        }
-                        else if (regExp.GetRegTerminals().Length > 1) //Als het meer dan 1 character is, maak dan voor elk character een transitie.
+                case RegExp.Operator.ONE:           //Laatste item in een arm van de tree
+                    {
+                        if (regExp.GetRegTerminals().Length >= 1)
                         {
                             foreach (char c in regExp.GetRegTerminals())
                             {
-                                transitions.Add(new Transition(startState.ToString(), c, endState.ToString()));
-
                                 startState = endState;
                                 endState = startState + 1;
+                                transitions.Add(new Transition(startState.ToString(), c, endState.ToString()));
                             }
-                            statenumber = endState;
+                            finalStates.Add(endState.ToString());
+                            statenumber = endState; //set last used state as state number
                         }
-                        else//Nu gaat het fout
+                        else
                         {
                             throw new Exception("Thompson conversie messed up.");
                         }
-                    } break;    //Laatste item in een arm van de tree
+                    } break;    
                 case RegExp.Operator.PLUS: 
                     {
-            
+                        
 
                     } break;  //herhaal dit stuk volgens de plus wijze
                 case RegExp.Operator.STAR:
@@ -72,7 +67,11 @@ namespace RegExGen
                 case RegExp.Operator.OR:
                     {
                         //Add all transitions from left part of the or
+                        //Add epsilon form this state to start state of the left part
                         transitions.UnionWith(GetTransitions(regExp.GetLeftRegExp()));
+                        //After getting all transitions of top part, add another epsilon from end of the previous thingy to ending node of this thing.
+
+
 
 
                         //Add all transitions from right part of the or
