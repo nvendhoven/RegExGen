@@ -7,39 +7,39 @@ using System.Threading.Tasks;
 
 namespace RegExGen
 {
-    class Automata<T> where T : IComparable
+    class Automata
     {
         // node - edge - node
-        private SortedSet<Transition<T>> transitions = new SortedSet<Transition<T>>();
+        private SortedSet<Transition> transitions = new SortedSet<Transition>();
 
-        private SortedSet<T> states {
+        private SortedSet<string> states {
             get {
-                return new SortedSet<T>( 
+                return new SortedSet<string>( 
                     transitions.SelectMany(tr => new[] { tr.toState, tr.fromState }));}
         }
-        private SortedSet<T> startStates;
-        private SortedSet<T> finalStates; 
+        private SortedSet<string> startStates;
+        private SortedSet<string> finalStates; 
         // alphabet
         private SortedSet<char> symbols;
 
         public Automata()
         {
-            startStates = new SortedSet<T>();
-            finalStates = new SortedSet<T>();
+            startStates = new SortedSet<string>();
+            finalStates = new SortedSet<string>();
             this.setAlphabet(new SortedSet<char>());
         }
 
         public Automata(char[] s)
         {
-            startStates = new SortedSet<T>();
-            finalStates = new SortedSet<T>();
+            startStates = new SortedSet<string>();
+            finalStates = new SortedSet<string>();
             this.setAlphabet(new SortedSet<char>(s.ToList()));
         }
 
         public Automata(SortedSet<char> symbols)
         {
-            startStates = new SortedSet<T>();
-            finalStates = new SortedSet<T>();
+            startStates = new SortedSet<string>();
+            finalStates = new SortedSet<string>();
             this.setAlphabet(symbols);
         }
 
@@ -58,20 +58,20 @@ namespace RegExGen
             return symbols;
         }
 
-        public void addTransition(Transition<T> t)
+        public void addTransition(Transition t)
         {
             transitions.Add(t);
             states.Add(t.fromState);
             states.Add(t.toState);
         }
 
-        public void defineAsStartState(T t)
+        public void defineAsStartState(string t)
         {
             // if already in states no problem because a Set will remove duplicates.
             startStates.Add(t);
         }
 
-        public void defineAsFinalState(T t)
+        public void defineAsFinalState(string t)
         {
             // if already in states no problem because a Set will remove duplicates.
             finalStates.Add(t);
@@ -80,15 +80,15 @@ namespace RegExGen
         public void printTransitions()
         {
 
-            foreach(Transition<T> t in transitions)
+            foreach(Transition t in transitions)
             {
                 Debug.WriteLine(t.ToString());
             }
         }
 
-        public SortedSet<T> getToStates(T from, char withSymbol)
+        public SortedSet<string> getToStates(string from, char withSymbol)
         {
-            return new SortedSet<T>(
+            return new SortedSet<string>(
             transitions.Where(transition => transition.symbol == withSymbol)
                 .Select(transitionWithSymbol => transitionWithSymbol.toState)
             );
@@ -99,7 +99,7 @@ namespace RegExGen
             bool isDFA = true;
 
             // elke node heeft elk symbool precies 1 keer als uitgaande pijl
-            foreach (T from in states)
+            foreach (string from in states)
             {
                 foreach (char symbol in symbols)
                 {
@@ -109,7 +109,7 @@ namespace RegExGen
             }
 
             // geen epsilon overgangen
-            isDFA = isDFA && transitions.Any(transitions => transitions.symbol != Transition<T>.EPSILON);
+            isDFA = isDFA && transitions.Any(transitions => transitions.symbol != Transition.EPSILON);
 
             // geen meerdere start toestanden
             isDFA = isDFA && startStates.Count > 1; 
