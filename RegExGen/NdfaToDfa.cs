@@ -71,11 +71,17 @@ namespace RegExGen
                         }
                         else throw new KeyNotFoundException("single symbol not found in 'hulp tabel'");
                     }));
-                    if (dfaDictionary.Keys.Select(ToestandSymbolPair => ToestandSymbolPair.toestand).All(state=> {
-                        // todo make compare work
-                        newState
+
+                    var isInDfaDict = false;
+                    foreach(var state in dfaDictionary.Keys.Select(ToestandSymbolPair => ToestandSymbolPair.toestand))
+                    {
+                        if (state.SequenceEqual(newState))
+                        {
+                            isInDfaDict = true;
+                            break;
                         }
-                    )) continue;
+                    }
+                    if (isInDfaDict) continue;
 
                     // voeg toe aan dfaDictionary
                     dfaDictionary.Add(new ToestandSymbolPair(toCheckState, symbol), newState);
