@@ -58,7 +58,7 @@ namespace RegExGen
 
         }
 
-        private static RegExp expr1, expr2, expr3, expr4, expr5, a, b, all;
+        private static RegExp expr1, expr2, expr3, expr4, expr5, expr6, e, a, b, all;
 
         public static void TestRegExp()
         {
@@ -92,6 +92,20 @@ namespace RegExGen
             Debug.WriteLine("taal van (a|b)*:\n" + all.getLanguage(5));
             Debug.WriteLine("taal van (baa | bb)+:\n" + expr4.getLanguage(5));
             Debug.WriteLine("taal van (baa | bb)+ (a|b)*:\n" + expr5.getLanguage(6));
+        }
+
+        public static void TestThompsonConstruction()
+        {
+            Debug.WriteLine("Start Thompson");
+            e = new RegExp("$");
+            a = new RegExp("a");
+            b = new RegExp("b");
+
+
+            //($ | a*b)
+            expr6 = e.or(a.star().dot(b));
+            Automata<string> ndfa = ThompsonConverter<string>.RegExToAutomata(expr6);
+            Debug.WriteLine(ndfa.ToString());
         }
     }
 }
