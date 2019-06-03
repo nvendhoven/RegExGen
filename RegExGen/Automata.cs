@@ -9,6 +9,7 @@ namespace RegExGen
 {
     class Automata
     {
+        // node - edge - node
         private SortedSet<Transition> transitions;
 
         private SortedSet<string> states;

@@ -22,12 +22,6 @@ namespace RegExGen
                 case RegExp.Operator.DOT: break;    //Dit is een spatie ding
             }
             
-
-
-
-
-
-
             return null;
         }
 
