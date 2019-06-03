@@ -9,17 +9,55 @@ namespace RegExGen
     class ThompsonConverter<T> where T : IComparable
     {
         public static int stateNumber = 0;
+
         public static Automata<T> RegExToAutomata(RegExp regExp)
         {
             Automata<T> automata = new Automata<T>();
             SortedSet<char> symbols = new SortedSet<char>();
+            SortedSet<Transition<T>> transitions = new SortedSet<Transition<T>>();
+            SortedSet<T> startStates = new SortedSet<T>();
+            SortedSet<T> finalStates = new SortedSet<T>(); 
             //Nodig: Startpunten, eindpunten, symbolen en alle transities.
+            switch (regExp.GetRegOperator())
+            {
+                case RegExp.Operator.ONE:
+                {
+                    
 
 
+                }
+                    break;    //Laatste item in een arm van de tree
+                case RegExp.Operator.PLUS:
+                {
+
+
+                }
+                    break;  //herhaal dit stuk volgens de plus wijze
+                case RegExp.Operator.STAR:
+                {
+
+
+                }
+                    break;   //herhaal dit stuk volgens de keer wijze 
+                case RegExp.Operator.OR:
+                {
+                        //2 startposities dus
+
+
+                }
+                    break;     //Dit is een or stuk
+                case RegExp.Operator.DOT:
+                {
+
+
+
+                }
+                    break;    //Dit is een spatie ding
+            }
 
             return automata;
         }
-
+        //($ | a*b)
         public static SortedSet<Transition<T>> GetTransitions(RegExp regExp)
         {
             SortedSet<Transition<T>> transitions = new SortedSet<Transition<T>>();
@@ -27,23 +65,28 @@ namespace RegExGen
             {
                 case RegExp.Operator.ONE:
                 {
-                    //Deze gaat een transitie returnen.
                     Transition<string> trans = new Transition<string>("q"+stateNumber,"q");
                     regExp.GetRegTerminals();//Get the symbols
 
 
                 } break;    //Laatste item in een arm van de tree
-                case RegExp.Operator.PLUS: break;   //herhaal dit stuk volgens de plus wijze
-                case RegExp.Operator.STAR: break;   //herhaal dit stuk volgens de keer wijze 
+                case RegExp.Operator.PLUS: 
+                {
+                    
+
+                } break;  //herhaal dit stuk volgens de plus wijze
+                case RegExp.Operator.STAR:
+                {
+
+                    
+                } break;   //herhaal dit stuk volgens de keer wijze 
                 case RegExp.Operator.OR:
                 {
-                    //krijg 2 transities, die meer transities bevatten
-
+                    
 
                 } break;     //Dit is een or stuk
                 case RegExp.Operator.DOT:
                 {
-                    //Krijg 1 transitie, die meer tranities bevatten
 
 
 
@@ -54,7 +97,5 @@ namespace RegExGen
 
             return transitions;
         }
-
-
     }
 }

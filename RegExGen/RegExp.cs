@@ -165,5 +165,35 @@ namespace RegExGen
 
             return languageResult;
         }
+
+        public void PrintTree(int offset)
+        {
+            for (int i = 0; i < offset; ++i)
+                Console.Write(" ");
+
+            switch (GetRegOperator())
+            {
+                case RegExp.Operator.ONE:
+                    Console.WriteLine(terminals);
+                    break;
+                case RegExp.Operator.OR:
+                    Console.WriteLine("|");
+                    break;
+                case RegExp.Operator.DOT:
+                    Console.WriteLine(".");
+                    break;
+                case RegExp.Operator.PLUS:
+                    Console.WriteLine("?");
+                    break;
+                case RegExp.Operator.STAR:
+                    Console.WriteLine("*");
+                    break;
+            }
+
+            if(left != null)
+                left.PrintTree(offset + 8);
+            if(right != null)
+                right.PrintTree(offset + 8);
+        }
     }
 }

@@ -76,11 +76,15 @@ namespace RegExGen
             // all: "(a|b)*"
             all = (a.or(b)).star();
 
+            all.PrintTree(0);
+
             // expr4: "(baa | baa)+"
             expr4 = expr3.plus();
             // expr5: "(baa | baa)+ (a|b)*"
             expr5 = expr4.dot(all);
             testLanguage();
+
+            
         }
 
         public static void testLanguage()
