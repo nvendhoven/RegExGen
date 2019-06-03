@@ -18,7 +18,8 @@ namespace RegExGen
             TestRegExp();
             TestAutomata();
 
-            NdfaToDfa.testAll();
+            //NdfaToDfa<string>.testAll();
+            Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
@@ -28,25 +29,25 @@ namespace RegExGen
         public static void TestRegExpToAutomata()
         {
             RegExp regExp = new RegExp("baa");
-            Automata automata = ThompsonConverter.RegExToAutomata(regExp);
+            Automata<string> automata = ThompsonConverter<string>.RegExToAutomata(regExp);
             Debug.WriteLine(automata.ToString());
         }
 
         public static void TestAutomata()
         {
             char[] alphabet = { 'a', 'b' };
-            Automata m = new Automata(alphabet);
+            Automata<string> m = new Automata<string>(alphabet);
 
-            m.addTransition(new Transition("q0", 'a', "q1"));
-            m.addTransition(new Transition("q0", 'b', "q4"));
-            m.addTransition(new Transition("q1", 'a', "q4"));
-            m.addTransition(new Transition("q1", 'b', "q2"));
-            m.addTransition(new Transition("q2", 'a', "q3"));
-            m.addTransition(new Transition("q2", 'b', "q4"));
-            m.addTransition(new Transition("q3", 'a', "q1"));
-            m.addTransition(new Transition("q3", 'b', "q2"));
-            m.addTransition(new Transition("q4", 'a'));
-            m.addTransition(new Transition("q4", 'b'));
+            m.addTransition(new Transition<string>("q0", 'a', "q1"));
+            m.addTransition(new Transition<string>("q0", 'b', "q4"));
+            m.addTransition(new Transition<string>("q1", 'a', "q4"));
+            m.addTransition(new Transition<string>("q1", 'b', "q2"));
+            m.addTransition(new Transition<string>("q2", 'a', "q3"));
+            m.addTransition(new Transition<string>("q2", 'b', "q4"));
+            m.addTransition(new Transition<string>("q3", 'a', "q1"));
+            m.addTransition(new Transition<string>("q3", 'b', "q2"));
+            m.addTransition(new Transition<string>("q4", 'a'));
+            m.addTransition(new Transition<string>("q4", 'b'));
 
             //1 begintoestand
             m.defineAsStartState("q0");
