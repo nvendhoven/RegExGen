@@ -17,7 +17,8 @@ namespace RegExGen
         {
             TestRegExp();
             TestAutomata();
-            TestThompsonConstruction();
+            //TestThompsonConstruction();
+            TestRegExpToAutomata();
             //NdfaToDfa<string>.testAll();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
@@ -29,7 +30,7 @@ namespace RegExGen
         public static void TestRegExpToAutomata()
         {
             RegExp regExp = new RegExp("baa");
-            Automata automata = ThompsonConverter.RegExToAutomata(regExp);
+            Automata automata = new ThompsonConverter().RegExToAutomata(regExp);
             Debug.WriteLine(automata.ToString());
         }
 
@@ -109,7 +110,7 @@ namespace RegExGen
             //($ | a*b)
             expr6 = e.or(a.star().dot(b));
             expr6.PrintTree(0);
-            Automata ndfa = ThompsonConverter.RegExToAutomata(expr6);
+            Automata ndfa = new ThompsonConverter().RegExToAutomata(expr6);
             Debug.WriteLine(ndfa.ToString());
         }
     }
