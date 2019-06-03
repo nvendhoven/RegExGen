@@ -82,7 +82,7 @@ namespace RegExGen
 
             foreach(Transition<T> t in transitions)
             {
-                Debug.WriteLine(t);
+                Debug.WriteLine(t.ToString());
             }
         }
 

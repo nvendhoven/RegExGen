@@ -66,7 +66,7 @@ namespace RegExGen
 
         public string toString()
         {
-            return "(" + fromState + ", " + symbol + ")" + "-->" + toState;
+            return "(" + fromState + ") --> " + symbol + " --> (" + toState + ")";
         }
     }
 }
