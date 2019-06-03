@@ -15,25 +15,25 @@ namespace RegExGen
         [STAThread]
         static void Main()
         {
-            TestRegExp();
-            TestAutomata();
-
             //NdfaToDfa<string>.testAll();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-            
+
+            TestRegExp();
+            TestAutomata();
         }
 
         public static void TestRegExpToAutomata()
         {
             RegExp regExp = new RegExp("baa");
+
             Automata<string> automata = ThompsonConverter<string>.RegExToAutomata(regExp);
             Debug.WriteLine(automata.ToString());
         }
 
-        public static void TestAutomata()
+        public static Automata<string> TestAutomata()
         {
             char[] alphabet = { 'a', 'b' };
             Automata<string> m = new Automata<string>(alphabet);
@@ -56,6 +56,7 @@ namespace RegExGen
             m.defineAsFinalState("q2");
             m.defineAsFinalState("q3");
 
+            return m;
         }
 
         private static RegExp expr1, expr2, expr3, expr4, expr5, a, b, all;
@@ -80,6 +81,7 @@ namespace RegExGen
             expr4 = expr3.plus();
             // expr5: "(baa | baa)+ (a|b)*"
             expr5 = expr4.dot(all);
+
             testLanguage();
         }
 

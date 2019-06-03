@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace RegExGen
 {
-    class Automata<T> where T : IComparable
+    public class Automata<T> where T : IComparable
     {
         // node - edge - node
-        private SortedSet<Transition<T>> transitions = new SortedSet<Transition<T>>();
+        public SortedSet<Transition<T>> transitions = new SortedSet<Transition<T>>();
 
-        private SortedSet<T> states {
+        public SortedSet<T> states {
             get {
                 return new SortedSet<T>( 
                     transitions.SelectMany(tr => new[] { tr.toState, tr.fromState }));}
         }
-        private SortedSet<T> startStates;
-        private SortedSet<T> finalStates; 
+        public SortedSet<T> startStates { get; }
+        public SortedSet<T> finalStates { get; }
         // alphabet
         private SortedSet<char> symbols;
 

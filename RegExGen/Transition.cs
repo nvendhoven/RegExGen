@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RegExGen
 {
-    class Transition<T> : IComparable<Transition<T>> where T :IComparable
+    public class Transition<T> : IComparable<Transition<T>> where T :IComparable
     {
         public static readonly char EPSILON = '$';
 

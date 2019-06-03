@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RegExGen
 {
-    class RegExp
+    public class RegExp
     {
         public enum Operator { PLUS, STAR, OR, DOT, ONE }
 
