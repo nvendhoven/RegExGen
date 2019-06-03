@@ -17,7 +17,7 @@ namespace RegExGen
         {
             TestRegExp();
             TestAutomata();
-
+            TestThompsonConstruction();
             //NdfaToDfa<string>.testAll();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
@@ -108,6 +108,7 @@ namespace RegExGen
 
             //($ | a*b)
             expr6 = e.or(a.star().dot(b));
+            expr6.PrintTree(0);
             Automata<string> ndfa = ThompsonConverter<string>.RegExToAutomata(expr6);
             Debug.WriteLine(ndfa.ToString());
         }

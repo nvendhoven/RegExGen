@@ -18,47 +18,11 @@ namespace RegExGen
             SortedSet<T> startStates = new SortedSet<T>();
             SortedSet<T> finalStates = new SortedSet<T>(); 
             //Nodig: Startpunten, eindpunten, symbolen en alle transities.
-            switch (regExp.GetRegOperator())
-            {
-                case RegExp.Operator.ONE:
-                {
-                    
-
-
-                }
-                    break;    //Laatste item in een arm van de tree
-                case RegExp.Operator.PLUS:
-                {
-
-
-                }
-                    break;  //herhaal dit stuk volgens de plus wijze
-                case RegExp.Operator.STAR:
-                {
-
-
-                }
-                    break;   //herhaal dit stuk volgens de keer wijze 
-                case RegExp.Operator.OR:
-                {
-                        //2 startposities dus
-
-
-                }
-                    break;     //Dit is een or stuk
-                case RegExp.Operator.DOT:
-                {
-
-
-
-                }
-                    break;    //Dit is een spatie ding
-            }
 
             return automata;
         }
         //($ | a*b)
-        public static SortedSet<Transition<T>> GetTransitions(RegExp regExp)
+        public static SortedSet<Transition<T>> GetTransitions(RegExp regExp, T state)
         {
             SortedSet<Transition<T>> transitions = new SortedSet<Transition<T>>();
             switch (regExp.GetRegOperator())
