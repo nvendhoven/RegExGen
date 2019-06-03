@@ -9,16 +9,18 @@ namespace RegExGen
 {
     class Automata
     {
+        public static readonly char EPSILON = '$';
         // node - edge - node
         private SortedSet<Transition> transitions = new SortedSet<Transition>();
 
-        private SortedSet<string> states {
+        public SortedSet<string> states {
             get {
                 return new SortedSet<string>( 
                     transitions.SelectMany(tr => new[] { tr.toState, tr.fromState }));}
         }
-        private SortedSet<string> startStates;
-        private SortedSet<string> finalStates; 
+        public SortedSet<string> startStates { get; }
+        public SortedSet<string> finalStates { get; } 
+
         // alphabet
         private SortedSet<char> symbols;
 
@@ -108,7 +110,7 @@ namespace RegExGen
             }
 
             // geen epsilon overgangen
-            isDFA = isDFA && transitions.Any(transitions => transitions.symbol != Transition.EPSILON);
+            isDFA = isDFA && transitions.Any(transitions => transitions.symbol != EPSILON);
 
             // geen meerdere start toestanden
             isDFA = isDFA && startStates.Count > 1; 

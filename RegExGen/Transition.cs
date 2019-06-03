@@ -8,7 +8,6 @@ namespace RegExGen
 {
     class Transition : IComparable<Transition>   //<T extends Comparable> implements Comparable<Transition<T>>
     {
-        public static readonly char EPSILON = '$';
 
         public string fromState { get; }
         public char symbol{ get; }// edge
@@ -34,7 +33,7 @@ namespace RegExGen
         public Transition(string from, string to)
         {
             this.fromState = from;
-            this.symbol = EPSILON;
+            this.symbol = Automata.EPSILON;
             this.toState = to;
         }
 
