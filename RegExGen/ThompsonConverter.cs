@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace RegExGen
 {
-    class ThompsonConverter
+    class ThompsonConverter<T> where T : IComparable
     {
-        public static Automata RegExToAutomata(RegExp regExp)
+        public static Automata<T> RegExToAutomata(RegExp regExp)
         {
             //krijg een input
 
