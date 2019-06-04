@@ -18,15 +18,15 @@ namespace RegExGen
             //TestRegExp();
             //TestAutomata();
             //TestThompsonConstruction();
-            TestRegExpToAutomata();
+            //TestRegExpToAutomata();
             //NdfaToDfa<string>.testAll();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
 
-            TestRegExp();
-            TestAutomata();
+            //TestRegExp();
+            //TestAutomata();
         }
 
         public static void TestRegExpToAutomata()
@@ -89,7 +89,7 @@ namespace RegExGen
 
         private static RegExp expr1, expr2, expr3, expr4, expr5, expr6, e, a, b, all;
 
-        public static void TestRegExp()
+        public static RegExp TestRegExp()
         {
             Debug.WriteLine("Start Test");
             a = new RegExp("a");
@@ -99,7 +99,7 @@ namespace RegExGen
             expr1 = new RegExp("baa");
             // expr2: "bb"
             expr2 = new RegExp("bb");
-            // expr3: "baa | baa"
+            // expr3: "baa | bb"
             expr3 = expr1.or(expr2);
 
             // all: "(a|b)*"
@@ -107,14 +107,14 @@ namespace RegExGen
 
             all.PrintTree(0);
 
-            // expr4: "(baa | baa)+"
+            // expr4: "(baa | bb)+"
             expr4 = expr3.plus();
-            // expr5: "(baa | baa)+ (a|b)*"
+            // expr5: "(baa | bb)+ (a|b)*"
             expr5 = expr4.dot(all);
 
             testLanguage();
 
-            
+            return expr5;
         }
 
         public static void testLanguage()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -76,7 +77,7 @@ namespace RegExGen
 
                         //Create an epsilon transiton from start to first state of the inside of STAR.
                         statenumber++;//1
-                        transitions.Add(new Transition(statenumber.ToString(), startState.ToString()));//T1
+                        transitions.Add(new Transition(startState.ToString(), statenumber.ToString()));//T1
 
                         //Save the start of the inside of the STAR, so we can create a epsilon transition later.
                         state startStateOfInsideSTAR = statenumber;//1
@@ -135,6 +136,7 @@ namespace RegExGen
                         //Get the transitions of the first part and the second part.
                         transitions.UnionWith(GetTransitions(regExp.GetLeftRegExp()));
                         transitions.UnionWith(GetTransitions(regExp.GetRightRegExp()));
+                        Debug.WriteLine("Temp");
                     } break;    //Dit is een spatie ding
             }
             return transitions;
