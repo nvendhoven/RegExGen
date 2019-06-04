@@ -69,9 +69,33 @@ namespace RegExGen
                     } break;  //herhaal dit stuk volgens de plus wijze
                 case RegExp.Operator.STAR:
                     {
+                        //Save the start state so it can later be used to create an epsilon transiton from the endstate to the startstate.
+                        startState = statenumber; //0
 
-            
-                    } break;   //herhaal dit stuk volgens de keer wijze 
+                        //Create an epsilon transiton from start to first state of the inside of STAR.
+                        statenumber++;//1
+                        transitions.Add(new Transition(statenumber.ToString(), startState.ToString()));//T1
+
+                        //Save the start of the inside of the STAR, so we can create a epsilon transition later.
+                        state startStateOfInsideSTAR = statenumber;//1
+
+                        //Add all transitions from the inside of STAR, only left side is used with the STAR operator.
+                        transitions.UnionWith(GetTransitions(regExp.GetLeftRegExp()));
+
+                        //Save the end of the inside of the STAR, so we can create a epsilon transition later.
+                        state endStateOfInsideSTAR = statenumber;//2
+
+                        //Create an epsilon transition from the end of the inside of STAR, to the start of the inside of STAR.
+                        transitions.Add(new Transition(endStateOfInsideSTAR.ToString(), startStateOfInsideSTAR.ToString()));
+
+                        //Create an epsilon transition from the end of the inside of STAR, to the end of the STAR.
+                        statenumber++;//3
+                        transitions.Add(new Transition(endStateOfInsideSTAR.ToString(), statenumber.ToString()));
+
+                        //Create an epsilon transition from the start of STAR, to the end of the STAR.
+                        transitions.Add(new Transition(startState.ToString(), statenumber.ToString()));
+                    }
+                    break;   //herhaal dit stuk volgens de keer wijze 
                 case RegExp.Operator.OR:
                     {
                         //Save the start state so it can later be used to create an epsilon transiton for the OR's

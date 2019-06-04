@@ -27,8 +27,16 @@ namespace RegExGen
             
         }
 
+        /*
+         * Debugger is required to see if values are correct.
+         */
         public static void TestRegExpToAutomata()
         {
+            RegExp regExp9 = new RegExp("a").star();
+            RegExp regExp0 = new RegExp("baa").star();
+            Automata automata9 = new ThompsonConverter().RegExToAutomata(regExp9);
+            Automata automata0 = new ThompsonConverter().RegExToAutomata(regExp0);
+
             RegExp regExp7 = new RegExp("a").plus();
             RegExp regExp8 = new RegExp("baa").plus();
             Automata automata7 = new ThompsonConverter().RegExToAutomata(regExp7);
