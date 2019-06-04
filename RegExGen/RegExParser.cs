@@ -15,30 +15,40 @@ namespace RegExGen
             //Loop through all characters of a regEx
             foreach (char c in regExpString)
             {
-                switch (c)
+                ParseRegExpHelper(c);
+            }
+            return null;
+        }
+
+        public static RegExp ParseRegExpHelper(char c)
+        {
+            switch (c)
+            {
+                //case '(': break;
+                //case ')': break;
+                case '+':
                 {
-                    //case '(': break;
-                    //case ')': break;
-                    case '+': break;//doPlus
-                    case '*': break;//doStar
-                    case '|': break;//doOr
-                    default:
-                    {
-                        //c is een char
+                    
+                } break;//doPlus
+                case '*':
+                {
+                    
+                } break;//doStar
+                case '|':
+                {
+                    
+                } break;//doOr
+                default:
+                {
+                    return new RegExp(c.ToString());
 
-
-                    } break; //itsALetter
-
-                }
-                
-
-
-
-
+                } break; //itsALetter
 
             }
             return null;
         }
+
+
 
     }
 }

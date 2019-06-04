@@ -20,6 +20,7 @@ namespace RegExGen
             //TestThompsonConstruction();
             //TestRegExpToAutomata();
             //NdfaToDfa<string>.testAll();
+            TestRegExpParser();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -27,6 +28,14 @@ namespace RegExGen
 
             //TestRegExp();
             //TestAutomata();
+        }
+
+        public static void TestRegExpParser()
+        {
+            RegExp regExp = RegExParser.ParseRegExp("ab");
+            RegExp regExp1 = RegExParser.ParseRegExp("a|b");
+            RegExp regExp2 = RegExParser.ParseRegExp("a*b");
+            RegExp regExp3 = RegExParser.ParseRegExp("a+b");
         }
 
         public static void TestRegExpToAutomata()
