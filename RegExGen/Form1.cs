@@ -27,7 +27,7 @@ namespace RegExGen
 
         public void SetRegex(RegExp regex) {
             //Automata<string> automata = ThompsonConverter<string>.RegExToAutomata(regex);
-            Automata<string> automata = Program.TestAutomata();
+            Automata automata = Program.TestAutomata();
 
             //lb_regex.Text = regex.ToString();
             lb_regex.Text = "((aaa+b)|(bbb))a*(ba*ba*)*";

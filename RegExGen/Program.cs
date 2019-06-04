@@ -61,7 +61,7 @@ namespace RegExGen
             Debug.WriteLine("EndOfTest");
         }
 
-        public static Automata<string> TestAutomata()
+        public static Automata TestAutomata()
         {
             char[] alphabet = { 'a', 'b' };
             Automata m = new Automata(alphabet);

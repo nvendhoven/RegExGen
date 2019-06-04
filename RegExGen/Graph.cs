@@ -13,8 +13,7 @@ namespace RegExGen
 {
     public class Graph
     {
-
-        public static Image CreateImage(Automata<string> automata)
+        public static Image CreateImage(Automata automata)
         {
             StringBuilder dot = new StringBuilder();
             dot.AppendLine("digraph dfa {");
@@ -38,7 +37,7 @@ namespace RegExGen
             foreach (string state in automata.startStates)
                 dot.AppendLine($"NOTHING -> {state}");
 
-            foreach (Transition<string> transition in automata.transitions)
+            foreach (Transition transition in automata.transitions)
                 dot.AppendLine($"{transition.fromState} -> {transition.toState} [label=\"{transition.symbol}\"]");
 
             dot.AppendLine("}");

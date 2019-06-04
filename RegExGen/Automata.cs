@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace RegExGen
 {
-    class Automata
+    public class Automata
     {
         // node - edge - node
-        private SortedSet<Transition> transitions = new SortedSet<Transition>();
+        public SortedSet<Transition> transitions = new SortedSet<Transition>();
 
-        private SortedSet<string> states {
+        public SortedSet<string> states {
             get {
                 return new SortedSet<string>( 
                     transitions.SelectMany(tr => new[] { tr.toState, tr.fromState }));}
         }
-        private SortedSet<string> startStates;
-        private SortedSet<string> finalStates; 
+        public SortedSet<string> startStates;
+        public SortedSet<string> finalStates;
         // alphabet
-        private SortedSet<char> symbols;
+        public SortedSet<char> symbols;
 
         public Automata()
         {
