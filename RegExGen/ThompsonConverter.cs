@@ -66,16 +66,33 @@ namespace RegExGen
                     } break;   //herhaal dit stuk volgens de keer wijze 
                 case RegExp.Operator.OR:
                     {
+                        //Save the start state so it can later be used to create an epsilon transiton for the OR's
+                        startState = statenumber;
+
+                        //Add transition from start point to the first state of the first OR
+                        statenumber++;
+                        transitions.Add(new Transition(startState.ToString(), statenumber.ToString()));
+
                         //Add all transitions from left part of the or
-                        //Add epsilon form this state to start state of the left part
                         transitions.UnionWith(GetTransitions(regExp.GetLeftRegExp()));
-                        //After getting all transitions of top part, add another epsilon from end of the previous thingy to ending node of this thing.
 
+                        //Save the last state of the first OR so it can later be used to create an epsilon transiton for the OR's
+                        state lastStateOfFirstOR = statenumber;
 
-
+                        //Ad transition from start point to the first state of the second OR
+                        statenumber++;
+                        transitions.Add(new Transition(startState.ToString(), statenumber.ToString()));
 
                         //Add all transitions from right part of the or
                         transitions.UnionWith(GetTransitions(regExp.GetRightRegExp()));
+
+                        //Save the last state of the second OR so it can later be used to create an epsilon transiton for the OR's
+                        state lastStateOfSecondOR = statenumber;
+
+                        //Close the OR again
+                        statenumber++;
+                        transitions.Add(new Transition(lastStateOfFirstOR.ToString(), statenumber.ToString()));
+                        transitions.Add(new Transition(lastStateOfSecondOR.ToString(), statenumber.ToString()));
 
 
                     } break;     //Dit is een or stuk

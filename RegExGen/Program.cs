@@ -15,8 +15,8 @@ namespace RegExGen
         [STAThread]
         static void Main()
         {
-            TestRegExp();
-            TestAutomata();
+            //TestRegExp();
+            //TestAutomata();
             //TestThompsonConstruction();
             TestRegExpToAutomata();
             //NdfaToDfa<string>.testAll();
@@ -30,8 +30,17 @@ namespace RegExGen
         public static void TestRegExpToAutomata()
         {
             RegExp regExp = new RegExp("baa");
+            RegExp regExp2 = new RegExp("a");
             Automata automata = new ThompsonConverter().RegExToAutomata(regExp);
-            Debug.WriteLine(automata.ToString());
+            Automata automata2 = new ThompsonConverter().RegExToAutomata(regExp2);
+
+
+            RegExp regExp3 = new RegExp("baa").or(new RegExp("abb"));
+            RegExp regExp4 = new RegExp("a").or(new RegExp("b"));
+            Automata automata3 = new ThompsonConverter().RegExToAutomata(regExp3);
+            Automata automata4 = new ThompsonConverter().RegExToAutomata(regExp4);
+
+            Debug.WriteLine("EndOfTest");
         }
 
         public static void TestAutomata()
