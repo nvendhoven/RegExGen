@@ -98,10 +98,9 @@ namespace RegExGen
                     } break;     //Dit is een or stuk
                 case RegExp.Operator.DOT:
                     {
-                        //We willen alle transitons van links en van rechts.
-                        //transitions.Add(GetTransitions());
-
-
+                        //Get the transitions of the first part and the second part.
+                        transitions.UnionWith(GetTransitions(regExp.GetLeftRegExp()));
+                        transitions.UnionWith(GetTransitions(regExp.GetRightRegExp()));
                     } break;    //Dit is een spatie ding
             }
             return transitions;
