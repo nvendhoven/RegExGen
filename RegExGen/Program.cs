@@ -27,9 +27,6 @@ namespace RegExGen
             
         }
 
-        /*
-         * Debugger is required to see if values are correct.
-         */
         public static void TestRegExpToAutomata()
         {
             RegExp regExp9 = new RegExp("a").star();

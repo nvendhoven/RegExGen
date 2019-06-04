@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -13,16 +14,18 @@ namespace RegExGen
     {
         public state statenumber = 0;
 
-        private SortedSet<string> startStates = new SortedSet<string>();
-        private SortedSet<string> finalStates = new SortedSet<string>();
-        SortedSet<char> symbols = new SortedSet<char>();
-        SortedSet<Transition> _transitions = new SortedSet<Transition>();
-
         public Automata RegExToAutomata(RegExp regExp)
         {
             Automata automata = new Automata();
             //Nodig: Startpunten, eindpunten, symbolen en alle transities.
-            SortedSet<Transition> v = GetTransitions(regExp);
+            automata.defineAsStartState(statenumber.ToString());
+            SortedSet<Transition> transitions = GetTransitions(regExp);
+            automata.defineAsFinalState(statenumber.ToString());
+            foreach (Transition t in transitions)
+            {
+                automata.addTransition(t);
+            }
+
             return automata;
         }
 
@@ -47,7 +50,6 @@ namespace RegExGen
                                 endState = startState + 1;
                                 transitions.Add(new Transition(startState.ToString(), c, endState.ToString()));
                             }
-                            finalStates.Add(endState.ToString());
                             statenumber = endState; //set last used state as state number
                         }
                         else

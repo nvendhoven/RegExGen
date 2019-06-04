@@ -63,6 +63,7 @@ namespace RegExGen
             transitions.Add(t);
             states.Add(t.fromState);
             states.Add(t.toState);
+            symbols.Add(t.symbol);
         }
 
         public void defineAsStartState(string t)
