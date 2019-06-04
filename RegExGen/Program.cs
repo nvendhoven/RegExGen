@@ -29,10 +29,15 @@ namespace RegExGen
 
         public static void TestRegExpToAutomata()
         {
-            RegExp regExp5 = new RegExp("baa").dot(new RegExp("abb"));
-            RegExp regExp6 = new RegExp("a").dot(new RegExp("b"));
-            Automata automata5 = new ThompsonConverter().RegExToAutomata(regExp6);
-            Automata automata6 = new ThompsonConverter().RegExToAutomata(regExp5);
+            RegExp regExp7 = new RegExp("a").plus();
+            RegExp regExp8 = new RegExp("baa").plus();
+            Automata automata7 = new ThompsonConverter().RegExToAutomata(regExp7);
+            Automata automata8 = new ThompsonConverter().RegExToAutomata(regExp8);
+
+            RegExp regExp5 = new RegExp("a").dot(new RegExp("b"));
+            RegExp regExp6 = new RegExp("baa").dot(new RegExp("abb"));
+            Automata automata5 = new ThompsonConverter().RegExToAutomata(regExp5);
+            Automata automata6 = new ThompsonConverter().RegExToAutomata(regExp6);
 
 
             RegExp regExp = new RegExp("baa");

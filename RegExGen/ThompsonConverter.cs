@@ -31,13 +31,14 @@ namespace RegExGen
         {
             SortedSet<Transition> transitions = new SortedSet<Transition>();
             state startState = statenumber;
-            state endState = statenumber;
+            
 
 
             switch (regExp.GetRegOperator())
             {
                 case RegExp.Operator.ONE:           //Laatste item in een arm van de tree
                     {
+                        state endState = statenumber;
                         if (regExp.GetRegTerminals().Length >= 1)
                         {
                             foreach (char c in regExp.GetRegTerminals())
@@ -54,9 +55,16 @@ namespace RegExGen
                             throw new Exception("Thompson conversie messed up.");
                         }
                     } break;    
-                case RegExp.Operator.PLUS: 
+                case RegExp.Operator.PLUS:
                     {
-                        
+                        //Save the start state so it can later be used to create an epsilon transiton from the endstate to the startstate.
+                        startState = statenumber;
+
+                        //Add all transitions from left part, only left side is used with the PLUS operator.
+                        transitions.UnionWith(GetTransitions(regExp.GetLeftRegExp()));
+
+                        //Add a transiton from the endstate to the startstate.
+                        transitions.Add(new Transition(statenumber.ToString(), startState.ToString()));
 
                     } break;  //herhaal dit stuk volgens de plus wijze
                 case RegExp.Operator.STAR:
