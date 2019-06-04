@@ -18,15 +18,15 @@ namespace RegExGen
             //TestRegExp();
             //TestAutomata();
             //TestThompsonConstruction();
-            TestRegExpToAutomata();
+            //TestRegExpToAutomata();
             //NdfaToDfa<string>.testAll();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
 
-            TestRegExp();
-            TestAutomata();
+            //TestRegExp();
+            //TestAutomata();
         }
 
         public static void TestRegExpToAutomata()

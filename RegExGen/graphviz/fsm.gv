@@ -37,7 +37,7 @@ NOTHING -> 0
 7 -> 8 [label="$"]
 8 -> 0 [label="$"]
 8 -> 15 [label="$"]
+8 -> 9 [label="$"]
 9 -> 10 [label="$"]
 9 -> 12 [label="$"]
-9 -> 8 [label="$"]
 }
