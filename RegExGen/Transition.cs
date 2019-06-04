@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace RegExGen
 {
-    public class Transition<T> : IComparable<Transition<T>> where T :IComparable
+    class Transition : IComparable<Transition>
     {
         public static readonly char EPSILON = '$';
 
-        public T fromState { get; }
+        public string fromState { get; }
         public char symbol{ get; }// edge
-        public T toState { get; }
+        public string toState { get; }
 
-        public int CompareTo(Transition<T> other)
+        public int CompareTo(Transition other)
         {
             int fromCmp = fromState.CompareTo(other.fromState);//Vergelijk de 2 fromstates
             int symbolCmp = symbol.CompareTo(other.symbol); //Vergelijk de 2 symbolen van de overgang
@@ -24,14 +24,14 @@ namespace RegExGen
         }
 
         // this constructor can be used to define loops:
-        public Transition(T fromOrTo, char s)
+        public Transition(string fromOrTo, char s)
         {
             this.fromState = fromOrTo;
             this.symbol = s;
             this.toState = fromOrTo;
         }
 
-        public Transition(T from, T to)
+        public Transition(string from, string to)
         {
             this.fromState = from;
             this.symbol = EPSILON;
@@ -39,7 +39,7 @@ namespace RegExGen
         }
 
 
-        public Transition(T from, char s, T to)
+        public Transition(string from, char s, string to)
         {
             this.fromState = from;
             this.symbol = s;
@@ -54,9 +54,9 @@ namespace RegExGen
             {
                 return false;
             }
-            else if(other is Transition<T>)
+            else if(other is Transition)
             {
-                return this.fromState.Equals(((Transition<T>)other).fromState) && this.toState.Equals(((Transition<T>)other).toState) && this.symbol == (((Transition<T>)other).symbol);
+                return this.fromState.Equals(((Transition)other).fromState) && this.toState.Equals(((Transition)other).toState) && this.symbol == (((Transition)other).symbol);
             }
             else
             {
@@ -66,7 +66,7 @@ namespace RegExGen
 
         public string toString()
         {
-            return "(" + fromState + ", " + symbol + ")" + "-->" + toState;
+            return "(" + fromState + ") --> " + symbol + " --> (" + toState + ")";
         }
     }
 }

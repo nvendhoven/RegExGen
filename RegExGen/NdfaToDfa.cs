@@ -8,7 +8,7 @@ namespace RegExGen
 {
     static class NdfaToDfa<T> where T : IComparable
     {
-        public static Automata<T> run(Automata<T> Ndfa)
+        public static Automata run(Automata Ndfa)
         {
             // todo
             return Ndfa;
@@ -38,7 +38,7 @@ namespace RegExGen
 
         public static void test2()
         {
-            var testAutomata = new Automata<T>(new[] { 'x', 'y' });
+            var testAutomata = new Automata(new[] { 'x', 'y' });
            
             var beginNode = "1";
             var endNode = "2";
