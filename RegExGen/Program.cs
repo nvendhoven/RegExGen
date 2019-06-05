@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,7 +20,10 @@ namespace RegExGen
             //TestAutomata();
             //TestThompsonConstruction();
             //TestRegExpToAutomata();
-            //NdfaToDfa.testAll();
+            //NdfaToDfa<string>.testAll();
+            //TestRegExpParser();
+            //TestRegExpToStringParser();
+            //TestFileIO();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -27,6 +31,80 @@ namespace RegExGen
 
             //TestRegExp();
             //TestAutomata();
+        }
+
+        public static void TestFileIO()
+        {
+            List<RegExp> list = FileIO.loadRegExesFromTextFile("C:/Users/Cave-PC_2/Desktop/RegExGen/RegExes.txt");
+            foreach (RegExp regExp in list)
+            {
+                Debug.WriteLine("---"+regExp.ToString()+"---");
+                regExp.PrintTree(0);
+            }
+
+            Debug.WriteLine("EndOfTest");
+        }
+
+        public static void TestRegExpToStringParser()
+        {
+            Debug.WriteLine("---1---");
+            Debug.WriteLine("ab*");
+            RegExp regExp = new RegExp("a").dot(new RegExp("b").star()); // ab*
+            Debug.WriteLine(regExp.ToString());
+
+            Debug.WriteLine("---2---");
+            Debug.WriteLine("(ab)*");
+            RegExp regExp2 = new RegExp("a").dot(new RegExp("b")).star(); // (ab)*
+            Debug.WriteLine(regExp2.ToString());
+
+            Debug.WriteLine("---3---");
+            Debug.WriteLine("(ab)*");
+            RegExp regExp3 = new RegExp("a").dot(new RegExp("b")).plus(); // (ab)+
+            Debug.WriteLine(regExp3.ToString());
+
+            Debug.WriteLine("---4---");
+            Debug.WriteLine("(ab)* (a|b)");
+            RegExp regExp4 = new RegExp("a").dot(new RegExp("b")).star().dot(new RegExp("a").or(new RegExp("b"))); // (ab)* ab
+            regExp4.PrintTree(0);
+            Debug.WriteLine(regExp4.ToString());
+            RegExp regExp5 = RegExParser.GetRegEx(regExp4.ToString());
+            regExp5.PrintTree(0);
+
+            Debug.WriteLine("---5---");
+            Debug.WriteLine("(ab)* ab*");
+            RegExp regExp6 = new RegExp("a").dot(new RegExp("b")).star().dot(new RegExp("a").dot(new RegExp("b").star())); // (ab)* ab
+            regExp6.PrintTree(0);
+            Debug.WriteLine(regExp6.ToString());
+            RegExp regExp7 = RegExParser.GetRegEx(regExp6.ToString());
+            regExp7.PrintTree(0);
+            Debug.WriteLine("Succesvol: " + (regExp6.Equals(regExp7)));
+
+            Debug.WriteLine("EndOfTest");
+        }
+
+        public static void TestRegExpParser()
+        {
+            RegExp regExp = RegExParser.GetRegEx("ab");
+            RegExp regExp1 = RegExParser.GetRegEx("a|b");
+            RegExp regExp2 = RegExParser.GetRegEx("a*b");
+            RegExp regExp3 = RegExParser.GetRegEx("a+b");
+            RegExp regExp4 = RegExParser.GetRegEx("(ab) a");
+            RegExp regExp5 = RegExParser.GetRegEx("ab+");
+            RegExp regExp6 = RegExParser.GetRegEx("(ab)* a (b|a)+");
+            regExp.PrintTree(0);
+            Debug.WriteLine("---1---");
+            regExp1.PrintTree(0);
+            Debug.WriteLine("---2---");
+            regExp2.PrintTree(0);
+            Debug.WriteLine("---3---");
+            regExp3.PrintTree(0);
+            Debug.WriteLine("---4---");
+            regExp4.PrintTree(0);
+            Debug.WriteLine("---5---");
+            regExp5.PrintTree(0);
+            Debug.WriteLine("---6---");
+            regExp6.PrintTree(0);
+            Debug.WriteLine("EndOfTest");
         }
 
         public static void TestRegExpToAutomata()

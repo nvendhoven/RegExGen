@@ -13,7 +13,9 @@ namespace RegExGen
 {
     public class Graph
     {
-        public static Image CreateImage(Automata automata)
+        public enum Type { NDFA, DFA, ODFA }
+
+        public static string CreateImagePath(Type type, Automata automata)
         {
             StringBuilder dot = new StringBuilder();
             dot.AppendLine("digraph dfa {");
@@ -43,10 +45,23 @@ namespace RegExGen
             dot.AppendLine("}");
 
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string name = "error";
+            switch (type) {
+                case Type.NDFA: name = "ndfa_fms.gv"; break;
+                case Type.DFA: name = "dfa_fms.gv";break;
+                case Type.ODFA: name = "odfa_fms.gv"; break;
+            }
+            System.IO.File.WriteAllText(Path.Combine(path, $@"..\..\graphviz\{name}"), dot.ToString());
 
-            System.IO.File.WriteAllText(Path.Combine(path, @"..\..\graphviz\fsm.gv"), dot.ToString());
-            System.Diagnostics.Process.Start(Path.Combine(path, @"..\..\graphviz\run.bat")).WaitForExit();
-            return new Bitmap(Path.Combine(path, @"..\..\graphviz\fsm.gv.png")) as Image;
+            var process = new System.Diagnostics.Process
+            {
+                StartInfo = { Arguments = string.Format("{0}",name) }
+            };
+            process.StartInfo.FileName = Path.Combine(path, @"..\..\graphviz\run.bat");
+            process.Start();
+            process.WaitForExit();
+
+            return Path.Combine(path, $@"..\..\graphviz\{name}.png");
         }
     }
 }

@@ -22,23 +22,37 @@ namespace RegExGen
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            SetRegex(new RegExp("aa|bb+"));
+            SetRegex("(a|b)+|(aaa)");
         }
 
-        public void SetRegex(RegExp regex) {
-            //Automata<string> automata = ThompsonConverter<string>.RegExToAutomata(regex);
-            regex = Program.TestRegExp();
-            Automata automata = NdfaToDfa.test2(); // new ThompsonConverter().RegExToAutomata(regex);
-            //lb_regex.Text = regex.ToString();
-            lb_regex.Text = "((aaa+b)|(bbb))a*(ba*ba*)*";
+        public void SetRegex(string regex) {
 
-            pb_ndfa.Image = Graph.CreateImage(automata);
-            //pb_dfa.Image = Graph.CreateImage(NdfaToDfa<string>.run(automata));
-            //pb_odfa.Image = Graph.CreateImage(DfaToOdfa<string>.run(automata));
+            lb_regex.Text = regex;
+
+            RegExp r = RegExParser.GetRegEx(regex);
+
+            //NDFA
+            Automata ndfa = new ThompsonConverter().RegExToAutomata(r);
+            lb_regular_lan_ndfa.Text = RegularLanguageConverter.Convert(ndfa);
+            pb_ndfa.ImageLocation = Graph.CreateImagePath(Graph.Type.NDFA, ndfa);
+
+            //DFA
+            //Automata dfa = NdfaToDfa<string>.run(ndfa);
+            //lb_regular_lan_dfa.Text = RegularLanguageConverter.Convert(dfa);
+            //pb_dfa.Image = Graph.CreateImagePath(Graph.Type.DFA, dfa);
+
+            //ODFA
+            //Automata odfa = NdfaToDfa(NdfaToDfa(dfa.Reverse()).Reverse());
+            //lb_regular_lan_odfa.Text = RegularLanguageConverter.Convert(odfa);
+            //pb_odfa.Image = Graph.CreateImagePath(Graph.Type.ODFA, odfa);
 
             this.Update();
         }
 
-
+        private void btn_run_Click(object sender, EventArgs e)
+        {
+            //TODO: add validator
+            SetRegex(tb_regex.Text);
+        }
     }
 }

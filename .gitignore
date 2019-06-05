@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+RegExGen/graphviz/ndfa_fms.gv.png
+RegExGen/graphviz/ndfa_fms.gv

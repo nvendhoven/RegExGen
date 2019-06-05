@@ -8,6 +8,7 @@ namespace RegExGen
 {
     public class Transition : IComparable<Transition>
     {
+        public static readonly char EPSILON = 'ε';
 
         public string fromState { get; }
         public char symbol{ get; }// edge
