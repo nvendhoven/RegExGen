@@ -26,14 +26,24 @@ namespace RegExGen
         }
 
         public void SetRegex(RegExp regex) {
-            //Automata<string> automata = ThompsonConverter<string>.RegExToAutomata(regex);
-            regex = Program.TestRegExp();
-            Automata automata = new ThompsonConverter().RegExToAutomata(regex);
-            //lb_regex.Text = regex.ToString();
             lb_regex.Text = "((aaa+b)|(bbb))a*(ba*ba*)*";
 
-            pb_ndfa.Image = Graph.CreateImage(automata);
-            //pb_dfa.Image = Graph.CreateImage(NdfaToDfa<string>.run(automata));
+            //TODO: remove
+            regex = Program.TestRegExp();
+
+            //NDFA
+            Automata ndfa = new ThompsonConverter().RegExToAutomata(regex);
+            lb_regular_lan_ndfa.Text = RegularLanguageConverter.Convert(ndfa);
+            pb_ndfa.Image = Graph.CreateImage(ndfa);
+
+            //DFA
+            //Automata dfa = NdfaToDfa<string>.run(ndfa);
+            //lb_regular_lan_dfa.Text = RegularLanguageConverter.Convert(dfa);
+            //pb_dfa.Image = Graph.CreateImage(dfa);
+
+            //ODFA
+            //Automata odfa = NdfaToDfa(NdfaToDfa(dfa.Reverse()).Reverse());
+            //lb_regular_lan_odfa.Text = RegularLanguageConverter.Convert(odfa);
             //pb_odfa.Image = Graph.CreateImage(DfaToOdfa<string>.run(automata));
 
             this.Update();
