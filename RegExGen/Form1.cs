@@ -37,9 +37,9 @@ namespace RegExGen
             pb_ndfa.ImageLocation = Graph.CreateImagePath(Graph.Type.NDFA, ndfa);
 
             //DFA
-            //Automata dfa = NdfaToDfa<string>.run(ndfa);
-            //lb_regular_lan_dfa.Text = RegularLanguageConverter.Convert(dfa);
-            //pb_dfa.Image = Graph.CreateImagePath(Graph.Type.DFA, dfa);
+            Automata dfa = NdfaToDfa.run(ndfa);
+            lb_regular_lan_dfa.Text = RegularLanguageConverter.Convert(dfa);
+            pb_dfa.ImageLocation = Graph.CreateImagePath(Graph.Type.DFA, dfa);
 
             //ODFA
             //Automata odfa = NdfaToDfa(NdfaToDfa(dfa.Reverse()).Reverse());
@@ -56,3 +56,4 @@ namespace RegExGen
         }
     }
 }
+

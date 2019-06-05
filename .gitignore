@@ -330,3 +330,5 @@ ASALocalRun/
 .mfractor/
 RegExGen/graphviz/ndfa_fms.gv.png
 RegExGen/graphviz/ndfa_fms.gv
+
+RegExGen/graphviz/dfa_fms\.gv

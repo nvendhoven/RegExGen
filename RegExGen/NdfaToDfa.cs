@@ -163,7 +163,7 @@ namespace RegExGen
 
             foreach (var endState in dfaEndStates)
                 dfa.finalStates.Add(endState);
-
+            //dfa.isDFA();
             return dfa;
         }
 
