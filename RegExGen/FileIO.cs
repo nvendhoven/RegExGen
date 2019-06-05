@@ -70,5 +70,27 @@ namespace RegExGen
 
             return regExes;
         }
+
+        public static StringBuilder loadLanguage(string path)
+        {
+            StringBuilder output = new StringBuilder();
+            if (File.Exists(path))
+            {
+                using (StreamReader sr = File.OpenText(path))
+                {
+                    string s;
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        output.AppendLine(s);
+                    }
+                }
+            }
+            else
+            {
+                throw new SyntaxErrorException("FileIO error: file at: {" + path + "} doesn't exists");
+            }
+
+            return output;
+        }
     }
 }

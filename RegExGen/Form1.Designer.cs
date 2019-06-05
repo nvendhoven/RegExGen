@@ -42,6 +42,9 @@
             this.lb_regex = new System.Windows.Forms.Label();
             this.tb_regex = new System.Windows.Forms.TextBox();
             this.btn_run = new System.Windows.Forms.Button();
+            this.btn_import_language = new System.Windows.Forms.Button();
+            this.btn_import_regex = new System.Windows.Forms.Button();
+            this.lb_status = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ndfa)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -59,7 +62,7 @@
             this.pb_ndfa.Location = new System.Drawing.Point(307, 0);
             this.pb_ndfa.Margin = new System.Windows.Forms.Padding(0);
             this.pb_ndfa.Name = "pb_ndfa";
-            this.pb_ndfa.Size = new System.Drawing.Size(781, 577);
+            this.pb_ndfa.Size = new System.Drawing.Size(1015, 591);
             this.pb_ndfa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_ndfa.TabIndex = 0;
             this.pb_ndfa.TabStop = false;
@@ -77,7 +80,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1096, 606);
+            this.tabControl1.Size = new System.Drawing.Size(1330, 620);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -89,7 +92,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage1.Size = new System.Drawing.Size(1088, 577);
+            this.tabPage1.Size = new System.Drawing.Size(1322, 591);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "NDFA";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -189,7 +192,7 @@
             // 
             this.lb_regex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lb_regex.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_regex.Location = new System.Drawing.Point(764, 27);
+            this.lb_regex.Location = new System.Drawing.Point(998, 31);
             this.lb_regex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lb_regex.Name = "lb_regex";
             this.lb_regex.Size = new System.Drawing.Size(324, 25);
@@ -199,26 +202,62 @@
             // 
             // tb_regex
             // 
-            this.tb_regex.Location = new System.Drawing.Point(100, 29);
+            this.tb_regex.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tb_regex.Location = new System.Drawing.Point(121, 28);
             this.tb_regex.Name = "tb_regex";
-            this.tb_regex.Size = new System.Drawing.Size(377, 22);
+            this.tb_regex.Size = new System.Drawing.Size(377, 27);
             this.tb_regex.TabIndex = 4;
             // 
             // btn_run
             // 
-            this.btn_run.Location = new System.Drawing.Point(483, 28);
+            this.btn_run.Location = new System.Drawing.Point(504, 28);
             this.btn_run.Name = "btn_run";
-            this.btn_run.Size = new System.Drawing.Size(75, 24);
+            this.btn_run.Size = new System.Drawing.Size(75, 28);
             this.btn_run.TabIndex = 5;
             this.btn_run.Text = "run";
             this.btn_run.UseVisualStyleBackColor = true;
             this.btn_run.Click += new System.EventHandler(this.btn_run_Click);
             // 
+            // btn_import_language
+            // 
+            this.btn_import_language.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_import_language.Location = new System.Drawing.Point(8, 700);
+            this.btn_import_language.Name = "btn_import_language";
+            this.btn_import_language.Size = new System.Drawing.Size(133, 28);
+            this.btn_import_language.TabIndex = 6;
+            this.btn_import_language.Text = "Import language";
+            this.btn_import_language.UseVisualStyleBackColor = true;
+            this.btn_import_language.Click += new System.EventHandler(this.btn_import_language_Click);
+            // 
+            // btn_import_regex
+            // 
+            this.btn_import_regex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_import_regex.Location = new System.Drawing.Point(147, 700);
+            this.btn_import_regex.Name = "btn_import_regex";
+            this.btn_import_regex.Size = new System.Drawing.Size(133, 28);
+            this.btn_import_regex.TabIndex = 7;
+            this.btn_import_regex.Text = "Import regex";
+            this.btn_import_regex.UseVisualStyleBackColor = true;
+            // 
+            // lb_status
+            // 
+            this.lb_status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lb_status.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_status.Location = new System.Drawing.Point(669, 703);
+            this.lb_status.Name = "lb_status";
+            this.lb_status.Size = new System.Drawing.Size(661, 23);
+            this.lb_status.TabIndex = 8;
+            this.lb_status.Text = ".";
+            this.lb_status.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1101, 680);
+            this.ClientSize = new System.Drawing.Size(1335, 733);
+            this.Controls.Add(this.lb_status);
+            this.Controls.Add(this.btn_import_regex);
+            this.Controls.Add(this.btn_import_language);
             this.Controls.Add(this.btn_run);
             this.Controls.Add(this.tb_regex);
             this.Controls.Add(this.lb_regex);
@@ -256,6 +295,9 @@
         private System.Windows.Forms.Label lb_regular_lan_odfa;
         private System.Windows.Forms.TextBox tb_regex;
         private System.Windows.Forms.Button btn_run;
+        private System.Windows.Forms.Button btn_import_language;
+        private System.Windows.Forms.Button btn_import_regex;
+        private System.Windows.Forms.Label lb_status;
     }
 }
 

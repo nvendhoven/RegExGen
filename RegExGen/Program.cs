@@ -23,7 +23,7 @@ namespace RegExGen
             //NdfaToDfa<string>.testAll();
             //TestRegExpParser();
             //TestRegExpToStringParser();
-            TestFileIO();
+            //TestFileIO();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
