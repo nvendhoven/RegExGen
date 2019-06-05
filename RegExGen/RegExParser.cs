@@ -34,7 +34,7 @@ namespace RegExGen
                 output += current.Current;
                 if (next.MoveNext() && (char.IsLetterOrDigit(current.Current) || current.Current == ')' || current.Current == '+' || current.Current == '*') && (char.IsLetterOrDigit(next.Current)|| next.Current == '('))
                 {
-                    output += ".";//plaats een DOT achter de letters, sluitende haakjes, plusjes en sterretjes.     (a.b)*. a. (b|a)+
+                    output += ".";//plaats een DOT achter de letters, sluitende haakjes, plusjes en sterretjes.
                 }
             }
             return output;

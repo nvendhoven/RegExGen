@@ -166,6 +166,11 @@ namespace RegExGen
             return languageResult;
         }
 
+        public override string ToString()
+        {
+            return new RegExToStringParser().Parse(this); ;
+        }
+
         public void PrintTree(int offset)
         {
             for (int i = 0; i < offset; ++i)

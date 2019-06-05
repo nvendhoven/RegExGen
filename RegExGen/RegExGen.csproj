@@ -58,6 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegExp.cs" />
     <Compile Include="RegExParser.cs" />
+    <Compile Include="RegExToStringParser.cs" />
     <Compile Include="RegularLanguageConverter.cs" />
     <Compile Include="ThompsonConverter.cs" />
     <Compile Include="Transition.cs" />
