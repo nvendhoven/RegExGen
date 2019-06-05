@@ -17,6 +17,7 @@ namespace RegExGen
         public static RegExp GetRegEx(string regExString)
         {
             data = AppendString(regExString);
+            index = 0;
             return OrCheck();
         }
 
@@ -33,7 +34,6 @@ namespace RegExGen
                 output += current.Current;
                 if (next.MoveNext() && (char.IsLetterOrDigit(current.Current) || current.Current == ')' || current.Current == '+' || current.Current == '*') && char.IsLetterOrDigit(next.Current))
                 {
-                    Debug.WriteLine("Tis een letterding");
                     output += ".";//plaats een DOT achter de letters, sluitende haakjes, plusjes en sterretjes.
                 }
             }

@@ -32,12 +32,26 @@ namespace RegExGen
 
         public static void TestRegExpParser()
         {
-            //RegExp regExp = RegExParser.ParseRegExp("ab");
-            //RegExp regExp1 = RegExParser.ParseRegExp("a|b");
-            //RegExp regExp2 = RegExParser.ParseRegExp("a*b");
-            //RegExp regExp3 = RegExParser.ParseRegExp("a+b");
-            //RegExp regExp4 = RegExParser.ParseRegExp("(ab) a");
+            RegExp regExp = RegExParser.GetRegEx("ab");
+            RegExp regExp1 = RegExParser.GetRegEx("a|b");
+            RegExp regExp2 = RegExParser.GetRegEx("a*b");
+            RegExp regExp3 = RegExParser.GetRegEx("a+b");
+            RegExp regExp4 = RegExParser.GetRegEx("(ab) a");
             RegExp regExp5 = RegExParser.GetRegEx("ab+");
+            RegExp regExp6 = RegExParser.GetRegEx("(ab)* a (b|a)+");
+            regExp.PrintTree(0);
+            Debug.WriteLine("---1---");
+            regExp1.PrintTree(0);
+            Debug.WriteLine("---2---");
+            regExp2.PrintTree(0);
+            Debug.WriteLine("---3---");
+            regExp3.PrintTree(0);
+            Debug.WriteLine("---4---");
+            regExp4.PrintTree(0);
+            Debug.WriteLine("---5---");
+            regExp5.PrintTree(0);
+            Debug.WriteLine("---6---");
+            regExp6.PrintTree(0);
             Debug.WriteLine("EndOfTest");
         }
 

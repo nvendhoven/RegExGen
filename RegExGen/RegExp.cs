@@ -183,7 +183,7 @@ namespace RegExGen
                     Console.WriteLine(".");
                     break;
                 case RegExp.Operator.PLUS:
-                    Console.WriteLine("?");
+                    Console.WriteLine("+");
                     break;
                 case RegExp.Operator.STAR:
                     Console.WriteLine("*");
