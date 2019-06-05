@@ -15,24 +15,53 @@ namespace RegExGen
         [STAThread]
         static void Main()
         {
-            TestRegExp();
-            TestAutomata();
-
-            NdfaToDfa.testAll();
+            //TestRegExp();
+            //TestAutomata();
+            //TestThompsonConstruction();
+            //TestRegExpToAutomata();
+            //NdfaToDfa.testAll();
+            Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-            
+
+            //TestRegExp();
+            //TestAutomata();
         }
 
         public static void TestRegExpToAutomata()
         {
+            RegExp regExp9 = new RegExp("a").star();
+            RegExp regExp0 = new RegExp("baa").star();
+            Automata automata9 = new ThompsonConverter().RegExToAutomata(regExp9);
+            Automata automata0 = new ThompsonConverter().RegExToAutomata(regExp0);
+
+            RegExp regExp7 = new RegExp("a").plus();
+            RegExp regExp8 = new RegExp("baa").plus();
+            Automata automata7 = new ThompsonConverter().RegExToAutomata(regExp7);
+            Automata automata8 = new ThompsonConverter().RegExToAutomata(regExp8);
+
+            RegExp regExp5 = new RegExp("a").dot(new RegExp("b"));
+            RegExp regExp6 = new RegExp("baa").dot(new RegExp("abb"));
+            Automata automata5 = new ThompsonConverter().RegExToAutomata(regExp5);
+            Automata automata6 = new ThompsonConverter().RegExToAutomata(regExp6);
+
+
             RegExp regExp = new RegExp("baa");
-            Automata automata = ThompsonConverter.RegExToAutomata(regExp);
-            Debug.WriteLine(automata.ToString());
+            RegExp regExp2 = new RegExp("a");
+            Automata automata = new ThompsonConverter().RegExToAutomata(regExp);
+            Automata automata2 = new ThompsonConverter().RegExToAutomata(regExp2);
+
+
+            RegExp regExp3 = new RegExp("baa").or(new RegExp("abb"));
+            RegExp regExp4 = new RegExp("a").or(new RegExp("b"));
+            Automata automata3 = new ThompsonConverter().RegExToAutomata(regExp3);
+            Automata automata4 = new ThompsonConverter().RegExToAutomata(regExp4);
+
+            Debug.WriteLine("EndOfTest");
         }
 
-        public static void TestAutomata()
+        public static Automata TestAutomata()
         {
             char[] alphabet = { 'a', 'b' };
             Automata m = new Automata(alphabet);
@@ -55,11 +84,12 @@ namespace RegExGen
             m.defineAsFinalState("q2");
             m.defineAsFinalState("q3");
 
+            return m;
         }
 
-        private static RegExp expr1, expr2, expr3, expr4, expr5, a, b, all;
+        private static RegExp expr1, expr2, expr3, expr4, expr5, expr6, e, a, b, all;
 
-        public static void TestRegExp()
+        public static RegExp TestRegExp()
         {
             Debug.WriteLine("Start Test");
             a = new RegExp("a");
@@ -69,17 +99,22 @@ namespace RegExGen
             expr1 = new RegExp("baa");
             // expr2: "bb"
             expr2 = new RegExp("bb");
-            // expr3: "baa | baa"
+            // expr3: "baa | bb"
             expr3 = expr1.or(expr2);
 
             // all: "(a|b)*"
             all = (a.or(b)).star();
 
-            // expr4: "(baa | baa)+"
+            all.PrintTree(0);
+
+            // expr4: "(baa | bb)+"
             expr4 = expr3.plus();
-            // expr5: "(baa | baa)+ (a|b)*"
+            // expr5: "(baa | bb)+ (a|b)*"
             expr5 = expr4.dot(all);
+
             testLanguage();
+
+            return expr5;
         }
 
         public static void testLanguage()
@@ -91,6 +126,21 @@ namespace RegExGen
             Debug.WriteLine("taal van (a|b)*:\n" + all.getLanguage(5));
             Debug.WriteLine("taal van (baa | bb)+:\n" + expr4.getLanguage(5));
             Debug.WriteLine("taal van (baa | bb)+ (a|b)*:\n" + expr5.getLanguage(6));
+        }
+
+        public static void TestThompsonConstruction()
+        {
+            Debug.WriteLine("Start Thompson");
+            e = new RegExp("$");
+            a = new RegExp("a");
+            b = new RegExp("b");
+
+
+            //($ | a*b)
+            expr6 = e.or(a.star().dot(b));
+            expr6.PrintTree(0);
+            Automata ndfa = new ThompsonConverter().RegExToAutomata(expr6);
+            Debug.WriteLine(ndfa.ToString());
         }
     }
 }

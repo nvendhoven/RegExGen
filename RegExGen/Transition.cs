@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RegExGen
 {
-    class Transition : IComparable<Transition>   //<T extends Comparable> implements Comparable<Transition<T>>
+    public class Transition : IComparable<Transition>
     {
 
         public string fromState { get; }
@@ -63,9 +63,9 @@ namespace RegExGen
             }
         }
 
-        public String toString()
+        public string toString()
         {
-            return "(" + fromState + ", " + symbol + ")" + "-->" + toState;
+            return "(" + fromState + ") --> " + symbol + " --> (" + toState + ")";
         }
     }
 }

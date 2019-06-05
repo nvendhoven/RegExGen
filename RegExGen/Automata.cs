@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace RegExGen
 {
-    class Automata
+    public class Automata
     {
         public static readonly char EPSILON = '$';
+        public static readonly String EMPTY = "#";
+
         // node - edge - node
-        private SortedSet<Transition> transitions = new SortedSet<Transition>();
+        public SortedSet<Transition> transitions = new SortedSet<Transition>();
 
         public SortedSet<string> states {
             get {
@@ -22,7 +24,7 @@ namespace RegExGen
         public SortedSet<string> finalStates { get; } 
 
         // alphabet
-        private SortedSet<char> symbols;
+        public SortedSet<char> symbols;
 
         public Automata()
         {
@@ -62,8 +64,10 @@ namespace RegExGen
 
         public void addTransition(Transition t)
         {
+            transitions.Add(t);
             states.Add(t.fromState);
             states.Add(t.toState);
+            symbols.Add(t.symbol);
         }
 
         public void defineAsStartState(string t)
@@ -83,14 +87,16 @@ namespace RegExGen
 
             foreach(Transition t in transitions)
             {
-                Debug.WriteLine(t);
+                Debug.WriteLine(t.ToString());
             }
         }
 
         public SortedSet<string> getToStates(string from, char withSymbol)
         {
             return new SortedSet<string>(
-            transitions.Where(transition => transition.symbol == withSymbol)
+            transitions.Where(
+                transition => transition.symbol == withSymbol 
+                && string.Equals(transition.fromState, from.ToString()))
                 .Select(transitionWithSymbol => transitionWithSymbol.toState)
             );
         }
