@@ -9,7 +9,7 @@ namespace RegExGen
 {
     public class Automata
     {
-        public static readonly char EPSILON = '$';
+        public static readonly char EPSILON = Transition.EPSILON;
         public static readonly String EMPTY = "#";
 
         // node - edge - node
