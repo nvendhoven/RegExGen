@@ -59,7 +59,7 @@ namespace RegExGen
                 var toCheckState = stateQueue.Dequeue();
                 foreach(var symbol in Ndfa.getAlphabet())
                 {
-
+                    if (symbol == Automata.EPSILON) continue;
                     // kijk waar de state naartoe wijst
                     var newState = new SortedSet<string>(toCheckState.SelectMany(state =>
                     {
@@ -78,7 +78,7 @@ namespace RegExGen
                         if (state.SequenceEqual(newState))
                         {
                             isInDfaDict = true;
-                            break;
+                            continue;
                         }
                     }
                     if (isInDfaDict) continue;

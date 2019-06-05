@@ -95,7 +95,8 @@ namespace RegExGen
             );
         }
 
-        public bool isDFA()
+        class NoDfaExeption : Exception { public NoDfaExeption(string message) : base(message) { } };
+        public bool isDFA(bool throwExeptions = true)
         {
             bool isDFA = true;
 
@@ -104,16 +105,20 @@ namespace RegExGen
             {
                 foreach (char symbol in symbols)
                 {
-                    isDFA = isDFA && getToStates(from, symbol).Count == 1;
+                    var stateCount = getToStates(from, symbol).Count;
+                    isDFA = isDFA && stateCount == 1;
+                    if (throwExeptions&& !isDFA) throw new NoDfaExeption("state: "+ from + " with symbol '"+symbol+ "' has " + stateCount + " connections");
                     if (!isDFA) return false;
                 }
             }
 
             // geen epsilon overgangen
             isDFA = isDFA && transitions.Any(transitions => transitions.symbol != EPSILON);
+            if (throwExeptions && !isDFA) throw new NoDfaExeption(message: "not a dfa has epsilon overgang");
 
             // geen meerdere start toestanden
-            isDFA = isDFA && startStates.Count > 1; 
+            isDFA = isDFA && startStates.Count > 1;
+            if (throwExeptions && !isDFA) throw new NoDfaExeption("has more than one state");
             return isDFA;
         }
     }
