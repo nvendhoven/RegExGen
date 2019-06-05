@@ -161,7 +161,7 @@ namespace RegExGen
         public Automata And(Automata other)
         {
             //Creat Hulptabellen.
-            /*
+
             string[,] hulpTabel = new string[states.Count, getAlphabet().Count];
             
             //Hulptabel vullen.
@@ -174,7 +174,7 @@ namespace RegExGen
             }
 
             print2dArray(hulpTabel);
-            */
+
             string[,] hulpTabelOther = new string[other.states.Count,other.getAlphabet().Count];
 
             //Hulptabel vullen.
@@ -185,6 +185,7 @@ namespace RegExGen
                     hulpTabelOther[state, letter] = other.GetDestination(state, letter);
                 }
             }
+
 
             print2dArray(hulpTabelOther);
 
@@ -224,34 +225,32 @@ namespace RegExGen
 
                 if (stateCounter == state)
                 {
-                    
+                    //Will enter this if once for every letter in the alphabet.
                     savedState = t.fromState;
-                    Debug.WriteLine("deb: " + stateCounter + " [] " + savedState + " ");
                 }
-
-                
                 previousState = t.fromState;
             }
-            Debug.WriteLine("DF");
+            
             //Zoek de letter op die bij het nummer hoort.
             char previousLetter = transitions.First().symbol;
             int letterCounter = 0;
             char savedLetter = ' ';
             foreach (char t in symbols)
             {
+                if (!t.Equals(previousLetter))
+                {
+                    letterCounter++;
+                }
+
                 if (letterCounter == letter)
                 {
                     savedLetter = t;
                 }
 
-                if (!t.Equals(savedLetter))
-                {
-                    letterCounter++;
-                }
-                savedLetter = t;
+                previousLetter = t;
             }
-            Debug.WriteLine("DF2");
 
+            Debug.WriteLine("Destination for: "+ savedState + " -> " + savedLetter + "-> ");
             var transition = transitions.Where(Transition => (Transition.fromState == savedState && Transition.symbol == savedLetter));
             string toState;
 
@@ -259,6 +258,8 @@ namespace RegExGen
                 toState = transition.First().toState;
             else
                 toState = EMPTY;
+
+            Debug.WriteLine(toState);
 
             return toState;
         }
