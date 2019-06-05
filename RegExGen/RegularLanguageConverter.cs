@@ -12,7 +12,17 @@ namespace RegExGen
         public static string ConvertAutomataToLanguage(Automata a)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"G = (N, Σ, P, {a.startStates.First()})");
+            if (a.startStates.Count == 1)
+                sb.AppendLine($"G = (N, Σ, P, {a.startStates.First()})");
+            else {
+                StringBuilder bs = new StringBuilder();
+                foreach (string s in a.startStates)
+                    if (a.startStates.Last().Equals(s))
+                        bs.Append(s);
+                    else
+                        bs.Append($"{s},");
+                sb.AppendLine($"G = (N, Σ, P, {{{bs.ToString()}}})");
+            }
             sb.Append("N = {");
             foreach (string s in a.states)
                 if (a.states.Last().Equals(s))
