@@ -139,10 +139,10 @@ namespace RegExGen
 
             string makeStateName(SortedSet<string> state)
             {
-                var name = "(";
+                var name = "";
                 foreach (var partName in state)
                     name += (partName).ToString() + " ";
-                return name + ")";
+                return name + "";
             }
 
             var dfa = new Automata(new SortedSet<char>(dfaAlphabet));
