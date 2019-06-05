@@ -86,7 +86,7 @@ namespace RegExGen
 
         public static RegExp loadRegExFromTextFile(string path)
         {
-            RegExp regEx;
+            RegExp regEx = null;
 
             string output = "";
             if (File.Exists(path))
