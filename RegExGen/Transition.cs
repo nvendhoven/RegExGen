@@ -64,7 +64,7 @@ namespace RegExGen
             }
         }
 
-        public string toString()
+        public override string ToString()
         {
             return "(" + fromState + ") --> " + symbol + " --> (" + toState + ")";
         }

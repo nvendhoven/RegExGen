@@ -29,6 +29,15 @@ namespace RegExGen
             this.setAlphabet(new SortedSet<char>());
         }
 
+        public Automata(Automata newAutomata)
+        {
+            transitions = newAutomata.transitions; 
+            startStates = newAutomata.startStates;
+            finalStates = newAutomata.finalStates;
+            symbols = newAutomata.symbols;
+            //states = newAutomata.states;
+        }
+
         public Automata(char[] s)
         {
             startStates = new SortedSet<string>();
@@ -116,5 +125,27 @@ namespace RegExGen
             isDFA = isDFA && startStates.Count > 1; 
             return isDFA;
         }
+
+        //Returns the NOT of the automata.
+        public Automata GetNegative()
+        {
+            Automata returnAutomata = new Automata(this);
+            returnAutomata.startStates = finalStates;
+            returnAutomata.finalStates = startStates;
+            return returnAutomata;
+        }
+
+        //Returns the AND of the automata.
+        public Automata And(Automata other)
+        {
+            return this;
+        }
+
+        //Returns the OR of the automata.
+        public Automata Or(Automata other)
+        {
+            return this;
+        }
+
     }
 }
