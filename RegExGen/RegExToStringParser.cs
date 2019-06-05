@@ -10,41 +10,6 @@ namespace RegExGen
     {
         public string Parse(RegExp regExp)
         {
-            /*
-            string output = "";
-            switch (regExp.GetRegOperator())
-            {
-                case RegExp.Operator.ONE:
-                    {
-                        output += "";
-                    }
-                    break;
-                case RegExp.Operator.PLUS:
-                    {
-                        output += ".";
-                    }
-                    break;  
-                case RegExp.Operator.STAR:
-                    {
-                        output += ".";
-                    }
-                    break;   
-                case RegExp.Operator.OR:
-                    {
-                        output += ".";
-                    }
-                    break;     
-                case RegExp.Operator.DOT:
-                {
-
-                    //output += Parse() + ".";
-                }
-                    break;
-            }
-
-
-            return output;
-            */
             return TreeToString(regExp);
         }
 

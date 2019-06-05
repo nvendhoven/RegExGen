@@ -22,7 +22,8 @@ namespace RegExGen
             //TestRegExpToAutomata();
             //NdfaToDfa<string>.testAll();
             //TestRegExpParser();
-            TestRegExpToStringParser();
+            //TestRegExpToStringParser();
+            TestFileIO();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -30,6 +31,18 @@ namespace RegExGen
 
             //TestRegExp();
             //TestAutomata();
+        }
+
+        public static void TestFileIO()
+        {
+            List<RegExp> list = FileIO.loadRegExTrees("C:/Users/Cave-PC_2/Desktop/RegExGen/RegExes.txt");
+            foreach (RegExp regExp in list)
+            {
+                Debug.WriteLine("---"+regExp.ToString()+"---");
+                regExp.PrintTree(0);
+            }
+
+            Debug.WriteLine("EndOfTest");
         }
 
         public static void TestRegExpToStringParser()
