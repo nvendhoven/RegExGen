@@ -157,8 +157,71 @@ namespace RegExGen
         //Returns the AND of the automata.
         public Automata And(Automata other)
         {
+            //Creat Hulptabellen.
+            string[,] hulpTabel = new string[states.Count, getAlphabet().Count];
+            
+            //Hulptabel vullen.
+            for (int letter = 0; letter < getAlphabet().Count; letter++)
+            {
+                for (int state = 0; state < states.Count; state++)
+                {
+                    hulpTabel[state, letter] = GetDestination(state, letter);
+                }
+            }
+
+
+
+            //string[,] hulpTabelOther = new string[other.states.Count,other.getAlphabet().Count];
+
+
 
             return this;
+        }
+
+        public string GetDestination(int state, int letter)
+        {
+            //Zoek de state op die bij het nummer hoort
+            string previousState = transitions.First().fromState;
+            int stateCounter = 0;
+            string savedState = "";
+            foreach (Transition t in transitions)
+            {
+                if (stateCounter == state)
+                {
+                    savedState = t.fromState;
+                }
+
+                if (!t.fromState.Equals(previousState))
+                {
+                    stateCounter++;
+                }
+                previousState = t.fromState;
+            }
+
+            //Zoek de letter op die bij het nummer hoort.
+            char previousLetter = transitions.First().symbol;
+            int letterCounter = 0;
+            char savedLetter = ' ';
+            foreach (char t in symbols)
+            {
+                if (letterCounter == letter)
+                {
+                    savedLetter = t;
+                }
+
+                if (!t.Equals(savedLetter))
+                {
+                    letterCounter++;
+                }
+                savedLetter = t;
+            }
+
+
+            transitions.Where(Transition => Transition.fromState == state.ToString());
+
+
+
+            return null;
         }
 
         //Returns the OR of the automata.
