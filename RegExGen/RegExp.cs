@@ -25,6 +25,38 @@ namespace RegExGen
                 { return s1.Length - s2.Length; }
         }
         */
+
+        public bool Equals(RegExp regExp)
+        {
+            //Check of de operators gelijk zijn.
+            if (this.GetRegOperator() != regExp.GetRegOperator())
+            {
+                return false;
+            }
+
+            //Indien do operators gelijk zijn, check of het een eindnode is. Als het een eindnode is, check dan of de terminals gelijk zijn.
+            if (GetRegOperator() == Operator.ONE && this.GetRegTerminals() == regExp.GetRegTerminals())
+            {
+                return true;
+            }
+
+            //Bij deze hoeft alleen Left gecontroleerd te worden.
+            if ((GetRegOperator() == Operator.STAR || GetRegOperator() == Operator.PLUS))
+            {
+                return left.Equals(regExp.left);
+            }
+
+            //Bij deze moeten left en right gecontroleerd te worden.
+            if ((GetRegOperator() == Operator.OR || GetRegOperator() == Operator.DOT))
+            {
+                return left.Equals(regExp.left) && right.Equals(regExp.right);
+            }
+
+            return false;
+        }
+
+
+
         public Operator GetRegOperator()
         {
             return regOperator;

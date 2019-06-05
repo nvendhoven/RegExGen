@@ -64,6 +64,7 @@ namespace RegExGen
             Debug.WriteLine(regExp6.ToString());
             RegExp regExp7 = RegExParser.GetRegEx(regExp6.ToString());
             regExp7.PrintTree(0);
+            Debug.WriteLine("Succesvol: " + (regExp6.Equals(regExp7)));
 
             Debug.WriteLine("EndOfTest");
         }
