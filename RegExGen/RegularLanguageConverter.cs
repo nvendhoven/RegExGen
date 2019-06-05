@@ -58,7 +58,7 @@ namespace RegExGen
         public static Automata ConvertLanguageToAutomata(string language) {
             Automata automata = new Automata();
 
-            string l = language.Trim().Replace("\r\n", "").Replace(" ", "");
+            string l = language.Trim().Replace("\r\n", "\n").Replace(" ", "").Replace("\t", "");
             int iG = l.IndexOf('G');
             if (iG == -1)
                 throw new Exception("G params missing");
@@ -72,18 +72,36 @@ namespace RegExGen
                     automata.startStates.Add(s);
             }
             int iN = l.IndexOf($"{param[0]}={{");
-            if (iN == -1)
-                throw new Exception($"First param {param[0]} (state collection) missing");
+            if (iN == -1) throw new Exception($"First param {param[0]} (state collection) missing");
             int iΣ = l.IndexOf($"{param[1]}={{");
-            if (iΣ == -1)
-                throw new Exception($"Second param {param[1]} (symbols collection) missing");
+            if (iΣ == -1) throw new Exception($"Second param {param[1]} (symbols collection) missing");
             int iP = l.IndexOf($"{param[2]}={{");
-            if (iP == -1)
-                throw new Exception($"Third param {param[2]} (language rules) missing");
+            if (iP == -1) throw new Exception($"Third param {param[2]} (language rules) missing");
 
-            //TODO: language
+            string[] e = l.Substring(iΣ + 3, l.IndexOf('}', iΣ) - iΣ -3).Split(',');
+            foreach (char s in e.First())
+                automata.symbols.Add(s);
 
-            //TODO: transitions
+            string[] p = l.Substring(iP + 3, l.IndexOf('}', iP) - iP - 3).Split('\n'); 
+            Dictionary<string, char> lones = new Dictionary<string, char>();
+            foreach(string line in p){
+                if (line == "")
+                    continue;
+                string[] data = line.Replace("->", ">").Split('>');
+                string[] transitions = data[1].Split('|');
+                foreach (string t in transitions) {
+                    if (t.Length > 1)
+                        automata.addTransition(new Transition(data[0], t.First(), t.Substring(1)));
+                    else
+                        lones.Add(data[0], t.First());
+                }
+            }
+
+            foreach (KeyValuePair<string,char> lone in lones) 
+                foreach (Transition t in automata.transitions.Where(
+                    transition => transition.fromState == lone.Key &&
+                    transition.symbol == lone.Value )) 
+                      automata.finalStates.Add(t.toState);
 
             return automata;
         }
