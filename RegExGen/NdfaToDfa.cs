@@ -65,6 +65,7 @@ namespace RegExGen
                     key: new ToestandSymbolPair(new[] {Automata.EMPTY }, symbol),
                     value: new SortedSet<string>(new[] {Automata.EMPTY}));
 
+
             foreach (var state in Ndfa.states)
             {
                 foreach (var symbol in Ndfa.getAlphabet())
@@ -97,9 +98,17 @@ namespace RegExGen
             var startState = new SortedSet<string>(Ndfa.startStates);
             startState.UnionWith(Ndfa.startStates.SelectMany(start => getEpsilonConnectedStates(Ndfa, start)));
 
-            var stateQueue = new Queue<SortedSet<string>>(new[] { startState });
+            string makeStateName(SortedSet<string> state)
+            {
+                var name = "";
+                foreach (var partName in state)
+                    name += (partName).ToString() + " ";
+                return name + "";
+            }
 
-            var dfaDictionary = new Dictionary<ToestandSymbolPair, SortedSet<string>>(new ToestandSymbolPair());
+            var stateQueue = new Queue<SortedSet<string>>(new[] { startState });
+            var complexStateList = new List<SortedSet<string>>();
+            var dfa = new Automata(new SortedSet<char>(dfaAlphabet));
             do
             {
                 var toCheckState = stateQueue.Dequeue();
@@ -118,52 +127,35 @@ namespace RegExGen
                         else throw new KeyNotFoundException("single symbol not found in 'hulp tabel'");
                     }));
 
-                    var isInDfaDict = false;
-                    foreach(var state in dfaDictionary.Keys.Select(ToestandSymbolPair => ToestandSymbolPair.toestand))
-                    {
-                        if (state.SequenceEqual(newState))
-                        {
-                            isInDfaDict = true;
-                            continue;
-                        }
-                    }
-                    if (isInDfaDict) continue;
 
-                    // voeg toe aan dfaDictionary
-                    dfaDictionary.Add(new ToestandSymbolPair(toCheckState.ToArray(), symbol), newState);
+                    var newStateName = makeStateName(newState);
+
+                    // voeg toe aan dfa
+                    dfa.addTransition(new Transition(
+                            makeStateName(toCheckState),
+                            symbol,
+                            newStateName));
+
+                    // als nieuwe stat al in dfa staat verder niets doen.
+                    if (dfa.states.Any(dfaState => dfaState == newStateName))
+                        continue;
 
                     // voeg toe in de queue
                     stateQueue.Enqueue(newState);
+                    complexStateList.Add(newState);
                 }
             } while (stateQueue.Any());
-
-            string makeStateName(SortedSet<string> state)
-            {
-                var name = "";
-                foreach (var partName in state)
-                    name += (partName).ToString() + " ";
-                return name + "";
-            }
-
-            var dfa = new Automata(new SortedSet<char>(dfaAlphabet));
-            foreach(var key in dfaDictionary.Keys)
-            {
-                dfa.addTransition(new Transition(
-                        makeStateName(key.toestand),
-                        key.symbol,
-                        makeStateName(dfaDictionary[key])));
-            }
 
             dfa.startStates.Add(makeStateName(startState));
 
             var dfaEndStates = Ndfa.finalStates.SelectMany(
-                finalState => dfaDictionary.Keys.Select(
-                    key=> key.toestand).Where(state => state.Contains(finalState)))
-                    .Select(state => makeStateName(state));
+                finalState => complexStateList.Where(
+                    complexState => complexState.Any(
+                        partComplexState => partComplexState == finalState)));
 
             foreach (var endState in dfaEndStates)
-                dfa.finalStates.Add(endState);
-            //dfa.isDFA();
+                dfa.finalStates.Add(makeStateName( endState));
+            dfa.isDFA(false);
             return dfa;
         }
 
