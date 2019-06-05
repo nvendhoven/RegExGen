@@ -4,11 +4,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 
 namespace RegExGen
 {
     public class Automata
     {
+        public static readonly string EMPTY = "#";
+
         // node - edge - node
         public SortedSet<Transition> transitions = new SortedSet<Transition>();
 
@@ -158,6 +161,7 @@ namespace RegExGen
         public Automata And(Automata other)
         {
             //Creat Hulptabellen.
+            /*
             string[,] hulpTabel = new string[states.Count, getAlphabet().Count];
             
             //Hulptabel vullen.
@@ -169,13 +173,40 @@ namespace RegExGen
                 }
             }
 
+            print2dArray(hulpTabel);
+            */
+            string[,] hulpTabelOther = new string[other.states.Count,other.getAlphabet().Count];
 
+            //Hulptabel vullen.
+            for (int letter = 0; letter < other.getAlphabet().Count; letter++)
+            {
+                for (int state = 0; state < other.states.Count; state++)
+                {
+                    hulpTabelOther[state, letter] = other.GetDestination(state, letter);
+                }
+            }
 
-            //string[,] hulpTabelOther = new string[other.states.Count,other.getAlphabet().Count];
-
+            print2dArray(hulpTabelOther);
 
 
             return this;
+        }
+
+        public void print2dArray(string[,] arr)
+        {
+            //long[,] arr = new long[5, 4] { { 1, 2, 3, 4 }, { 1, 1, 1, 1 }, { 2, 2, 2, 2 }, { 3, 3, 3, 3 }, { 4, 4, 4, 4 } };
+
+            int rowLength = arr.GetLength(0);
+            int colLength = arr.GetLength(1);
+
+            for (int i = 0; i < rowLength; i++)
+            {
+                for (int j = 0; j < colLength; j++)
+                {
+                    Console.Write(string.Format("{0} ", arr[i, j]));
+                }
+                Console.Write(Environment.NewLine + Environment.NewLine);
+            }
         }
 
         public string GetDestination(int state, int letter)
@@ -186,18 +217,22 @@ namespace RegExGen
             string savedState = "";
             foreach (Transition t in transitions)
             {
-                if (stateCounter == state)
-                {
-                    savedState = t.fromState;
-                }
-
                 if (!t.fromState.Equals(previousState))
                 {
                     stateCounter++;
                 }
+
+                if (stateCounter == state)
+                {
+                    
+                    savedState = t.fromState;
+                    Debug.WriteLine("deb: " + stateCounter + " [] " + savedState + " ");
+                }
+
+                
                 previousState = t.fromState;
             }
-
+            Debug.WriteLine("DF");
             //Zoek de letter op die bij het nummer hoort.
             char previousLetter = transitions.First().symbol;
             int letterCounter = 0;
@@ -215,13 +250,17 @@ namespace RegExGen
                 }
                 savedLetter = t;
             }
+            Debug.WriteLine("DF2");
 
+            var transition = transitions.Where(Transition => (Transition.fromState == savedState && Transition.symbol == savedLetter));
+            string toState;
 
-            transitions.Where(Transition => Transition.fromState == state.ToString());
+            if (transition.Count() > 0)
+                toState = transition.First().toState;
+            else
+                toState = EMPTY;
 
-
-
-            return null;
+            return toState;
         }
 
         //Returns the OR of the automata.

@@ -80,7 +80,7 @@ namespace RegExGen
             m.printTransitions();
             Debug.WriteLine("---1---");
             m2.printTransitions();
-
+            /*
             Automata m3 = m.Not();
             Automata m4 = m2.Not();
             Debug.WriteLine("---0 Negative---");
@@ -94,6 +94,11 @@ namespace RegExGen
             m5.printTransitions();
             Debug.WriteLine("---1 inverse---");
             m6.printTransitions();
+            */
+            Debug.WriteLine("---0 AND 1---");
+            Automata m7 = m.And(m2);
+            m7.printTransitions();
+
 
             Debug.WriteLine("Done");
         }
