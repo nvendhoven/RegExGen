@@ -31,15 +31,17 @@
             this.pb_ndfa = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lb_regular_lan_ndfa = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lb_regular_lan_dfa = new System.Windows.Forms.Label();
             this.pb_dfa = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lb_regular_lan_odfa = new System.Windows.Forms.Label();
             this.pb_odfa = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lb_regex = new System.Windows.Forms.Label();
-            this.lb_regular_lan_ndfa = new System.Windows.Forms.Label();
-            this.lb_regular_lan_dfa = new System.Windows.Forms.Label();
-            this.lb_regular_lan_odfa = new System.Windows.Forms.Label();
+            this.tb_regex = new System.Windows.Forms.TextBox();
+            this.btn_run = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ndfa)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -71,7 +73,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(4, 73);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tabControl1.SelectedIndex = 0;
@@ -84,13 +86,22 @@
             this.tabPage1.Controls.Add(this.pb_ndfa);
             this.tabPage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage1.Size = new System.Drawing.Size(1088, 577);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "NDFA";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // lb_regular_lan_ndfa
+            // 
+            this.lb_regular_lan_ndfa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_regular_lan_ndfa.Location = new System.Drawing.Point(4, 20);
+            this.lb_regular_lan_ndfa.Name = "lb_regular_lan_ndfa";
+            this.lb_regular_lan_ndfa.Size = new System.Drawing.Size(300, 557);
+            this.lb_regular_lan_ndfa.TabIndex = 1;
+            this.lb_regular_lan_ndfa.Text = ".";
             // 
             // tabPage2
             // 
@@ -98,13 +109,22 @@
             this.tabPage2.Controls.Add(this.pb_dfa);
             this.tabPage2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage2.Size = new System.Drawing.Size(1088, 577);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "DFA";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lb_regular_lan_dfa
+            // 
+            this.lb_regular_lan_dfa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_regular_lan_dfa.Location = new System.Drawing.Point(3, 21);
+            this.lb_regular_lan_dfa.Name = "lb_regular_lan_dfa";
+            this.lb_regular_lan_dfa.Size = new System.Drawing.Size(300, 552);
+            this.lb_regular_lan_dfa.TabIndex = 2;
+            this.lb_regular_lan_dfa.Text = ".";
             // 
             // pb_dfa
             // 
@@ -125,12 +145,21 @@
             this.tabPage3.Controls.Add(this.pb_odfa);
             this.tabPage3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(1088, 577);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Optimized DFA";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // lb_regular_lan_odfa
+            // 
+            this.lb_regular_lan_odfa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_regular_lan_odfa.Location = new System.Drawing.Point(3, 20);
+            this.lb_regular_lan_odfa.Name = "lb_regular_lan_odfa";
+            this.lb_regular_lan_odfa.Size = new System.Drawing.Size(300, 559);
+            this.lb_regular_lan_odfa.TabIndex = 2;
+            this.lb_regular_lan_odfa.Text = ".";
             // 
             // pb_odfa
             // 
@@ -158,51 +187,44 @@
             // 
             // lb_regex
             // 
-            this.lb_regex.AutoSize = true;
+            this.lb_regex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lb_regex.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_regex.Location = new System.Drawing.Point(123, 27);
+            this.lb_regex.Location = new System.Drawing.Point(764, 27);
             this.lb_regex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lb_regex.Name = "lb_regex";
-            this.lb_regex.Size = new System.Drawing.Size(27, 25);
+            this.lb_regex.Size = new System.Drawing.Size(324, 25);
             this.lb_regex.TabIndex = 3;
             this.lb_regex.Text = "...";
+            this.lb_regex.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // lb_regular_lan_ndfa
+            // tb_regex
             // 
-            this.lb_regular_lan_ndfa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_regular_lan_ndfa.Location = new System.Drawing.Point(4, 20);
-            this.lb_regular_lan_ndfa.Name = "lb_regular_lan_ndfa";
-            this.lb_regular_lan_ndfa.Size = new System.Drawing.Size(300, 557);
-            this.lb_regular_lan_ndfa.TabIndex = 1;
-            this.lb_regular_lan_ndfa.Text = ".";
+            this.tb_regex.Location = new System.Drawing.Point(100, 29);
+            this.tb_regex.Name = "tb_regex";
+            this.tb_regex.Size = new System.Drawing.Size(377, 22);
+            this.tb_regex.TabIndex = 4;
             // 
-            // lb_regular_lan_dfa
+            // btn_run
             // 
-            this.lb_regular_lan_dfa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_regular_lan_dfa.Location = new System.Drawing.Point(3, 21);
-            this.lb_regular_lan_dfa.Name = "lb_regular_lan_dfa";
-            this.lb_regular_lan_dfa.Size = new System.Drawing.Size(300, 552);
-            this.lb_regular_lan_dfa.TabIndex = 2;
-            this.lb_regular_lan_dfa.Text = ".";
-            // 
-            // lb_regular_lan_odfa
-            // 
-            this.lb_regular_lan_odfa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_regular_lan_odfa.Location = new System.Drawing.Point(3, 20);
-            this.lb_regular_lan_odfa.Name = "lb_regular_lan_odfa";
-            this.lb_regular_lan_odfa.Size = new System.Drawing.Size(300, 559);
-            this.lb_regular_lan_odfa.TabIndex = 2;
-            this.lb_regular_lan_odfa.Text = ".";
+            this.btn_run.Location = new System.Drawing.Point(483, 28);
+            this.btn_run.Name = "btn_run";
+            this.btn_run.Size = new System.Drawing.Size(75, 24);
+            this.btn_run.TabIndex = 5;
+            this.btn_run.Text = "run";
+            this.btn_run.UseVisualStyleBackColor = true;
+            this.btn_run.Click += new System.EventHandler(this.btn_run_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1101, 680);
+            this.Controls.Add(this.btn_run);
+            this.Controls.Add(this.tb_regex);
             this.Controls.Add(this.lb_regex);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tabControl1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Formele methodes";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -232,6 +254,8 @@
         private System.Windows.Forms.Label lb_regular_lan_ndfa;
         private System.Windows.Forms.Label lb_regular_lan_dfa;
         private System.Windows.Forms.Label lb_regular_lan_odfa;
+        private System.Windows.Forms.TextBox tb_regex;
+        private System.Windows.Forms.Button btn_run;
     }
 }
 
