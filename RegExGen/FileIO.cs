@@ -10,7 +10,7 @@ namespace RegExGen
 {
     class FileIO
     {
-        public static void saveFile(string path, string fileContent)
+        public static void saveFileString(string path, string fileContent)
         {
             if (!File.Exists(path))
             {
@@ -25,7 +25,7 @@ namespace RegExGen
             }
         }
 
-        public static string loadFile(string path)
+        public static string loadFileString(string path)
         {
             string output = "";
             if (File.Exists(path))
@@ -47,7 +47,20 @@ namespace RegExGen
             return output;
         }
 
-        public static List<RegExp> loadRegExTrees(string path)
+        public static void saveRegExListToTextFile(string path,List<RegExp> content)
+        {
+            foreach (RegExp c in content)
+            {
+                saveFileString(path, c.ToString());
+            }
+        }
+
+        public static void saveRegExToTextFile(string path, RegExp content)
+        {
+            saveFileString(path, content.ToString());
+        }
+
+        public static List<RegExp> loadRegExesFromTextFile(string path)
         {
             List<RegExp> regExes = new List<RegExp>();
 
@@ -69,6 +82,31 @@ namespace RegExGen
             }
 
             return regExes;
+        }
+
+        public static RegExp loadRegExFromTextFile(string path)
+        {
+            RegExp regEx = null;
+
+            string output = "";
+            if (File.Exists(path))
+            {
+                using (StreamReader sr = File.OpenText(path))
+                {
+                    string s;
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        regEx = RegExParser.GetRegEx(s);
+                    }
+                }
+            }
+            else
+            {
+                throw new SyntaxErrorException("FileIO error: file at: {" + path + "} doesn't exists");
+            }
+
+            return regEx;
+
         }
 
         public static StringBuilder loadLanguage(string path)

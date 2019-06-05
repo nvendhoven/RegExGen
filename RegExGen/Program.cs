@@ -35,7 +35,7 @@ namespace RegExGen
 
         public static void TestFileIO()
         {
-            List<RegExp> list = FileIO.loadRegExTrees("C:/Users/Cave-PC_2/Desktop/RegExGen/RegExes.txt");
+            List<RegExp> list = FileIO.loadRegExesFromTextFile("C:/Users/Cave-PC_2/Desktop/RegExGen/RegExes.txt");
             foreach (RegExp regExp in list)
             {
                 Debug.WriteLine("---"+regExp.ToString()+"---");
