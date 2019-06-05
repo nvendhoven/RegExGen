@@ -81,12 +81,19 @@ namespace RegExGen
             Debug.WriteLine("---1---");
             m2.printTransitions();
 
-            Automata m3 = m.GetNegative();
-            Automata m4 = m2.GetNegative();
+            Automata m3 = m.Not();
+            Automata m4 = m2.Not();
             Debug.WriteLine("---0 Negative---");
             m3.printTransitions();
             Debug.WriteLine("---1 Negative---");
             m4.printTransitions();
+
+            Automata m5 = m.Inverse();
+            Automata m6 = m2.Inverse();
+            Debug.WriteLine("---0 inverse---");
+            m5.printTransitions();
+            Debug.WriteLine("---1 inverse---");
+            m6.printTransitions();
 
             Debug.WriteLine("Done");
         }

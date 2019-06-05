@@ -126,8 +126,27 @@ namespace RegExGen
             return isDFA;
         }
 
+        public Automata Inverse()
+        {
+            Automata returnAutomata = new Automata(this);
+            returnAutomata.startStates = finalStates;
+            returnAutomata.finalStates = startStates;
+            returnAutomata.transitions = GetInverseTransitions();
+            return returnAutomata;
+        }
+
+        public SortedSet<Transition> GetInverseTransitions()
+        {
+            SortedSet<Transition> inverseTransitions = new SortedSet<Transition>();
+            foreach (Transition t in transitions)
+            {
+                inverseTransitions.Add(new Transition(t.toState, t.symbol, t.fromState));
+            }
+            return inverseTransitions;
+        }
+
         //Returns the NOT of the automata.
-        public Automata GetNegative()
+        public Automata Not()
         {
             Automata returnAutomata = new Automata(this);
             returnAutomata.startStates = finalStates;
@@ -138,6 +157,7 @@ namespace RegExGen
         //Returns the AND of the automata.
         public Automata And(Automata other)
         {
+
             return this;
         }
 
