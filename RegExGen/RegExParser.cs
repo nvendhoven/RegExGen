@@ -32,9 +32,9 @@ namespace RegExGen
             while (current.MoveNext())
             {
                 output += current.Current;
-                if (next.MoveNext() && (char.IsLetterOrDigit(current.Current) || current.Current == ')' || current.Current == '+' || current.Current == '*') && char.IsLetterOrDigit(next.Current))
+                if (next.MoveNext() && (char.IsLetterOrDigit(current.Current) || current.Current == ')' || current.Current == '+' || current.Current == '*') && (char.IsLetterOrDigit(next.Current)|| next.Current == '('))
                 {
-                    output += ".";//plaats een DOT achter de letters, sluitende haakjes, plusjes en sterretjes.
+                    output += ".";//plaats een DOT achter de letters, sluitende haakjes, plusjes en sterretjes.     (a.b)*. a. (b|a)+
                 }
             }
             return output;
