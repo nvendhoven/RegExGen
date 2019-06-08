@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -165,6 +166,12 @@ namespace RegExGen
             {
                 throw new Exception("You cant AND these 2 Automata, because the alphabets are not the same.");
             }
+            /*
+            if (!isDFA() || !other.isDFA())
+            {
+                throw new Exception("One or both of the automata aren't DFA's");
+            }
+            */
 
             //Creat Hulptabellen.
             string[] statesList = states.ToArray();
@@ -200,60 +207,104 @@ namespace RegExGen
 
 
             var result = new SortedSet<Transition>();
-            var current = "";
-
-            //Heb nu beide hulparrays,
-            while (result.Count < transitions.Count * other.transitions.Count)//blijf doorgaan tot het maximum aantal states bereikt is.
-            {
-                //combineer state 0 met 1, 2, 3, 4, ect van de other. doe dit voor elke state van deze.
-
-
-
-
-
-                foreach (string state in states)
-                {
-                    foreach (string otherState in other.states)
-                    {
-                        //hier worden alle combies gemaakt.
-                    }
-                }
-
-
-
-                foreach (var currentState in current)
-                {
-                    if (true)
-                    {
-                        
-                    }
-                }
-            }
-
-
-
-
-            //int rowLength = hulpTabel.GetLength(0);
-            int alphabet = hulpTabel.GetLength(1);
-            SortedSet<string> allStates = new SortedSet<string>();
-            for (int i = 0; i < alphabet; i++)
-            {
-                //voor elke letter in het alphabet, ga na waar alle punten heen gaan.
-                //allStates.Add(hulpTabel[0,0])
-                //var firststate = hulpTabel[letter,alphabet];
-
-            }
-
+            var currentStates = new SortedSet<Tuple<string, string>>();
+            bool notDone = true;
             Automata returnAutomata = new Automata();
 
-            returnAutomata.defineAsFinalState(""); //Defineer de states die in zowel 1 als 2 final zijn.
-            returnAutomata.defineAsStartState(""); //Defineer de states die in zowel 1 als 2 start zijn.
+            returnAutomata.defineAsStartState(startStates.First() + "-" + other.startStates.First()); //Defineer de states die in zowel 1 als 2 start zijn.
+
+            currentStates.Add(Tuple.Create(startStates.First(), other.startStates.First()));//Create the first mixed state (0,0)
+            //Heb nu beide hulparrays,
+            while (result.Count < transitions.Count * other.transitions.Count && notDone)//blijf doorgaan tot het maximum aantal states bereikt is.
+            {
+                var nextStates = new SortedSet<Tuple<string, string>>();
+                foreach (var currentState in currentStates)//Alle huidige states             
+                {
+                    if (finalStates.Contains(currentState.Item1) && other.finalStates.Contains(currentState.Item2))//check of beide states in hun eigen automaat eindstates zijn.
+                    {
+                        returnAutomata.defineAsFinalState(currentState.Item1 + "-" + currentState.Item2);
+                    }
+                    foreach (char symbol in symbols)//ga alle sybolen langs voor de 2 states.
+                    {
+                        var nextState = 
+                            new Tuple<string,string>(
+                                FindDestinationBasedOnSymbolAndState(hulpTabel, statesList, letterList,currentState.Item1,symbol),
+                                FindDestinationBasedOnSymbolAndState(hulpTabelOther, statesListOther, letterListOther, currentState.Item2, symbol)
+                                );//De state waar het symbool naartoe gaat.
+                        Debug.WriteLine("Found State: "+nextState.Item1 + "-" + nextState.Item2);
+                        nextStates.Add(nextState);//Voeg de nieuwe state toe aan de lijst, zodat deze hierna behandeld kan worden.
+                        result.Add(new Transition(currentState.Item1 + "-" + currentState.Item2, symbol, nextState.Item1 + "-" + nextState.Item2));
+                        Debug.WriteLine("Found Transition: "+ currentState.Item1 + "-" + currentState.Item2 + " --> " +  symbol + " --> " + nextState.Item1 + "-" + nextState.Item2);
+                    }
+                }
+
+                if (CompateSets(currentStates,nextStates))
+                {
+                    notDone = false;
+                }
+                currentStates = nextStates;
+            }
 
 
 
+            foreach (var t in result)
+            {
+                returnAutomata.addTransition(t);
+            }
+
+            return returnAutomata;
+        }
+
+        public bool CompateSets(SortedSet<Tuple<string,string>> s1, SortedSet<Tuple<string, string>> s2)
+        {
+            if (s1.Count != s2.Count)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < s1.Count; i++)
+            {
+                if (s1.ToArray()[i].Item1 != s2.ToArray()[i].Item1 ||
+                    s1.ToArray()[i].Item1 != s2.ToArray()[i].Item1)
+                {
+                    return false;
+                }
+            }
 
 
-            return this;
+            return true;
+        }
+
+        public string FindDestinationBasedOnSymbolAndState(string[,] hulptable,string[] stateTable, char[] symbolTable,string fromState, char symbol)
+        {
+            if (fromState == EMPTY)
+            {
+                return EMPTY;
+            }
+            int indexOfState = -1;
+            int indexOfSymbol = -1;
+
+            int stateLenght = stateTable.GetLength(0);
+            for (int i = 0; i < stateLenght; i++)
+            {
+                if (stateTable[i] == fromState)
+                {
+                    indexOfState = i;
+                }
+            }
+
+            int symbolLenght = symbolTable.GetLength(0);
+            for (int i = 0; i < symbolLenght; i++)
+            {
+                if (symbolTable[i] == symbol)
+                {
+                    indexOfSymbol = i;
+                }
+            }
+
+            if (indexOfState >= 0 && indexOfSymbol >= 0)
+                return hulptable[indexOfState, indexOfSymbol];
+            throw new Exception("Cant find state");
         }
 
         public void print2dArray(string[,] arr)

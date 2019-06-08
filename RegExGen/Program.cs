@@ -54,7 +54,7 @@ namespace RegExGen
             m.defineAsStartState("q0");
 
             //2 eindtoestanden
-            m.defineAsFinalState("q2");
+            m.defineAsFinalState("q1");
             m.defineAsFinalState("q3");
 
 
@@ -62,18 +62,15 @@ namespace RegExGen
             char[] alphabet2 = {'a', 'b' };
             Automata m2 = new Automata(alphabet2);
 
-            m2.addTransition(new Transition("q0", 'b', "q1"));
-            m2.addTransition(new Transition("q1", 'b', "q2"));
-            m2.addTransition(new Transition("q2", 'b', "q3"));
-            m2.addTransition(new Transition("q3",'b', Automata.EMPTY));
-
+            m2.addTransition(new Transition("q0", 'a', "q1"));
+            m2.addTransition(new Transition("q1", 'a', "q2"));
+            //m2.addTransition(new Transition("q2",'a', Automata.EMPTY));
 
             //1 begintoestand
             m2.defineAsStartState("q0");
 
             //2 eindtoestanden
-            m2.defineAsFinalState("q2");
-            m2.defineAsFinalState("q3");
+            m2.defineAsFinalState("q1");
 
 
 
