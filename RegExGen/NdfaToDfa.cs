@@ -107,9 +107,9 @@ namespace RegExGen
             // define naming function
             string makeStateName(SortedSet<string> state)
             {
-                var name = "";
+                var name = "N";
                 foreach (var partName in state)
-                    name += (partName).ToString() + " ";
+                    name += "" +(partName).ToString() + ",";
                 return name + "";
             }
 
