@@ -28,8 +28,6 @@ namespace RegExGen
                     hulpTabel[state].Add(new SortedSet<string>());
                 }
             }
-            
-
 
             //Hulptabel vullen.
             for (int letter = 0; letter < Ndfa.getAlphabet().Count; letter++)
@@ -40,24 +38,24 @@ namespace RegExGen
                 }
             }
 
-
             print2dArray(hulpTabel);
-
-
 
             Automata returnAutomata = new Automata();
             returnAutomata.setAlphabet(Ndfa.getAlphabet());
 
-            SortedSet<string> notDoneStates = new SortedSet<string>();
-            SortedSet<string> doneStates = new SortedSet<string>();
+            SortedSet<SortedSet<string>> notDoneStates = new SortedSet<SortedSet<string>>();
+            SortedSet<SortedSet<string>> doneStates = new SortedSet<SortedSet<string>>();
 
-            //returnAutomata.defineAsStartState(startStates.First() + "-" + other.startStates.First()); //Defineer de states die in zowel 1 als 2 start zijn.
+
+            //-----DONE WITH BASIC STUFF, NOW COMES THE HARD PART-----//
+
             while (notDoneStates.Count != 0)
             {
                 var aState = notDoneStates.First();
                 doneStates.Add(aState);
                 notDoneStates.Remove(aState);
 
+                //Check of het een final state bevat;
                 if (Ndfa.finalStates.Contains(aState))
                 {
                     returnAutomata.defineAsFinalState(aState);
@@ -69,9 +67,23 @@ namespace RegExGen
                 while (charEnumerator.MoveNext())
                 {
                     // Next state
-                    
+                    SortedSet<string> nextStates = EpsilonClosure();
+
+                    if (!notDoneStates.Contains(nextStates) && !doneStates.Contains(nextStates))
+                    {
+                        notDoneStates.Add(nextStates);
+                    }
+
+
+
+
                 }
             }
+
+
+
+
+
             return returnAutomata;
         }
 
