@@ -161,6 +161,11 @@ namespace RegExGen
         //Returns the AND of the automata.
         public Automata And(Automata other)
         {
+            if ((getAlphabet().Equals(other.getAlphabet())))
+            {
+                throw new Exception("You cant AND these 2 Automata, because the alphabets are not the same.");
+            }
+
             //Creat Hulptabellen.
             string[] statesList = states.ToArray();
             char[] letterList = getAlphabet().ToArray();
@@ -177,7 +182,6 @@ namespace RegExGen
 
             print2dArray(hulpTabel);
 
-
             string[] statesListOther = other.states.ToArray();
             char[] letterListOther = other.getAlphabet().ToArray();
             string[,] hulpTabelOther = new string[other.states.Count,other.getAlphabet().Count];
@@ -191,8 +195,62 @@ namespace RegExGen
                 }
             }
 
-
             print2dArray(hulpTabelOther);
+
+
+
+            var result = new SortedSet<Transition>();
+            var current = "";
+
+            //Heb nu beide hulparrays,
+            while (result.Count < transitions.Count * other.transitions.Count)//blijf doorgaan tot het maximum aantal states bereikt is.
+            {
+                //combineer state 0 met 1, 2, 3, 4, ect van de other. doe dit voor elke state van deze.
+
+
+
+
+
+                foreach (string state in states)
+                {
+                    foreach (string otherState in other.states)
+                    {
+                        //hier worden alle combies gemaakt.
+                    }
+                }
+
+
+
+                foreach (var currentState in current)
+                {
+                    if (true)
+                    {
+                        
+                    }
+                }
+            }
+
+
+
+
+            //int rowLength = hulpTabel.GetLength(0);
+            int alphabet = hulpTabel.GetLength(1);
+            SortedSet<string> allStates = new SortedSet<string>();
+            for (int i = 0; i < alphabet; i++)
+            {
+                //voor elke letter in het alphabet, ga na waar alle punten heen gaan.
+                //allStates.Add(hulpTabel[0,0])
+                //var firststate = hulpTabel[letter,alphabet];
+
+            }
+
+            Automata returnAutomata = new Automata();
+
+            returnAutomata.defineAsFinalState(""); //Defineer de states die in zowel 1 als 2 final zijn.
+            returnAutomata.defineAsStartState(""); //Defineer de states die in zowel 1 als 2 start zijn.
+
+
+
 
 
             return this;
@@ -235,16 +293,11 @@ namespace RegExGen
                 }
                 previousState = t.fromState;
             }
-/*
-            if (savedState == "")
-            {
-                throw new Exception("Automata is incomplete");
-            }
-*/
+
             //Zoek de letter op die bij het nummer hoort.
             char previousLetter = transitions.First().symbol;
             int letterCounter = 0;
-            char savedLetter = ' ';
+            char savedLetter = transitions.First().symbol;
             foreach (char t in symbols)
             {
                 if (!t.Equals(previousLetter))

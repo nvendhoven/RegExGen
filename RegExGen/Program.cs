@@ -59,7 +59,7 @@ namespace RegExGen
 
 
             //bbb
-            char[] alphabet2 = { 'b' };
+            char[] alphabet2 = {'a', 'b' };
             Automata m2 = new Automata(alphabet2);
 
             m2.addTransition(new Transition("q0", 'b', "q1"));
@@ -99,7 +99,6 @@ namespace RegExGen
             Debug.WriteLine("---0 AND 1---");
             Automata m7 = m.And(m2);
             m7.printTransitions();
-
 
             Debug.WriteLine("Done");
         }
