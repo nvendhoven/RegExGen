@@ -25,7 +25,7 @@ namespace RegExGen
             //TestRegExpToStringParser();
             //TestFileIO();
             //TestAutomataOperations();
-            TestAutomataSaveAndLoad();
+            //TestAutomataSaveAndLoad();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
