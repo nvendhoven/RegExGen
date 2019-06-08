@@ -24,7 +24,7 @@ namespace RegExGen
             //TestRegExpParser();
             //TestRegExpToStringParser();
             //TestFileIO();
-            TestAutomataOperations();
+            //TestAutomataOperations();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -36,6 +36,7 @@ namespace RegExGen
 
         public static void TestAutomataOperations()
         {
+            throw new Exception("Need to turn these automata into dfa's");
             char[] alphabet = { 'a', 'b' };
             Automata m = new Automata(alphabet);
 
@@ -94,7 +95,7 @@ namespace RegExGen
             m6.printTransitions();
             */
             Debug.WriteLine("---0 AND 1---");
-            Automata m7 = m.And(m2);
+            Automata m7 = m.Or(m2);
             m7.printTransitions();
 
             Debug.WriteLine("Done");

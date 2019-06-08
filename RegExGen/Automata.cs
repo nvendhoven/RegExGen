@@ -160,6 +160,100 @@ namespace RegExGen
         }
 
         //Returns the AND of the automata.
+        public Automata Or(Automata other)
+        {
+            if ((getAlphabet().Equals(other.getAlphabet())))
+            {
+                throw new Exception("You cant AND these 2 Automata, because the alphabets are not the same.");
+            }
+
+            if (!isDFA() || !other.isDFA())
+            {
+                throw new Exception("One or both of the automata aren't DFA's");
+            }
+
+            //Creat Hulptabellen.
+            string[] statesList = states.ToArray();
+            char[] letterList = getAlphabet().ToArray();
+            string[,] hulpTabel = new string[states.Count, getAlphabet().Count];
+
+            //Hulptabel vullen.
+            for (int letter = 0; letter < getAlphabet().Count; letter++)
+            {
+                for (int state = 0; state < states.Count; state++)
+                {
+                    hulpTabel[state, letter] = GetDestination(state, letter);
+                }
+            }
+
+            print2dArray(hulpTabel);
+
+            string[] statesListOther = other.states.ToArray();
+            char[] letterListOther = other.getAlphabet().ToArray();
+            string[,] hulpTabelOther = new string[other.states.Count, other.getAlphabet().Count];
+
+            //Hulptabel vullen.
+            for (int letter = 0; letter < other.getAlphabet().Count; letter++)
+            {
+                for (int state = 0; state < other.states.Count; state++)
+                {
+                    hulpTabelOther[state, letter] = other.GetDestination(state, letter);
+                }
+            }
+
+            print2dArray(hulpTabelOther);
+
+            var result = new SortedSet<Transition>();
+            var currentStates = new SortedSet<Tuple<string, string>>();
+            bool notDone = true;
+            Automata returnAutomata = new Automata();
+            returnAutomata.defineAsStartState(startStates.First() + "-" + other.startStates.First()); //Defineer de states die in zowel 1 als 2 start zijn.
+            returnAutomata.setAlphabet(getAlphabet());
+
+            currentStates.Add(Tuple.Create(startStates.First(), other.startStates.First()));//Create the first mixed state (0,0)
+            //Heb nu beide hulparrays,
+            while (result.Count < transitions.Count * other.transitions.Count && notDone)//blijf doorgaan tot het maximum aantal states bereikt is.
+            {
+                var nextStates = new SortedSet<Tuple<string, string>>();
+                foreach (var currentState in currentStates)//Alle huidige states             
+                {
+                    if (finalStates.Contains(currentState.Item1) || other.finalStates.Contains(currentState.Item2))//check of beide states in hun eigen automaat eindstates zijn.
+                    {
+                        returnAutomata.defineAsFinalState(currentState.Item1 + "-" + currentState.Item2);
+                    }
+                    foreach (char symbol in symbols)//ga alle sybolen langs voor de 2 states.
+                    {
+                        var nextState =
+                            new Tuple<string, string>(
+                                FindDestinationBasedOnSymbolAndState(hulpTabel, statesList, letterList, currentState.Item1, symbol),
+                                FindDestinationBasedOnSymbolAndState(hulpTabelOther, statesListOther, letterListOther, currentState.Item2, symbol)
+                                );//De state waar het symbool naartoe gaat.
+                        Debug.WriteLine("Found State: " + nextState.Item1 + "-" + nextState.Item2);
+                        nextStates.Add(nextState);//Voeg de nieuwe state toe aan de lijst, zodat deze hierna behandeld kan worden.
+                        result.Add(new Transition(currentState.Item1 + "-" + currentState.Item2, symbol, nextState.Item1 + "-" + nextState.Item2));
+                        Debug.WriteLine("Found Transition: " + currentState.Item1 + "-" + currentState.Item2 + " --> " + symbol + " --> " + nextState.Item1 + "-" + nextState.Item2);
+                    }
+                }
+
+                if (CompateSets(currentStates, nextStates))
+                {
+                    notDone = false;
+                }
+                currentStates = nextStates;
+            }
+
+
+
+            foreach (var t in result)
+            {
+                returnAutomata.addTransition(t);
+            }
+
+            return returnAutomata;
+        }
+
+
+        //Returns the AND of the automata.
         public Automata And(Automata other)
         {
             if ((getAlphabet().Equals(other.getAlphabet())))
@@ -211,7 +305,7 @@ namespace RegExGen
             Automata returnAutomata = new Automata();
 
             returnAutomata.defineAsStartState(startStates.First() + "-" + other.startStates.First()); //Defineer de states die in zowel 1 als 2 start zijn.
-
+            returnAutomata.setAlphabet(getAlphabet());
             currentStates.Add(Tuple.Create(startStates.First(), other.startStates.First()));//Create the first mixed state (0,0)
             //Heb nu beide hulparrays,
             while (result.Count < transitions.Count * other.transitions.Count && notDone)//blijf doorgaan tot het maximum aantal states bereikt is.
@@ -375,12 +469,6 @@ namespace RegExGen
             Debug.Write(toState+"\n");
 
             return toState;
-        }
-
-        //Returns the OR of the automata.
-        public Automata Or(Automata other)
-        {
-            return this;
         }
 
     }
