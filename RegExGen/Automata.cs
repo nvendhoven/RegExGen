@@ -132,6 +132,48 @@ namespace RegExGen
             return isDFA;
         }
 
+        //Function that checks if a word is in the language.
+        public bool CheckWord(string word)
+        {
+            /*
+            if (!isDFA())
+            {
+                throw new Exception("Can't check string on a NDFA");
+            }
+            */
+
+            bool canwork = false;
+            foreach (string startstate in startStates)
+            {
+                canwork = true;
+                CharEnumerator charEnumerator = word.GetEnumerator();
+                string currentState = startstate;
+                while (charEnumerator.MoveNext())
+                {
+                    //var transition = Tuple.Create(states, symbol);
+                    if (transitions.Any(transitions =>
+                        (transitions.symbol == charEnumerator.Current && transitions.fromState == currentState)))
+                    {
+                        var t = transitions.Where(transitions =>
+                            (transitions.symbol == charEnumerator.Current && transitions.fromState == currentState));
+                        currentState = t.First().toState;
+                        //Er bestaat een transitie van die state naar een andere state
+                    }
+                    else
+                    {
+                        canwork = false;
+                    }
+                }
+
+                if (!finalStates.Contains(currentState))
+                {
+                    canwork = false;
+                }
+            }
+
+            return canwork;
+        }
+
         public Automata Inverse()
         {
             Automata returnAutomata = new Automata(this);
