@@ -57,7 +57,7 @@ namespace RegExGen
             // "hulp tabel"
             var toestandenMet1SymboolVerwijderd = new Dictionary<ToestandSymbolPair, SortedSet<string>>(new ToestandSymbolPair());
 
-            var dfaAlphabet = Ndfa.getAlphabet().Where(c => c != Automata.EPSILON);
+            var dfaAlphabet = Ndfa.getAlphabet().Where(symbol => symbol != Automata.EPSILON );
 
             //voeg foute state toe
             foreach (var symbol in dfaAlphabet)
@@ -66,24 +66,25 @@ namespace RegExGen
                     value: new SortedSet<string>(new[] {Automata.EMPTY}));
 
 
+            //construeer hulptabel
             foreach (var state in Ndfa.states)
             {
-                foreach (var symbol in Ndfa.getAlphabet())
+                foreach (var symbol in dfaAlphabet)
                 {
                     // maak nieuwe key
                     var toestandSymboolPair = new ToestandSymbolPair(new[] {state}, symbol);
 
                     //check of er epsilon connecties zijn
-                    var fistEpsilonConnectedStates = new List<string>(getEpsilonConnectedStates(Ndfa, state));
+                    var fistEpsilonConnectedStates = getEpsilonConnectedStates(Ndfa, state).ToList();
                     fistEpsilonConnectedStates.Add(state);
-                    //gebuik epsilon connected states en huidige state voor checken next state
 
+                    //gebuik epsilon connected states en huidige state voor checken next state
                     SortedSet<string> connectedStates = new SortedSet<string>();
                     foreach(var connectedstate in fistEpsilonConnectedStates)
                         connectedStates.UnionWith(Ndfa.getToStates(connectedstate, symbol));
 
                     //voeg symbol epsion connected state toe vanaf berijkte symbols
-                    foreach (var letterConnectedState in connectedStates)
+                    foreach (var letterConnectedState in connectedStates.ToList())
                         connectedStates.UnionWith(getEpsilonConnectedStates(Ndfa, letterConnectedState));
 
                     // als verzameling leeg is een leege state aanmaken
@@ -95,9 +96,15 @@ namespace RegExGen
                 }
             }
 
-            var startState = new SortedSet<string>(Ndfa.startStates);
-            startState.UnionWith(Ndfa.startStates.SelectMany(start => getEpsilonConnectedStates(Ndfa, start)));
 
+            
+            // add starting states from Ndfa as one state
+            var startState = new SortedSet<string>(Ndfa.startStates);
+            // add epsilon connected states to state
+            startState.UnionWith(
+                Ndfa.startStates.SelectMany(start => getEpsilonConnectedStates(Ndfa, start)));
+
+            // define naming function
             string makeStateName(SortedSet<string> state)
             {
                 var name = "";
@@ -106,27 +113,36 @@ namespace RegExGen
                 return name + "";
             }
 
+            // start a new queue with the starting states
             var stateQueue = new Queue<SortedSet<string>>(new[] { startState });
-            var complexStateList = new List<SortedSet<string>>();
+
+            // start a list with complex states to define end state later on
+            // todo optimize
+            // var complexStateList = new List<SortedSet<string>>();
+
+            // make new dfa
             var dfa = new Automata(new SortedSet<char>(dfaAlphabet));
+            var checkedStates = new List<string>();
+            // define start state in dfa
+            dfa.startStates.Add(makeStateName(startState));
             do
             {
                 var toCheckState = stateQueue.Dequeue();
+                // check for every possible symbol in ndfa behalve epsilon
                 foreach(var symbol in dfaAlphabet)
                 {
-                    if (symbol == Automata.EPSILON) continue;
-                    // kijk waar de state naartoe wijst
-                    var newState = new SortedSet<string>(toCheckState.SelectMany(state =>
-                    {
+                    // kijk waar de state naartoe wijst en sla deze op
+                    var newState = new SortedSet<string>(
+                        // per 'compound' state check where it leads in original automata with given symbol and build a new state out of it
+                        toCheckState.SelectMany(state =>{
                         if (toestandenMet1SymboolVerwijderd.TryGetValue(
-                            new ToestandSymbolPair(new[] { state }, symbol),//maak nieuwe toestand als key
+                            //maak nieuwe toestand als key
+                            new ToestandSymbolPair(new[] { state }, symbol),
                             out var toValue))
                         {
                             return toValue;
                         }
-                        else throw new KeyNotFoundException("single symbol not found in 'hulp tabel'");
-                    }));
-
+                        else throw new KeyNotFoundException("single symbol not found in 'hulp tabel'");}));
 
                     var newStateName = makeStateName(newState);
 
@@ -137,32 +153,43 @@ namespace RegExGen
                             newStateName));
 
                     // als nieuwe stat al in dfa staat verder niets doen.
-                    if (dfa.states.Any(dfaState => dfaState == newStateName))
+                    if (checkedStates.Any(visitedState => visitedState == newStateName))
                         continue;
+                    checkedStates.Add(newStateName);
 
                     // voeg toe in de queue
                     stateQueue.Enqueue(newState);
-                    complexStateList.Add(newState);
+
+                    //complexStateList.Add(newState);
+                    if (newState.Any(statePart => Ndfa.finalStates.Contains(statePart)))
+                        dfa.finalStates.Add(newStateName);
                 }
             } while (stateQueue.Any());
 
-            dfa.startStates.Add(makeStateName(startState));
+            //var dfaEndStates = complexStateList.Where(state =>
+            //    state.Any(statePart => 
+            //        Ndfa.finalStates.Contains(statePart)
+            //        )
+            //    ).Select(state => makeStateName(state));
 
-            var dfaEndStates = Ndfa.finalStates.SelectMany(
-                finalState => complexStateList.Where(
-                    complexState => complexState.Any(
-                        partComplexState => partComplexState == finalState)));
+            //dfa.finalStates.UnionWith(dfaEndStates);
 
-            foreach (var endState in dfaEndStates)
-                dfa.finalStates.Add(makeStateName( endState));
-            dfa.isDFA(false);
+            //var dfaEndStates = Ndfa.finalStates.SelectMany(
+            //   finalState => complexStateList.Where(
+            //       complexState => complexState.Any(
+            //          partComplexState => partComplexState == finalState)));
+
+            dfa.isDFA(true);
             return dfa;
         }
 
         private static IEnumerable<string> getEpsilonConnectedStates(Automata Ndfa, string stateToStart)
         {
             var conectedStates = Ndfa.getToStates(stateToStart, Automata.EPSILON);
-            return conectedStates.SelectMany(state => getEpsilonConnectedStates(Ndfa, state));
+            if (conectedStates.Any())
+                return conectedStates.Union(
+                    conectedStates.SelectMany(state => getEpsilonConnectedStates(Ndfa, state))).ToList();
+            else return conectedStates;
         }
 
         public static void testAll()

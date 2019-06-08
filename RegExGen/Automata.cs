@@ -102,7 +102,7 @@ namespace RegExGen
         }
 
         class NoDfaExeption : Exception { public NoDfaExeption(string message) : base(message) { } };
-        public bool isDFA(bool throwExeptions = true)
+        public bool isDFA(bool throwExeptions = false)
         {
             bool isDFA = true;
 
@@ -113,18 +113,18 @@ namespace RegExGen
                 {
                     var stateCount = getToStates(from, symbol).Count;
                     isDFA = isDFA && stateCount == 1;
-                    if (throwExeptions&& !isDFA) throw new NoDfaExeption("state: "+ from + " with symbol '"+symbol+ "' has " + stateCount + " connections");
+                    if (throwExeptions&& !isDFA) throw new NoDfaExeption("dfa error state: "+ from + " with symbol '"+symbol+ "' has " + stateCount + " connections where 1 was expected");
                     if (!isDFA) return false;
                 }
             }
 
             // geen epsilon overgangen
             isDFA = isDFA && transitions.Any(transitions => transitions.symbol != EPSILON);
-            if (throwExeptions && !isDFA) throw new NoDfaExeption(message: "not a dfa has epsilon overgang");
+            if (throwExeptions && !isDFA) throw new NoDfaExeption(message: "dfa not a dfa has epsilon overgang");
 
             // geen meerdere start toestanden
-            isDFA = isDFA && startStates.Count > 1;
-            if (throwExeptions && !isDFA) throw new NoDfaExeption("has more than one state");
+            isDFA = isDFA && startStates.Count == 1;
+            if (throwExeptions && !isDFA) throw new NoDfaExeption("dfa has more than one start state");
             return isDFA;
         }
     }
