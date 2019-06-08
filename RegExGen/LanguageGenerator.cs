@@ -134,5 +134,67 @@ namespace RegExGen
             return languageInRegex;
         }
 
+        public static RegExp generateRegExpContaining(string data)
+        {
+            RegExp languageInRegex = null;
+
+            //Create Alphabet.
+            SortedSet<char> alphabet = new SortedSet<char>();
+            foreach (char c in data)
+            {
+                alphabet.Add(c);
+            }
+
+            //Create a list of all needed regEx components
+            List<RegExp> regExesContain = new List<RegExp>();
+            foreach (char c in data)
+            {
+                regExesContain.Add(new RegExp(c.ToString()));
+            }
+
+            //Create the ending of the regex.
+            RegExp containRegExp = null;
+            foreach (RegExp regEx in regExesContain)
+            {
+                if (containRegExp == null)
+                {
+                    containRegExp = regEx;
+                }
+                else
+                {
+                    containRegExp = containRegExp.dot(regEx);
+                }
+            }
+
+            //Create a regex for every letter in the alphabet
+            List<RegExp> regExesAlphabed = new List<RegExp>();
+            foreach (char c in alphabet)
+            {
+                regExesAlphabed.Add(new RegExp(c.ToString()));
+            }
+
+            //Create a regEx which ors every letter of the alphabet
+            RegExp orRegEx = null;
+            foreach (RegExp regEx in regExesAlphabed)
+            {
+                if (orRegEx == null)
+                {
+                    orRegEx = regEx;
+                }
+                else
+                {
+                    orRegEx = orRegEx.or(regEx);
+                }
+            }
+
+            //Make sure the or can be 0 or more times
+            orRegEx = orRegEx.star();
+
+
+            //Combine the start and the Or function
+            languageInRegex = orRegEx.dot(containRegExp).dot(orRegEx);
+
+            return languageInRegex;
+        }
     }
 }

@@ -43,7 +43,8 @@ namespace RegExGen
             reg.PrintTree(0);
             RegExp reg2 = LanguageGenerator.generateRegExpEndingWith("kaas");
             reg2.PrintTree(0);
-
+            RegExp reg3 = LanguageGenerator.generateRegExpContaining("kaas");
+            reg3.PrintTree(0);
 
             Debug.WriteLine("Done");
         }
