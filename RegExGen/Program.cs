@@ -24,6 +24,7 @@ namespace RegExGen
             //TestRegExpParser();
             //TestRegExpToStringParser();
             //TestFileIO();
+            //TestAutomataOperations();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -31,6 +32,73 @@ namespace RegExGen
 
             //TestRegExp();
             //TestAutomata();
+        }
+
+        public static void TestAutomataOperations()
+        {
+            throw new Exception("Need to turn these automata into dfa's");
+            char[] alphabet = { 'a', 'b' };
+            Automata m = new Automata(alphabet);
+
+            m.addTransition(new Transition("q0", 'a', "q1"));
+            m.addTransition(new Transition("q0", 'b', "q4"));
+            m.addTransition(new Transition("q1", 'a', "q4"));
+            m.addTransition(new Transition("q1", 'b', "q2"));
+            m.addTransition(new Transition("q2", 'a', "q3"));
+            m.addTransition(new Transition("q2", 'b', "q4"));
+            m.addTransition(new Transition("q3", 'a', "q1"));
+            m.addTransition(new Transition("q3", 'b', "q2"));
+            m.addTransition(new Transition("q4", 'a'));
+            m.addTransition(new Transition("q4", 'b'));
+
+            //1 begintoestand
+            m.defineAsStartState("q0");
+
+            //2 eindtoestanden
+            m.defineAsFinalState("q1");
+            m.defineAsFinalState("q3");
+
+
+            //bbb
+            char[] alphabet2 = {'a', 'b' };
+            Automata m2 = new Automata(alphabet2);
+
+            m2.addTransition(new Transition("q0", 'a', "q1"));
+            m2.addTransition(new Transition("q1", 'a', "q2"));
+            //m2.addTransition(new Transition("q2",'a', Automata.EMPTY));
+
+            //1 begintoestand
+            m2.defineAsStartState("q0");
+
+            //2 eindtoestanden
+            m2.defineAsFinalState("q1");
+
+
+
+            Debug.WriteLine("---0---");
+            m.printTransitions();
+            Debug.WriteLine("---1---");
+            m2.printTransitions();
+            /*
+            Automata m3 = m.Not();
+            Automata m4 = m2.Not();
+            Debug.WriteLine("---0 Negative---");
+            m3.printTransitions();
+            Debug.WriteLine("---1 Negative---");
+            m4.printTransitions();
+
+            Automata m5 = m.Inverse();
+            Automata m6 = m2.Inverse();
+            Debug.WriteLine("---0 inverse---");
+            m5.printTransitions();
+            Debug.WriteLine("---1 inverse---");
+            m6.printTransitions();
+            */
+            Debug.WriteLine("---0 AND 1---");
+            Automata m7 = m.Or(m2);
+            m7.printTransitions();
+
+            Debug.WriteLine("Done");
         }
 
         public static void TestFileIO()
