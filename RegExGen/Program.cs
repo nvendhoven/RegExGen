@@ -26,6 +26,7 @@ namespace RegExGen
             //TestFileIO();
             //TestAutomataOperations();
             //TestAutomataSaveAndLoad();
+            TestAutomataCheckWord();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -33,6 +34,37 @@ namespace RegExGen
 
             //TestRegExp();
             //TestAutomata();
+        }
+
+        public static void TestAutomataCheckWord()
+        {
+            char[] alphabet = { 'a', 'b' };
+            Automata m = new Automata(alphabet);
+
+            m.addTransition(new Transition("q0", 'a', "q1"));
+            m.addTransition(new Transition("q0", 'b', "q4"));
+            m.addTransition(new Transition("q1", 'a', "q4"));
+            m.addTransition(new Transition("q1", 'b', "q2"));
+            m.addTransition(new Transition("q2", 'a', "q3"));
+            m.addTransition(new Transition("q2", 'b', "q4"));
+            m.addTransition(new Transition("q3", 'a', "q1"));
+            m.addTransition(new Transition("q3", 'b', "q2"));
+            m.addTransition(new Transition("q4", 'a'));
+            m.addTransition(new Transition("q4", 'b'));
+
+            //1 begintoestand
+            m.defineAsStartState("q0");
+
+            //2 eindtoestanden
+            m.defineAsFinalState("q1");
+            m.defineAsFinalState("q3");
+
+            m.printTransitions();
+
+            Debug.WriteLine("abba: " + m.CheckWord("abba"));
+            Debug.WriteLine("a: " + m.CheckWord("a"));
+            Debug.WriteLine("aba: " + m.CheckWord("aba"));
+            Debug.WriteLine("done");
         }
 
         public static void TestAutomataSaveAndLoad()
