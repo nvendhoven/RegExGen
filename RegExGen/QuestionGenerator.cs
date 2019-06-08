@@ -30,7 +30,10 @@ namespace RegExGen
         }
 
         #region RandomGenerators
-        //Can have only one start and end, but multiple contains.
+        /*
+         * TODO: need to do an OR check to see if we can add another EndsWith or Starts With. Will need to combine Primary and secondary generation for that.
+         * 
+         */
         private List<QuestionPrimaryParts> GetRandomPrimaryParts()
         {
             Random rnd = new Random(DateTime.Now.Millisecond);
