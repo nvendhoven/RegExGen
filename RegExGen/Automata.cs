@@ -24,8 +24,8 @@ namespace RegExGen
                 return new SortedSet<string>( 
                     transitions.SelectMany(tr => new[] { tr.toState, tr.fromState }));}
         }
-        public SortedSet<string> startStates { get; }
-        public SortedSet<string> finalStates { get; } 
+        public SortedSet<string> startStates { get; private set; }
+        public SortedSet<string> finalStates { get; private set; } 
 
         // alphabet
         public SortedSet<char> symbols;
