@@ -25,6 +25,7 @@ namespace RegExGen
             //TestRegExpToStringParser();
             //TestFileIO();
             //TestAutomataOperations();
+            TestAutomataSaveAndLoad();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -32,6 +33,38 @@ namespace RegExGen
 
             //TestRegExp();
             //TestAutomata();
+        }
+
+        public static void TestAutomataSaveAndLoad()
+        {
+            char[] alphabet = { 'a', 'b' };
+            Automata m = new Automata(alphabet);
+
+            m.addTransition(new Transition("q0", 'a', "q1"));
+            m.addTransition(new Transition("q0", 'b', "q4"));
+            m.addTransition(new Transition("q1", 'a', "q4"));
+            m.addTransition(new Transition("q1", 'b', "q2"));
+            m.addTransition(new Transition("q2", 'a', "q3"));
+            m.addTransition(new Transition("q2", 'b', "q4"));
+            m.addTransition(new Transition("q3", 'a', "q1"));
+            m.addTransition(new Transition("q3", 'b', "q2"));
+            m.addTransition(new Transition("q4", 'a'));
+            m.addTransition(new Transition("q4", 'b'));
+
+            //1 begintoestand
+            m.defineAsStartState("q0");
+
+            //2 eindtoestanden
+            m.defineAsFinalState("q1");
+            m.defineAsFinalState("q3");
+
+            m.printTransitions();
+
+            FileIO.saveAutomataToTextFile("D:/School/P3.4/Formele Methoden/RegExGen/auto.json",m);
+            Debug.WriteLine("--Saved--");
+            Automata m2 = FileIO.loadAutomataFromTextFile("D:/School/P3.4/Formele Methoden/RegExGen/auto.json");
+            m2.printTransitions();
+            Debug.WriteLine("--Done--");
         }
 
         public static void TestAutomataOperations()

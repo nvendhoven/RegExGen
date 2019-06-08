@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace RegExGen
 {
@@ -129,6 +131,17 @@ namespace RegExGen
             }
 
             return output;
+        }
+
+        public static void saveAutomataToTextFile(string path, Automata content)
+        {
+            string json = JsonConvert.SerializeObject(content);
+            saveFileString(path, json);
+        }
+
+        public static Automata loadAutomataFromTextFile(string path)
+        {
+            return JsonConvert.DeserializeObject<Automata>(loadFileString(path));
         }
     }
 }

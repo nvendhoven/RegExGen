@@ -10,6 +10,7 @@ using System.Windows.Forms.VisualStyles;
 
 namespace RegExGen
 {
+    [Serializable]
     public class Automata
     {
         public static readonly string EMPTY = "#";
