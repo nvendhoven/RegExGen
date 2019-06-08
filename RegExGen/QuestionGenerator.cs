@@ -14,20 +14,65 @@ namespace RegExGen
 
         public Question GenerateReExpQuestion()
         {
-            int length = 2;
+            int length = 3;//Woudl make this higher that 4.
             return GenerateRegExpQuestion(GetRandomPrimaryParts(length), GetRandomSecondaryParts(length), GetRandomSymbols(length));
         }
 
+        //Can have only one start and end, but multiple contains.
         private List<QuestionPrimaryParts> GetRandomPrimaryParts(int numberOf)
         {
+            Random rnd = new Random(DateTime.Now.Millisecond);
             List<QuestionPrimaryParts> parts = new List<QuestionPrimaryParts>();
             for (int i = 0; i < numberOf; i++)
             {
-                parts.Add(GetRandomPrimaryQuestionPart());
+
+                if (parts.Contains(QuestionPrimaryParts.STARTWITH) && parts.Contains(QuestionPrimaryParts.ENDWITH))
+                {
+                    parts.Add(QuestionPrimaryParts.CONTAINS);
+                }
+                else if (parts.Contains(QuestionPrimaryParts.STARTWITH))
+                {
+                    if (rnd.Next(0, 1) == 0)
+                    {
+                        parts.Add(QuestionPrimaryParts.ENDWITH);
+                    }
+                    else
+                    {
+                        parts.Add(QuestionPrimaryParts.CONTAINS);
+                    }
+                }
+                else if (parts.Contains(QuestionPrimaryParts.ENDWITH))
+                {
+                    if (rnd.Next(0, 1) == 0)
+                    {
+                        parts.Add(QuestionPrimaryParts.STARTWITH);
+                    }
+                    else
+                    {
+                        parts.Add(QuestionPrimaryParts.CONTAINS);
+                    }
+                }
+                else
+                {
+                    int random = rnd.Next(0, 2);
+                    if (random == 0)
+                    {
+                        parts.Add(QuestionPrimaryParts.STARTWITH);
+                    }
+                    else if (random ==1)
+                    {
+                        parts.Add(QuestionPrimaryParts.ENDWITH);
+                    }
+                    else
+                    {
+                        parts.Add(QuestionPrimaryParts.CONTAINS);
+                    }
+                }
             }
             return parts;
         }
 
+        
         private List<QuestionSecondaryParts> GetRandomSecondaryParts(int numberOf)
         {
             List<QuestionSecondaryParts> parts = new List<QuestionSecondaryParts>();
@@ -54,11 +99,6 @@ namespace RegExGen
                 words.Add(word);
             }
             return words;
-        }
-
-        private QuestionPrimaryParts GetRandomPrimaryQuestionPart()
-        {
-            return (QuestionPrimaryParts) new Random(DateTime.Now.Millisecond).Next(0, Enum.GetNames(typeof(QuestionPrimaryParts)).Length);
         }
 
         private QuestionSecondaryParts GetRandomSecondaryQuestionPart()
@@ -112,31 +152,140 @@ namespace RegExGen
                     alphabet.Add(c);
                 }
             }
-            
 
+            //Create a regex for every letter in the alphabet
+            List<RegExp> regExesAlphabet = new List<RegExp>();
+            foreach (char c in alphabet)
+            {
+                regExesAlphabet.Add(new RegExp(c.ToString()));
+            }
+
+            //Create a regEx which ors every letter of the alphabet
+            RegExp orRegEx = null;
+            foreach (RegExp regEx in regExesAlphabet)
+            {
+                if (orRegEx == null)
+                {
+                    orRegEx = regEx;
+                }
+                else
+                {
+                    orRegEx = orRegEx.or(regEx);
+                }
+            }
+
+            //Make sure the or can be 0 or more times
+            orRegEx = orRegEx.star();
+
+            //Get the indexes of the starts with and ends with. Also build those regExperssions.
+            int startWithIndex = -1;
+            RegExp startRegExp = null;
+            int endWithIndex = -1;
+            RegExp endRegExp = null;
             for (int i = 0; i < questionPrimaryParts.Count; i++)
             {
-                //Create a list of all needed regEx components
-                List<RegExp> regExes = new List<RegExp>();
-                foreach (char c in symbolen[i])
+                if (questionPrimaryParts[i] == QuestionPrimaryParts.STARTWITH)
                 {
-                    regExes.Add(new RegExp(c.ToString()));
+                    startWithIndex = i;
+                    //Create a list of all needed regEx components
+                    List<RegExp> regExpParts = new List<RegExp>();
+                    foreach (char c in symbolen[i])
+                    {
+                        regExpParts.Add(new RegExp(c.ToString()));
+                    }
+
+                    //Create the full regExp Part
+                    RegExp regExpPart = null;
+                    foreach (RegExp regEx in regExpParts)
+                    {
+                        if (regExpPart == null)
+                        {
+                            regExpPart = regEx;
+                        }
+                        else
+                        {
+                            regExpPart = regExpPart.dot(regEx);
+                        }
+                    }
+                    startRegExp = regExpPart;
                 }
 
-                switch (questionPrimaryParts[i])
+                if (questionPrimaryParts[i] == QuestionPrimaryParts.ENDWITH)
                 {
-                    case QuestionPrimaryParts.STARTWITH:
+                    endWithIndex = i;
+                    //Create a list of all needed regEx components
+                    List<RegExp> regExpParts = new List<RegExp>();
+                    foreach (char c in symbolen[i])
                     {
-                        
-                    } break;
-                    case QuestionPrimaryParts.ENDWITH:
+                        regExpParts.Add(new RegExp(c.ToString()));
+                    }
+
+                    //Create the full regExp Part
+                    RegExp regExpPart = null;
+                    foreach (RegExp regEx in regExpParts)
                     {
-                        
-                    } break;
-                    case QuestionPrimaryParts.CONTAINS:
+                        if (regExpPart == null)
+                        {
+                            regExpPart = regEx;
+                        }
+                        else
+                        {
+                            regExpPart = regExpPart.dot(regEx);
+                        }
+                    }
+                    endRegExp = regExpPart;
+                }
+            }
+
+
+            string test = "";
+
+            if (startRegExp != null)
+            {
+                test += "(" +  + ")";
+            }
+
+
+
+
+
+
+
+
+
+
+            //Add the start part of the regexp.
+            if (startRegExp != null)
+            {
+                regExp = startRegExp;
+            }
+
+            //Start looking into the contains
+            for (int i = 0; i < questionPrimaryParts.Count; i++)
+            {
+                //If necessety, build the Contains part.
+                if (questionPrimaryParts[i] == QuestionPrimaryParts.CONTAINS) { 
+
+                    //Create a list of all needed regEx components
+                    List<RegExp> regExpParts = new List<RegExp>();
+                    foreach (char c in symbolen[i])
                     {
-                        
-                    } break;
+                        regExpParts.Add(new RegExp(c.ToString()));
+                    }
+
+                    //Create the full regExp Part
+                    RegExp regExpPart = null;
+                    foreach (RegExp regEx in regExpParts)
+                    {
+                        if (regExpPart == null)
+                        {
+                            regExpPart = regEx;
+                        }
+                        else
+                        {
+                            regExpPart = regExpPart.dot(regEx);
+                        }
+                    }
                 }
 
                 switch (secondaryquestionParts[i])
@@ -156,7 +305,11 @@ namespace RegExGen
                 }
             }
 
-
+            //Add the end part of the regexp
+            if (endRegExp != null)
+            {
+                regExp = regExp.dot(endRegExp);
+            }
 
             return regExp;
         }
