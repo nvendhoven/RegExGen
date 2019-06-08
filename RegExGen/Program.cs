@@ -26,7 +26,8 @@ namespace RegExGen
             //TestFileIO();
             //TestAutomataOperations();
             //TestAutomataSaveAndLoad();
-            TestAutomataCheckWord();
+            //TestAutomataCheckWord();
+            TestLanguageGenerator();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -35,6 +36,19 @@ namespace RegExGen
             //TestRegExp();
             //TestAutomata();
         }
+
+        public static void TestLanguageGenerator()
+        {
+            RegExp reg = LanguageGenerator.generateRegExpStartingWith("kaas");
+            reg.PrintTree(0);
+            RegExp reg2 = LanguageGenerator.generateRegExpEndingWith("kaas");
+            reg2.PrintTree(0);
+            RegExp reg3 = LanguageGenerator.generateRegExpContaining("kaas");
+            reg3.PrintTree(0);
+
+            Debug.WriteLine("Done");
+        }
+
 
         public static void TestAutomataCheckWord()
         {

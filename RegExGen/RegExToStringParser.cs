@@ -36,7 +36,11 @@ namespace RegExGen
                     break;
             }
 
-            if (regExp.GetLeftRegExp() != null && regExp.GetLeftRegExp().GetRegOperator() == RegExp.Operator.ONE)
+            if (regExp.GetLeftRegExp() != null && (
+                regExp.GetLeftRegExp().GetRegOperator() == RegExp.Operator.ONE || 
+                regExp.GetLeftRegExp().GetRegOperator() == RegExp.Operator.DOT || 
+                regExp.GetLeftRegExp().GetRegOperator() == RegExp.Operator.STAR || 
+                regExp.GetLeftRegExp().GetRegOperator() == RegExp.Operator.PLUS))
                 output += TreeToString(regExp.GetLeftRegExp());
             else if(regExp.GetLeftRegExp() != null)
                 output += "(" + TreeToString(regExp.GetLeftRegExp()) + ")";
@@ -44,7 +48,11 @@ namespace RegExGen
 
             output += savedSymbol;
 
-            if (regExp.GetRightRegExp() != null && regExp.GetRightRegExp().GetRegOperator() == RegExp.Operator.ONE)
+            if (regExp.GetRightRegExp() != null && (
+                regExp.GetRightRegExp().GetRegOperator() == RegExp.Operator.ONE || 
+                regExp.GetRightRegExp().GetRegOperator() == RegExp.Operator.DOT || 
+                regExp.GetRightRegExp().GetRegOperator() == RegExp.Operator.STAR || 
+                regExp.GetRightRegExp().GetRegOperator() == RegExp.Operator.PLUS))
                 output += TreeToString(regExp.GetRightRegExp());
             else if (regExp.GetRightRegExp() != null)
                 output += "(" + TreeToString(regExp.GetRightRegExp()) + ")";//() not neccesery on right, only on left, and only if it is followed by an operator.
