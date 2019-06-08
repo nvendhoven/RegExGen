@@ -166,12 +166,11 @@ namespace RegExGen
             {
                 throw new Exception("You cant AND these 2 Automata, because the alphabets are not the same.");
             }
-            /*
+
             if (!isDFA() || !other.isDFA())
             {
                 throw new Exception("One or both of the automata aren't DFA's");
             }
-            */
 
             //Creat Hulptabellen.
             string[] statesList = states.ToArray();
