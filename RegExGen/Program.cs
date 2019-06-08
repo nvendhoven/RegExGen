@@ -65,6 +65,7 @@ namespace RegExGen
             m2.addTransition(new Transition("q0", 'b', "q1"));
             m2.addTransition(new Transition("q1", 'b', "q2"));
             m2.addTransition(new Transition("q2", 'b', "q3"));
+            m2.addTransition(new Transition("q3",'b', Automata.EMPTY));
 
 
             //1 begintoestand

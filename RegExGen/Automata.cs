@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
@@ -161,7 +162,8 @@ namespace RegExGen
         public Automata And(Automata other)
         {
             //Creat Hulptabellen.
-
+            string[] statesList = states.ToArray();
+            char[] letterList = getAlphabet().ToArray();
             string[,] hulpTabel = new string[states.Count, getAlphabet().Count];
             
             //Hulptabel vullen.
@@ -175,6 +177,9 @@ namespace RegExGen
 
             print2dArray(hulpTabel);
 
+
+            string[] statesListOther = other.states.ToArray();
+            char[] letterListOther = other.getAlphabet().ToArray();
             string[,] hulpTabelOther = new string[other.states.Count,other.getAlphabet().Count];
 
             //Hulptabel vullen.
@@ -215,7 +220,7 @@ namespace RegExGen
             //Zoek de state op die bij het nummer hoort
             string previousState = transitions.First().fromState;
             int stateCounter = 0;
-            string savedState = "";
+            string savedState = "#";
             foreach (Transition t in transitions)
             {
                 if (!t.fromState.Equals(previousState))
@@ -230,7 +235,12 @@ namespace RegExGen
                 }
                 previousState = t.fromState;
             }
-            
+/*
+            if (savedState == "")
+            {
+                throw new Exception("Automata is incomplete");
+            }
+*/
             //Zoek de letter op die bij het nummer hoort.
             char previousLetter = transitions.First().symbol;
             int letterCounter = 0;
@@ -250,7 +260,7 @@ namespace RegExGen
                 previousLetter = t;
             }
 
-            Debug.WriteLine("Destination for: "+ savedState + " -> " + savedLetter + "-> ");
+            Debug.Write("Destination for: "+ savedState + " -> " + savedLetter + "-> ");
             var transition = transitions.Where(Transition => (Transition.fromState == savedState && Transition.symbol == savedLetter));
             string toState;
 
@@ -259,7 +269,7 @@ namespace RegExGen
             else
                 toState = EMPTY;
 
-            Debug.WriteLine(toState);
+            Debug.Write(toState+"\n");
 
             return toState;
         }
