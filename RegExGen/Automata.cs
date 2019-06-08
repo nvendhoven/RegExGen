@@ -443,7 +443,7 @@ namespace RegExGen
             throw new Exception("Cant find state");
         }
 
-        public void print2dArray(string[,] arr)
+        public static void print2dArray(string[,] arr)
         {
             //long[,] arr = new long[5, 4] { { 1, 2, 3, 4 }, { 1, 1, 1, 1 }, { 2, 2, 2, 2 }, { 3, 3, 3, 3 }, { 4, 4, 4, 4 } };
 

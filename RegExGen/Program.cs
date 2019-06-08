@@ -26,7 +26,8 @@ namespace RegExGen
             //TestFileIO();
             //TestAutomataOperations();
             //TestAutomataSaveAndLoad();
-            TestAutomataCheckWord();
+            //TestAutomataCheckWord();
+            TestNdfaToDfaConverter();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -34,6 +35,27 @@ namespace RegExGen
 
             //TestRegExp();
             //TestAutomata();
+        }
+
+        public static void TestNdfaToDfaConverter()
+        {
+            char[] alphabet2 = { 'a', 'b' };
+            Automata m = new Automata(alphabet2);
+
+            m.addTransition(new Transition("q0", 'a', "q1"));
+            m.addTransition(new Transition("q1", 'a', "q2"));
+            m.addTransition(new Transition("q0",'b',"q1"));
+            m.addTransition(new Transition("q0", 'b', "q2"));
+
+            //1 begintoestand
+            m.defineAsStartState("q0");
+
+            //2 eindtoestanden
+            m.defineAsFinalState("q1");
+
+            var dfa = NdfaToDfa.run(m);
+            Debug.WriteLine("Is DFA: " + dfa.isDFA());
+            Debug.WriteLine("Done");
         }
 
         public static void TestAutomataCheckWord()
