@@ -27,7 +27,8 @@ namespace RegExGen
             //TestAutomataOperations();
             //TestAutomataSaveAndLoad();
             //TestAutomataCheckWord();
-            TestLanguageGenerator();
+            //TestLanguageGenerator();
+            TestRandomQuestionGenerator();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -35,6 +36,13 @@ namespace RegExGen
 
             //TestRegExp();
             //TestAutomata();
+        }
+
+        public static void TestRandomQuestionGenerator()
+        {
+            QuestionGenerator generator = new QuestionGenerator();
+            Question a = generator.GenerateReExpQuestion();
+            Debug.WriteLine("Done");
         }
 
         public static void TestLanguageGenerator()
