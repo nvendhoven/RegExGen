@@ -11,6 +11,11 @@ namespace RegExGen
     {
         public static Automata run(Automata Ndfa)
         {
+            if (Ndfa.isDFA())
+            {
+                return Ndfa;
+            }
+
             //Creat Hulptabellen.
             string[] statesList = Ndfa.states.ToArray();
             char[] letterList = Ndfa.getAlphabet().ToArray();
@@ -43,11 +48,21 @@ namespace RegExGen
             Automata returnAutomata = new Automata();
             returnAutomata.setAlphabet(Ndfa.getAlphabet());
 
-            SortedSet<SortedSet<string>> notDoneStates = new SortedSet<SortedSet<string>>();
-            SortedSet<SortedSet<string>> doneStates = new SortedSet<SortedSet<string>>();
-
 
             //-----DONE WITH BASIC STUFF, NOW COMES THE HARD PART-----//
+
+            //NFA -> meerdere eind en startstates (NDFA)
+            //DFA -> 1 start state, meerdere eindstates.
+
+
+
+
+
+
+
+
+            SortedSet<SortedSet<string>> notDoneStates = new SortedSet<SortedSet<string>>();
+            SortedSet<SortedSet<string>> doneStates = new SortedSet<SortedSet<string>>();
 
             while (notDoneStates.Count != 0)
             {
@@ -80,11 +95,44 @@ namespace RegExGen
                 }
             }
 
-
-
-
-
             return returnAutomata;
+        }
+
+        public static SortedSet<string> EpsilonClosure(Automata nfa, SortedSet<string> states)
+        {
+            // Push all states onto a stack
+            Stack<string> uncheckedStack = new Stack<string>(states);
+
+            // Initialize EpsilonClosure(states) to states
+            SortedSet<string> epsilonClosure = states;
+
+            while (uncheckedStack.Count != 0)
+            {
+                // Pop state t, the top element, off the stack
+                string t = uncheckedStack.Pop();
+
+                int i = 0;
+
+                // For each state u with an edge from t to u labeled Epsilon
+                foreach (var input in nfa.transitions)
+                {
+                    if (input.symbol == (char)Transition.EPSILON)
+                    {
+                        string u = FindDestinationBasedOnSymbolAndState(hulpTabel, statesList, letterList, currentState.Item1, symbol);
+
+                        // If u is not already in epsilonClosure, add it and push it onto stack
+                        if (!epsilonClosure.Contains(u))
+                        {
+                            epsilonClosure.Add(u);
+                            uncheckedStack.Push(u);
+                        }
+                    }
+
+                    i = i + 1;
+                }
+            }
+
+            return epsilonClosure;
         }
 
         public static void print2dArray(List<List<SortedSet<string>>> arr)
