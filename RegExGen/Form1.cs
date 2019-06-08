@@ -57,7 +57,9 @@ namespace RegExGen
                 try
                 {
                     Automata a = RegularLanguageConverter.ConvertLanguageToAutomata(input.ToString());
-                    //updateAutomata(a);
+                    updateAutomata(a);
+                    status(Status.SUCCESS, "File successfully parsed!");
+                    lb_regex.Text = "---";
                 }
                 catch (Exception ex) {
                     status(Status.ERROR, ex.Message);

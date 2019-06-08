@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace RegExGen
 {
+    [Serializable]
     public class Transition : IComparable<Transition>
     {
         public static readonly char EPSILON = 'ε';
 
-        public string fromState { get; }
-        public char symbol{ get; }// edge
-        public string toState { get; }
+        public string fromState;
+        public char symbol;// edge
+        public string toState;
 
         public int CompareTo(Transition other)
         {
@@ -21,6 +22,11 @@ namespace RegExGen
             int toCmp = toState.CompareTo(other.toState);//Vergelijk de 2 to States
 
             return (fromCmp != 0 ? fromCmp : (symbolCmp != 0 ? symbolCmp : toCmp));
+        }
+
+        public Transition()
+        {
+            
         }
 
         // this constructor can be used to define loops:
@@ -64,7 +70,7 @@ namespace RegExGen
             }
         }
 
-        public string toString()
+        public override string ToString()
         {
             return "(" + fromState + ") --> " + symbol + " --> (" + toState + ")";
         }
