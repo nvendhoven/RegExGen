@@ -41,7 +41,11 @@ namespace RegExGen
         public static void TestRandomQuestionGenerator()
         {
             QuestionGenerator generator = new QuestionGenerator();
-            Question a = generator.GenerateReExpQuestion();
+            Question a = generator.GenerateReExpQuestion(3);
+            Question b = generator.GenerateReExpQuestion(3);
+            Question c = generator.GenerateReExpQuestion(4);
+            Question d = generator.GenerateReExpQuestion(4);
+            Question e = generator.GenerateReExpQuestion(4);
             Debug.WriteLine("Done");
         }
 

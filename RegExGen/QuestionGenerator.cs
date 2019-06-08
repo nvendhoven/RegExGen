@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,19 +12,30 @@ namespace RegExGen
         private enum QuestionPrimaryParts { STARTWITH, ENDWITH, CONTAINS}
         private enum QuestionSecondaryParts { AND, OR , NONE}
         private List<char> usableCharacters = new List<char>(){ 'a', 'b', 'c' };
+        private int numberOfParts = 1;
+        private int index = 0;
+        private List<QuestionPrimaryParts> primaryParts = new List<QuestionPrimaryParts>();
+        private List<QuestionSecondaryParts> secondaryParts = new List<QuestionSecondaryParts>();
+        private List<string> words = new List<string>();
 
-        public Question GenerateReExpQuestion()
+        //Advise agains using a higher difficulty than 5.
+        public Question GenerateReExpQuestion(int difficulty)
         {
-            int length = 3;//Woudl make this higher that 4.
-            return GenerateRegExpQuestion(GetRandomPrimaryParts(length), GetRandomSecondaryParts(length), GetRandomSymbols(length));
+            index = 0;
+            numberOfParts = difficulty;
+            primaryParts = GetRandomPrimaryParts();
+            secondaryParts = GetRandomSecondaryParts();
+            words = GetRandomSymbols();
+            return GenerateRegExpQuestion();
         }
 
+        #region RandomGenerators
         //Can have only one start and end, but multiple contains.
-        private List<QuestionPrimaryParts> GetRandomPrimaryParts(int numberOf)
+        private List<QuestionPrimaryParts> GetRandomPrimaryParts()
         {
             Random rnd = new Random(DateTime.Now.Millisecond);
             List<QuestionPrimaryParts> parts = new List<QuestionPrimaryParts>();
-            for (int i = 0; i < numberOf; i++)
+            for (int i = 0; i < numberOfParts; i++)
             {
 
                 if (parts.Contains(QuestionPrimaryParts.STARTWITH) && parts.Contains(QuestionPrimaryParts.ENDWITH))
@@ -72,11 +84,10 @@ namespace RegExGen
             return parts;
         }
 
-        
-        private List<QuestionSecondaryParts> GetRandomSecondaryParts(int numberOf)
+        private List<QuestionSecondaryParts> GetRandomSecondaryParts()
         {
             List<QuestionSecondaryParts> parts = new List<QuestionSecondaryParts>();
-            for (int i = 0; i < numberOf-1; i++)
+            for (int i = 0; i < numberOfParts - 1; i++)
             {
                 parts.Add(GetRandomSecondaryQuestionPart());
             }
@@ -84,11 +95,11 @@ namespace RegExGen
             return parts;
         }
 
-        private List<string> GetRandomSymbols(int numberOf)
+        private List<string> GetRandomSymbols()
         {
             Random rnd = new Random(DateTime.Now.Millisecond);
             List<string> words = new List<string>();
-            for (int i = 0; i < numberOf; i++)
+            for (int i = 0; i < numberOfParts; i++)
             {
                 string word = "";
                 int random = rnd.Next(1, 6);
@@ -103,9 +114,8 @@ namespace RegExGen
 
         private QuestionSecondaryParts GetRandomSecondaryQuestionPart()
         {
-            return (QuestionSecondaryParts)new Random(DateTime.Now.Millisecond).Next(0, Enum.GetNames(typeof(QuestionSecondaryParts)).Length);
+            return (QuestionSecondaryParts)new Random(DateTime.Now.Millisecond).Next(0, Enum.GetNames(typeof(QuestionSecondaryParts)).Length-1);
         }
-
 
         private string GetEnumText(QuestionPrimaryParts qp)
         {
@@ -129,12 +139,15 @@ namespace RegExGen
             }
         }
 
+        #endregion
+
         //Generate the RegExp Question.
-        private Question GenerateRegExpQuestion(List<QuestionPrimaryParts> questionStartParts, List<QuestionSecondaryParts> secondaryquestionParts, List<string> symbolen)
+        private Question GenerateRegExpQuestion()
         {
             Question question = new Question();
-            question.SetQuestionText(GenerateRegExpQuestionText(questionStartParts, secondaryquestionParts,symbolen));
-            question.SetReExpAnswer(GenerateRegExp(questionStartParts, secondaryquestionParts, symbolen));
+            question.SetQuestionText(GenerateRegExpQuestionText());
+            string a = GenerateRegExpString();
+            question.SetRegExpAnswer(a);
             return question;
         }
 
@@ -237,23 +250,6 @@ namespace RegExGen
                 }
             }
 
-
-            string test = "";
-
-            if (startRegExp != null)
-            {
-                test += "(" +  + ")";
-            }
-
-
-
-
-
-
-
-
-
-
             //Add the start part of the regexp.
             if (startRegExp != null)
             {
@@ -314,18 +310,237 @@ namespace RegExGen
             return regExp;
         }
 
+        private RegExp GetAllLettersRegex()
+        {
+            RegExp orRegEx = null;
+            foreach (var word in words)
+            {
+                foreach (char c in word)
+                {
+                    if (orRegEx == null)
+                    {
+                        orRegEx = new RegExp(c.ToString());
+                    }
+                    else
+                    {
+                        orRegEx = orRegEx.or(new RegExp(c.ToString()));
+                    }
+                }
+            }
+            return orRegEx.star();
+        }
+
+        private RegExp GenerateRegExp2()
+        {
+            //Create the return RegExp
+            RegExp returnRegExp = null;
+
+            //Build de RegExp
+            List<RegExp> regExpParts = new List<RegExp>();
+            List<RegExp> containstList = new List<RegExp>();
+            RegExp currentRegExp = null;
+            QuestionSecondaryParts previouSecondaryPart = QuestionSecondaryParts.NONE;
+            RegExp leftOfOr = null;
+            for (int i = 0; i < numberOfParts; i++)
+            {
+                //Put all parts of the new word together
+                RegExp newRegExp = null;
+                foreach (char c in words[i])
+                {
+                    if (newRegExp == null)
+                    {
+                        newRegExp = new RegExp(c.ToString());
+                    }
+                    else
+                    {
+                        newRegExp = newRegExp.dot(new RegExp(c.ToString()));
+                    }
+                }
+
+
+                //Als dit de eerste keer door de loop is, wijs dan de net aangemaakt expressie toe als de start expressie.
+                if (currentRegExp == null)
+                {
+                    currentRegExp = newRegExp;
+                }
+
+
+
+                //Check type of primary action.
+                switch (primaryParts[i])
+                {
+                    case QuestionPrimaryParts.STARTWITH:
+                    {
+                            //Voor de first part?
+                    }
+                        break;
+                    case QuestionPrimaryParts.ENDWITH:
+                    {
+                            //Voor de final part?
+                    }
+                        break;
+                    case QuestionPrimaryParts.CONTAINS:
+                    {
+                        //Voor de middle part?
+                        //containstList.Add();
+                    }
+                        break;
+                }
+
+                //Check type of secondary action that has been saved.
+                switch (previouSecondaryPart)
+                {
+                    case QuestionSecondaryParts.OR:
+                    {
+                        //Vorig loop was een or
+                        //alles wat nu komt is weer een nieuwe expressie die met de current expressie geor't moet worden.
+
+                    }
+                        break;
+                    case QuestionSecondaryParts.AND:
+                    {
+                        //Vorige loop was een and, dus blijf de current expressie aan elkaar dotten.
+                        currentRegExp.dot(newRegExp);
+                    }
+                        break;
+                    case QuestionSecondaryParts.NONE:
+                    {
+                        //DONE
+                    }
+                        break;
+                }
+
+
+
+                //Save the Secondary Question Part
+                switch (secondaryParts[i])
+                {
+                    case QuestionSecondaryParts.OR:
+                    {
+                        previouSecondaryPart = QuestionSecondaryParts.OR;
+                        //Alles wat hiervoor was is een aparte expressie. Wat hierna komt is ook een aparte expressie.
+                    }
+                        break;
+                    case QuestionSecondaryParts.AND:
+                    {
+                        previouSecondaryPart = QuestionSecondaryParts.AND;
+                        //Blijf dot doen
+                    }
+                        break;
+                    case QuestionSecondaryParts.NONE:
+                    {
+                        //Done met de riedel, Hij zal stoppen met loopen.
+                    }
+                        break;
+                }
+            }
+            return returnRegExp;
+        }
+
+        private string GetOrLettersString()
+        {
+            string s = "";
+
+            SortedSet<char> letters = new SortedSet<char>();
+            foreach (string word in words)
+            {
+                foreach (char letter in word)
+                {
+                    letters.Add(letter);
+                }
+            }
+
+            foreach (char letter in letters)
+            {
+                s += letter + "*";
+            }
+
+            return s;
+        }
+        
+        //Kinda works, but its not in proper order Yet
+        private string GenerateRegExpString()
+        {
+            string leftRegExp = "";
+            string regExp = "";
+            string endsWith = "";
+            string startsWith = "";
+            
+            //regExp += "(";
+            for (;index < numberOfParts; index++)
+            {
+                switch (primaryParts[index])
+                {
+                    case QuestionPrimaryParts.STARTWITH:
+                        {
+                            //Voor de first part?
+                            startsWith += "(" + words[index];
+                            startsWith += GetOrLettersString() + ")";
+                        }
+                        break;
+                    case QuestionPrimaryParts.ENDWITH:
+                        {
+                            //Voor de final part?
+                            endsWith += "(" + GetOrLettersString();
+                            endsWith += " " + words[index] + ")";
+                        }
+                        break;
+                    case QuestionPrimaryParts.CONTAINS:
+                        {
+                            //voor t contains Part?
+                            regExp += "(" + words[index];
+                            regExp += GetOrLettersString() + ")";
+                        }
+                        break;
+                }
+
+                //Check type of secondary action that has been saved.
+                switch (secondaryParts[index])
+                {
+                    case QuestionSecondaryParts.OR:
+                        {
+                            //Bij deze moeten we echt dieper
+                            Debug.WriteLine(startsWith + "_" + regExp + "_" +endsWith);
+                            leftRegExp += "(" +startsWith + regExp + endsWith + ")|";
+                            Debug.WriteLine(leftRegExp);
+                            startsWith = "";
+                            regExp = "";
+                            endsWith = "";
+
+                        }
+                        break;
+                    case QuestionSecondaryParts.AND:
+                        {   
+                            regExp += "";
+                        }
+                        break;
+                    case QuestionSecondaryParts.NONE:
+                        {
+                            //DONE
+                        }
+                        break;
+                }
+            }
+            //regExp += ")";
+            Debug.WriteLine("Full "+startsWith + "_" + regExp + "_" + endsWith);
+            leftRegExp += startsWith + regExp + endsWith;
+            Debug.WriteLine("Full "+leftRegExp);
+            return leftRegExp;
+        }
+
+
 
 
         //Alle lijsten moeten even lang zijn., secondary moet eindigen met een NONE.
-        private string GenerateRegExpQuestionText(List<QuestionPrimaryParts> questionStartParts, List<QuestionSecondaryParts> secondaryquestionParts, List<string> symbolen)
+        private string GenerateRegExpQuestionText()
         {
             string questionText = "Give a Regular Expression that ";
 
-            for(int i = 0; i < questionStartParts.Count; i++)
+            for(int i = 0; i < primaryParts.Count; i++)
             {
-                questionText += GetEnumText(questionStartParts[i]); 
-                questionText += " " + symbolen[i];
-                questionText += GetEnumText(secondaryquestionParts[i]);
+                questionText += GetEnumText(primaryParts[i]); 
+                questionText += " " + words[i];
+                questionText += GetEnumText(secondaryParts[i]);
             }
 
             questionText += ".";
@@ -335,7 +550,7 @@ namespace RegExGen
 
     class Question
     {
-        private RegExp regExpAnswer;
+        private string regExpAnswer;
         private string questionText;
 
         public Question()
@@ -348,9 +563,9 @@ namespace RegExGen
             questionText = text;
         }
 
-        public void SetReExpAnswer(RegExp regExp)
+        public void SetRegExpAnswer(string regExpString)
         {
-            regExpAnswer = regExp;
+            regExpAnswer = regExpString;
         }
     }
 }
