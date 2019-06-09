@@ -87,17 +87,12 @@ namespace RegExGen
                     foreach (var letterConnectedState in connectedStates.ToList())
                         connectedStates.UnionWith(getEpsilonConnectedStates(Ndfa, letterConnectedState));
 
-                    // als verzameling leeg is een leege state aanmaken
-                    if (connectedStates.Count == 0) connectedStates.Add(Automata.EMPTY);
-
                     // voeg toe aan 'hulp tabel'
                     toestandenMet1SymboolVerwijderd.Add(toestandSymboolPair,
                         new SortedSet<string>(connectedStates));
                 }
             }
 
-
-            
             // add starting states from Ndfa as one state
             var startState = new SortedSet<string>(Ndfa.startStates);
             // add epsilon connected states to state
@@ -166,19 +161,6 @@ namespace RegExGen
                         dfa.finalStates.Add(newStateName);
                 }
             } while (stateQueue.Any());
-
-            //var dfaEndStates = complexStateList.Where(state =>
-            //    state.Any(statePart => 
-            //        Ndfa.finalStates.Contains(statePart)
-            //        )
-            //    ).Select(state => makeStateName(state));
-
-            //dfa.finalStates.UnionWith(dfaEndStates);
-
-            //var dfaEndStates = Ndfa.finalStates.SelectMany(
-            //   finalState => complexStateList.Where(
-            //       complexState => complexState.Any(
-            //          partComplexState => partComplexState == finalState)));
 
             dfa.renameStates();
             dfa.isDFA(true);
