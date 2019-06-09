@@ -109,7 +109,7 @@ namespace RegExGen
             {
                 var name = "N";
                 foreach (var partName in state)
-                    name += "" +(partName).ToString() + ",";
+                    name += "" +(partName).ToString() + ".";
                 return name + "";
             }
 
@@ -122,6 +122,7 @@ namespace RegExGen
 
             // make new dfa
             var dfa = new Automata(new SortedSet<char>(dfaAlphabet));
+            dfa.states.Add(makeStateName( startState));
             var checkedStates = new List<string>();
             // define start state in dfa
             dfa.startStates.Add(makeStateName(startState));
@@ -179,6 +180,7 @@ namespace RegExGen
             //       complexState => complexState.Any(
             //          partComplexState => partComplexState == finalState)));
 
+            dfa.renameStates();
             dfa.isDFA(true);
             return dfa;
         }

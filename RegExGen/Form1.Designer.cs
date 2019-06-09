@@ -33,6 +33,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lb_regular_lan_ndfa = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lb_regular_lan_dfa = new System.Windows.Forms.Label();
             this.pb_dfa = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -45,18 +46,17 @@
             this.btn_import_language = new System.Windows.Forms.Button();
             this.btn_import_regex = new System.Windows.Forms.Button();
             this.lb_status = new System.Windows.Forms.Label();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ndfa)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).BeginInit();
-            this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_odfa)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_odfa)).BeginInit();
             this.SuspendLayout();
             // 
             // pb_ndfa
@@ -67,7 +67,7 @@
             this.pb_ndfa.Location = new System.Drawing.Point(230, 0);
             this.pb_ndfa.Margin = new System.Windows.Forms.Padding(0);
             this.pb_ndfa.Name = "pb_ndfa";
-            this.pb_ndfa.Size = new System.Drawing.Size(761, 480);
+            this.pb_ndfa.Size = new System.Drawing.Size(761, 482);
             this.pb_ndfa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_ndfa.TabIndex = 0;
             this.pb_ndfa.TabStop = false;
@@ -94,7 +94,7 @@
             this.tabPage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(990, 478);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "NDFA";
@@ -116,11 +116,27 @@
             this.tabPage2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(990, 478);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "DFA";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Location = new System.Drawing.Point(3, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.lb_regular_lan_dfa);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.pb_dfa);
+            this.splitContainer1.Size = new System.Drawing.Size(987, 475);
+            this.splitContainer1.SplitterDistance = 645;
+            this.splitContainer1.TabIndex = 3;
             // 
             // lb_regular_lan_dfa
             // 
@@ -205,7 +221,7 @@
             // 
             this.tb_regex.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_regex.Location = new System.Drawing.Point(91, 23);
-            this.tb_regex.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tb_regex.Margin = new System.Windows.Forms.Padding(2);
             this.tb_regex.Name = "tb_regex";
             this.tb_regex.Size = new System.Drawing.Size(284, 23);
             this.tb_regex.TabIndex = 4;
@@ -213,7 +229,7 @@
             // btn_run
             // 
             this.btn_run.Location = new System.Drawing.Point(378, 23);
-            this.btn_run.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_run.Margin = new System.Windows.Forms.Padding(2);
             this.btn_run.Name = "btn_run";
             this.btn_run.Size = new System.Drawing.Size(56, 23);
             this.btn_run.TabIndex = 5;
@@ -225,7 +241,7 @@
             // 
             this.btn_import_language.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_import_language.Location = new System.Drawing.Point(6, 569);
-            this.btn_import_language.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_import_language.Margin = new System.Windows.Forms.Padding(2);
             this.btn_import_language.Name = "btn_import_language";
             this.btn_import_language.Size = new System.Drawing.Size(100, 23);
             this.btn_import_language.TabIndex = 6;
@@ -237,7 +253,7 @@
             // 
             this.btn_import_regex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_import_regex.Location = new System.Drawing.Point(110, 569);
-            this.btn_import_regex.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_import_regex.Margin = new System.Windows.Forms.Padding(2);
             this.btn_import_regex.Name = "btn_import_regex";
             this.btn_import_regex.Size = new System.Drawing.Size(100, 23);
             this.btn_import_regex.TabIndex = 7;
@@ -255,22 +271,6 @@
             this.lb_status.TabIndex = 8;
             this.lb_status.Text = ".";
             this.lb_status.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Location = new System.Drawing.Point(3, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.lb_regular_lan_dfa);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.pb_dfa);
-            this.splitContainer1.Size = new System.Drawing.Size(987, 475);
-            this.splitContainer1.SplitterDistance = 645;
-            this.splitContainer1.TabIndex = 3;
             // 
             // Form1
             // 
@@ -292,13 +292,13 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).EndInit();
-            this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_odfa)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pb_odfa)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

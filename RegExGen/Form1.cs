@@ -80,9 +80,11 @@ namespace RegExGen
             pb_dfa.ImageLocation = Graph.CreateImagePath(Graph.Type.DFA, dfa);
 
             //ODFA
-            //Automata odfa = NdfaToDfa(NdfaToDfa(dfa.Reverse()).Reverse());
-            //lb_regular_lan_odfa.Text = RegularLanguageConverter.ConvertAutomataToLanguage(odfa);
-            //pb_odfa.ImageLocation = Graph.CreateImagePath(Graph.Type.ODFA, odfa);
+            /*
+            Automata odfa = NdfaToDfa.run(NdfaToDfa.run(dfa.Reverse()).Reverse());
+            lb_regular_lan_odfa.Text = RegularLanguageConverter.ConvertAutomataToLanguage(odfa);
+            pb_odfa.ImageLocation = Graph.CreateImagePath(Graph.Type.ODFA, odfa);
+            */
 
             this.Update();
         }

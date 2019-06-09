@@ -141,6 +141,41 @@ namespace RegExGen
             return isDFA;
         }
 
+        public void renameStates()
+        {
+            var statecounter = 0;
+            var newNameDictionary = new Dictionary<string, string>();
+            // generate new names
+            string generateGetOrSetName(string stateName)
+            {
+                newNameDictionary.TryGetValue(stateName, out string dictName);
+                if(dictName == null)
+                {
+                    dictName = "N" + statecounter++;
+                    newNameDictionary[stateName] = dictName;
+                }
+                return dictName;
+            }
+
+            foreach(var transition in transitions)
+            {
+                transition.fromState = generateGetOrSetName(transition.fromState);
+                transition.toState = generateGetOrSetName(transition.toState);
+            }
+
+            foreach(var state in finalStates.ToList())
+            {
+                finalStates.Add(generateGetOrSetName(state));
+                finalStates.Remove(state);
+            }
+
+            foreach(var state in startStates.ToList())
+            {
+                startStates.Add(generateGetOrSetName(state));
+                startStates.Remove(state);
+            }
+        }
+
         //Function that checks if a word is in the language.
         public bool CheckWord(string word)
         {
