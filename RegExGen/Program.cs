@@ -26,7 +26,9 @@ namespace RegExGen
             //TestFileIO();
             //TestAutomataOperations();
             //TestAutomataSaveAndLoad();
-            TestAutomataCheckWord();
+            //TestAutomataCheckWord();
+            //TestLanguageGenerator();
+            TestRandomQuestionGenerator();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -35,6 +37,30 @@ namespace RegExGen
             //TestRegExp();
             //TestAutomata();
         }
+
+        public static void TestRandomQuestionGenerator()
+        {
+            QuestionGenerator generator = new QuestionGenerator();
+            Question a = generator.GenerateReExpQuestion(3);
+            Question b = generator.GenerateReExpQuestion(3);
+            Question c = generator.GenerateReExpQuestion(4);
+            Question d = generator.GenerateReExpQuestion(4);
+            Question e = generator.GenerateReExpQuestion(4);
+            Debug.WriteLine("Done");
+        }
+
+        public static void TestLanguageGenerator()
+        {
+            RegExp reg = LanguageGenerator.generateRegExpStartingWith("kaas");
+            reg.PrintTree(0);
+            RegExp reg2 = LanguageGenerator.generateRegExpEndingWith("kaas");
+            reg2.PrintTree(0);
+            RegExp reg3 = LanguageGenerator.generateRegExpContaining("kaas");
+            reg3.PrintTree(0);
+
+            Debug.WriteLine("Done");
+        }
+
 
         public static void TestAutomataCheckWord()
         {
