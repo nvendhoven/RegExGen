@@ -2,22 +2,12 @@ digraph dfa {
 rankdir=LR;
 
 NOTHING [label="", shape=none]
-N0 [label="N0"]
-N1 [label="N1" shape=ellipse, style=filled, color=lightblue]
-N2 [label="N2" shape=ellipse, peripheries=2, style=filled, color=yellowgreen]
-N3 [label="N3" shape=ellipse, peripheries=2, style=filled, color=yellowgreen]
+N0 [label="N0" shape=ellipse, style=filled, color=lightblue]
+N1 [label="N1" shape=ellipse, peripheries=2, style=filled, color=yellowgreen]
 
-NOTHING -> N1
-N0 -> N0 [label="a"]
-N0 -> N0 [label="b"]
-N0 -> N0 [label="c"]
-N1 -> N2 [label="a"]
-N1 -> N3 [label="b"]
-N1 -> N0 [label="c"]
-N2 -> N2 [label="a"]
-N2 -> N3 [label="b"]
-N2 -> N2 [label="c"]
-N3 -> N2 [label="a"]
-N3 -> N3 [label="b"]
-N3 -> N0 [label="c"]
+NOTHING -> N0
+N0 -> N1 [label="a"]
+N0 -> N1 [label="b"]
+N1 -> N1 [label="a"]
+N1 -> N1 [label="b"]
 }

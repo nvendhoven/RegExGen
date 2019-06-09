@@ -33,9 +33,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lb_regular_lan_ndfa = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.lb_regular_lan_dfa = new System.Windows.Forms.Label();
-            this.pb_dfa = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.lb_regular_lan_odfa = new System.Windows.Forms.Label();
             this.pb_odfa = new System.Windows.Forms.PictureBox();
@@ -46,17 +43,15 @@
             this.btn_import_language = new System.Windows.Forms.Button();
             this.btn_import_regex = new System.Windows.Forms.Button();
             this.lb_status = new System.Windows.Forms.Label();
+            this.pb_dfa = new System.Windows.Forms.PictureBox();
+            this.lb_regular_lan_dfa = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pb_ndfa)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_odfa)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).BeginInit();
             this.SuspendLayout();
             // 
             // pb_ndfa
@@ -112,7 +107,8 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.splitContainer1);
+            this.tabPage2.Controls.Add(this.lb_regular_lan_dfa);
+            this.tabPage2.Controls.Add(this.pb_dfa);
             this.tabPage2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -121,45 +117,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "DFA";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Location = new System.Drawing.Point(3, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.lb_regular_lan_dfa);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.pb_dfa);
-            this.splitContainer1.Size = new System.Drawing.Size(987, 475);
-            this.splitContainer1.SplitterDistance = 645;
-            this.splitContainer1.TabIndex = 3;
-            // 
-            // lb_regular_lan_dfa
-            // 
-            this.lb_regular_lan_dfa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_regular_lan_dfa.Location = new System.Drawing.Point(0, 0);
-            this.lb_regular_lan_dfa.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lb_regular_lan_dfa.Name = "lb_regular_lan_dfa";
-            this.lb_regular_lan_dfa.Size = new System.Drawing.Size(331, 475);
-            this.lb_regular_lan_dfa.TabIndex = 2;
-            this.lb_regular_lan_dfa.Text = ".";
-            // 
-            // pb_dfa
-            // 
-            this.pb_dfa.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_dfa.Location = new System.Drawing.Point(0, 0);
-            this.pb_dfa.Margin = new System.Windows.Forms.Padding(0);
-            this.pb_dfa.Name = "pb_dfa";
-            this.pb_dfa.Size = new System.Drawing.Size(338, 475);
-            this.pb_dfa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_dfa.TabIndex = 1;
-            this.pb_dfa.TabStop = false;
             // 
             // tabPage3
             // 
@@ -272,6 +229,29 @@
             this.lb_status.Text = ".";
             this.lb_status.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // pb_dfa
+            // 
+            this.pb_dfa.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_dfa.Location = new System.Drawing.Point(335, 0);
+            this.pb_dfa.Margin = new System.Windows.Forms.Padding(0);
+            this.pb_dfa.Name = "pb_dfa";
+            this.pb_dfa.Size = new System.Drawing.Size(659, 475);
+            this.pb_dfa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_dfa.TabIndex = 1;
+            this.pb_dfa.TabStop = false;
+            // 
+            // lb_regular_lan_dfa
+            // 
+            this.lb_regular_lan_dfa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_regular_lan_dfa.Location = new System.Drawing.Point(2, 0);
+            this.lb_regular_lan_dfa.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lb_regular_lan_dfa.Name = "lb_regular_lan_dfa";
+            this.lb_regular_lan_dfa.Size = new System.Drawing.Size(331, 475);
+            this.lb_regular_lan_dfa.TabIndex = 2;
+            this.lb_regular_lan_dfa.Text = ".";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -292,13 +272,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).EndInit();
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pb_odfa)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -310,20 +286,19 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.PictureBox pb_dfa;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.PictureBox pb_odfa;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lb_regex;
         private System.Windows.Forms.Label lb_regular_lan_ndfa;
-        private System.Windows.Forms.Label lb_regular_lan_dfa;
         private System.Windows.Forms.Label lb_regular_lan_odfa;
         private System.Windows.Forms.TextBox tb_regex;
         private System.Windows.Forms.Button btn_run;
         private System.Windows.Forms.Button btn_import_language;
         private System.Windows.Forms.Button btn_import_regex;
         private System.Windows.Forms.Label lb_status;
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Label lb_regular_lan_dfa;
+        private System.Windows.Forms.PictureBox pb_dfa;
     }
 }
 
