@@ -46,7 +46,9 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.automataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.nOTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.questionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importGramaticaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,6 +62,10 @@
             this.createNewFromRegexToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.loadAutomataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iNVERTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nOTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getExcludedWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pb_ndfa = new System.Windows.Forms.PictureBox();
             this.pb_dfa = new System.Windows.Forms.PictureBox();
             this.pb_odfa = new System.Windows.Forms.PictureBox();
@@ -216,7 +222,9 @@
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.automataToolStripMenuItem});
+            this.automataToolStripMenuItem,
+            this.languageToolStripMenuItem,
+            this.questionsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1160, 24);
@@ -263,15 +271,29 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(118, 6);
             // 
-            // nOTToolStripMenuItem
+            // languageToolStripMenuItem
             // 
-            this.nOTToolStripMenuItem.Image = global::RegExGen.Properties.Resources.exit;
-            this.nOTToolStripMenuItem.Name = "nOTToolStripMenuItem";
-            this.nOTToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.nOTToolStripMenuItem.Text = "NOT";
-            this.nOTToolStripMenuItem.Click += new System.EventHandler(this.nOTToolStripMenuItem_Click);
+            this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkWordToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.getWordsToolStripMenuItem,
+            this.getExcludedWordsToolStripMenuItem});
+            this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.languageToolStripMenuItem.Text = "Language";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(174, 6);
+            // 
+            // questionsToolStripMenuItem
+            // 
+            this.questionsToolStripMenuItem.Name = "questionsToolStripMenuItem";
+            this.questionsToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.questionsToolStripMenuItem.Text = "Questions";
             // 
             // saveToolStripMenuItem
             // 
@@ -316,7 +338,7 @@
             // 
             this.generateToolStripMenuItem.Image = global::RegExGen.Properties.Resources.create;
             this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
-            this.generateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.generateToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.generateToolStripMenuItem.Text = "Generate";
             this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
             // 
@@ -327,7 +349,7 @@
             this.loadToolStripMenuItem1});
             this.aDDToolStripMenuItem.Image = global::RegExGen.Properties.Resources.and;
             this.aDDToolStripMenuItem.Name = "aDDToolStripMenuItem";
-            this.aDDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aDDToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.aDDToolStripMenuItem.Text = "AND";
             // 
             // createNewFromRegexToolStripMenuItem
@@ -353,7 +375,7 @@
             this.loadAutomataToolStripMenuItem});
             this.oRToolStripMenuItem.Image = global::RegExGen.Properties.Resources.or;
             this.oRToolStripMenuItem.Name = "oRToolStripMenuItem";
-            this.oRToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.oRToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.oRToolStripMenuItem.Text = "OR";
             // 
             // createNewFromRegexToolStripMenuItem1
@@ -376,9 +398,39 @@
             // 
             this.iNVERTToolStripMenuItem.Image = global::RegExGen.Properties.Resources.inverse;
             this.iNVERTToolStripMenuItem.Name = "iNVERTToolStripMenuItem";
-            this.iNVERTToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.iNVERTToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.iNVERTToolStripMenuItem.Text = "INVERT";
             this.iNVERTToolStripMenuItem.Click += new System.EventHandler(this.iNVERTToolStripMenuItem_Click);
+            // 
+            // nOTToolStripMenuItem
+            // 
+            this.nOTToolStripMenuItem.Image = global::RegExGen.Properties.Resources.exit;
+            this.nOTToolStripMenuItem.Name = "nOTToolStripMenuItem";
+            this.nOTToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.nOTToolStripMenuItem.Text = "NOT";
+            this.nOTToolStripMenuItem.Click += new System.EventHandler(this.nOTToolStripMenuItem_Click);
+            // 
+            // checkWordToolStripMenuItem
+            // 
+            this.checkWordToolStripMenuItem.Image = global::RegExGen.Properties.Resources.check;
+            this.checkWordToolStripMenuItem.Name = "checkWordToolStripMenuItem";
+            this.checkWordToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.checkWordToolStripMenuItem.Text = "Check word";
+            this.checkWordToolStripMenuItem.Click += new System.EventHandler(this.checkWordToolStripMenuItem_Click);
+            // 
+            // getWordsToolStripMenuItem
+            // 
+            this.getWordsToolStripMenuItem.Image = global::RegExGen.Properties.Resources.list;
+            this.getWordsToolStripMenuItem.Name = "getWordsToolStripMenuItem";
+            this.getWordsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.getWordsToolStripMenuItem.Text = "Get words";
+            // 
+            // getExcludedWordsToolStripMenuItem
+            // 
+            this.getExcludedWordsToolStripMenuItem.Image = global::RegExGen.Properties.Resources.exlc_list;
+            this.getExcludedWordsToolStripMenuItem.Name = "getExcludedWordsToolStripMenuItem";
+            this.getExcludedWordsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.getExcludedWordsToolStripMenuItem.Text = "Get excluded words";
             // 
             // pb_ndfa
             // 
@@ -486,6 +538,12 @@
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem createNewFromRegexToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem loadAutomataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem languageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkWordToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem getWordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem getExcludedWordsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem questionsToolStripMenuItem;
     }
 }
 
