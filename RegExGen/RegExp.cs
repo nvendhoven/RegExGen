@@ -16,15 +16,14 @@ namespace RegExGen
         private string terminals;
         private RegExp left;
         private RegExp right;
-        /*
-        public static Comparer<string> compareByLength(string s1,string s2) // = new Comparer<string>();
+
+        public bool Compare(RegExp regExp)
         {
-            if (s1.Length == s2.Length)
-                { return s1.CompareTo(s2); }
-            else
-                { return s1.Length - s2.Length; }
+            Automata a1 = new ThompsonConverter().RegExToAutomata(this).getDfa().getOptimized();
+            Automata a2 = new ThompsonConverter().RegExToAutomata(regExp).getDfa().getOptimized();
+            return a1.Equals(a2);
         }
-        */
+
 
         public bool Equals(RegExp regExp)
         {

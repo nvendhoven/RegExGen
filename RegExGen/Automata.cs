@@ -151,6 +151,21 @@ namespace RegExGen
             return isDFA;
         }
 
+
+       public override bool Equals(object compare)
+        {
+            if (!(compare is Automata))
+                return false;
+            var toCompare = compare as Automata;
+            
+            foreach (var character in toCompare.getAlphabet())
+                if (!symbols.Contains(character))
+                    return false;
+
+            toCompare = toCompare.getOptimized().Not().And(this.getOptimized()).getOptimized();
+            return toCompare.states.Count == 1;
+
+        }
         public void renameStates()
         {
             var statecounter = 0;
@@ -437,10 +452,10 @@ namespace RegExGen
                                 FindDestinationBasedOnSymbolAndState(hulpTabel, statesList, letterList,currentState.Item1,symbol),
                                 FindDestinationBasedOnSymbolAndState(hulpTabelOther, statesListOther, letterListOther, currentState.Item2, symbol)
                                 );//De state waar het symbool naartoe gaat.
-                        Debug.WriteLine("Found State: "+nextState.Item1 + "-" + nextState.Item2);
+                        //Debug.WriteLine("Found State: "+nextState.Item1 + "-" + nextState.Item2);
                         nextStates.Add(nextState);//Voeg de nieuwe state toe aan de lijst, zodat deze hierna behandeld kan worden.
                         result.Add(new Transition(currentState.Item1 + "-" + currentState.Item2, symbol, nextState.Item1 + "-" + nextState.Item2));
-                        Debug.WriteLine("Found Transition: "+ currentState.Item1 + "-" + currentState.Item2 + " --> " +  symbol + " --> " + nextState.Item1 + "-" + nextState.Item2);
+                        //Debug.WriteLine("Found Transition: "+ currentState.Item1 + "-" + currentState.Item2 + " --> " +  symbol + " --> " + nextState.Item1 + "-" + nextState.Item2);
                     }
                 }
 
