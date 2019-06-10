@@ -336,3 +336,5 @@ RegExGen/graphviz/dfa_fms.gv.png
 RegExGen/graphviz/dfa_fms.gv
 
 RegExGen/graphviz/dfa_fms\.gv
+
+*.gv
