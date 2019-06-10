@@ -27,7 +27,7 @@ namespace RegExGen
             foreach (string state in automata.states)
             {
                 if (automata.startStates.Contains(state) && automata.finalStates.Contains(state))
-                    dot.AppendLine($"{state} [label=\"{state}\" shape=ellipse, peripheries=2, style=filled, color=lightblue]");
+                    dot.AppendLine($"{state} [label=\"{state}\" shape=ellipse, peripheries=2, style=filled, color=yellowgreen]");
                 else if (automata.startStates.Contains(state))
                     dot.AppendLine($"{state} [label=\"{state}\" shape=ellipse, style=filled, color=lightblue]");
                 else if (automata.finalStates.Contains(state))
