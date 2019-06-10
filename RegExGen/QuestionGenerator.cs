@@ -148,9 +148,9 @@ namespace RegExGen
         private Question GenerateRegExpQuestion()
         {
             Question question = new Question();
-            question.SetQuestionText(GenerateRegExpQuestionText());
+            question.QuestionText = GenerateRegExpQuestionText();
             string a = GenerateRegExpString();
-            question.SetRegExpAnswer(a);
+            question.RegExpAnswer = a;
             return question;
         }
 
@@ -264,22 +264,13 @@ namespace RegExGen
 
     class Question
     {
-        private string regExpAnswer;
-        private string questionText;
+        public string RegExpAnswer { get; set; }
+        public string QuestionText { get; set; }
 
         public Question()
         {
             
         }
 
-        public void SetQuestionText(string text)
-        {
-            questionText = text;
-        }
-
-        public void SetRegExpAnswer(string regExpString)
-        {
-            regExpAnswer = regExpString;
-        }
     }
 }

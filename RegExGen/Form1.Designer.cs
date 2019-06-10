@@ -66,6 +66,10 @@
             this.checkWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getExcludedWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.easyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.normalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.difficultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.extremeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pb_ndfa = new System.Windows.Forms.PictureBox();
             this.pb_dfa = new System.Windows.Forms.PictureBox();
             this.pb_odfa = new System.Windows.Forms.PictureBox();
@@ -271,7 +275,7 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(118, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // languageToolStripMenuItem
             // 
@@ -291,6 +295,11 @@
             // 
             // questionsToolStripMenuItem
             // 
+            this.questionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.easyToolStripMenuItem,
+            this.normalToolStripMenuItem,
+            this.difficultToolStripMenuItem,
+            this.extremeToolStripMenuItem});
             this.questionsToolStripMenuItem.Name = "questionsToolStripMenuItem";
             this.questionsToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
             this.questionsToolStripMenuItem.Text = "Questions";
@@ -338,7 +347,7 @@
             // 
             this.generateToolStripMenuItem.Image = global::RegExGen.Properties.Resources.create;
             this.generateToolStripMenuItem.Name = "generateToolStripMenuItem";
-            this.generateToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.generateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.generateToolStripMenuItem.Text = "Generate";
             this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
             // 
@@ -349,7 +358,7 @@
             this.loadToolStripMenuItem1});
             this.aDDToolStripMenuItem.Image = global::RegExGen.Properties.Resources.and;
             this.aDDToolStripMenuItem.Name = "aDDToolStripMenuItem";
-            this.aDDToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.aDDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aDDToolStripMenuItem.Text = "AND";
             // 
             // createNewFromRegexToolStripMenuItem
@@ -375,7 +384,7 @@
             this.loadAutomataToolStripMenuItem});
             this.oRToolStripMenuItem.Image = global::RegExGen.Properties.Resources.or;
             this.oRToolStripMenuItem.Name = "oRToolStripMenuItem";
-            this.oRToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.oRToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.oRToolStripMenuItem.Text = "OR";
             // 
             // createNewFromRegexToolStripMenuItem1
@@ -398,7 +407,7 @@
             // 
             this.iNVERTToolStripMenuItem.Image = global::RegExGen.Properties.Resources.inverse;
             this.iNVERTToolStripMenuItem.Name = "iNVERTToolStripMenuItem";
-            this.iNVERTToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.iNVERTToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.iNVERTToolStripMenuItem.Text = "INVERT";
             this.iNVERTToolStripMenuItem.Click += new System.EventHandler(this.iNVERTToolStripMenuItem_Click);
             // 
@@ -406,7 +415,7 @@
             // 
             this.nOTToolStripMenuItem.Image = global::RegExGen.Properties.Resources.exit;
             this.nOTToolStripMenuItem.Name = "nOTToolStripMenuItem";
-            this.nOTToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.nOTToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.nOTToolStripMenuItem.Text = "NOT";
             this.nOTToolStripMenuItem.Click += new System.EventHandler(this.nOTToolStripMenuItem_Click);
             // 
@@ -431,6 +440,35 @@
             this.getExcludedWordsToolStripMenuItem.Name = "getExcludedWordsToolStripMenuItem";
             this.getExcludedWordsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.getExcludedWordsToolStripMenuItem.Text = "Get excluded words";
+            // 
+            // easyToolStripMenuItem
+            // 
+            this.easyToolStripMenuItem.Image = global::RegExGen.Properties.Resources.flag_1;
+            this.easyToolStripMenuItem.Name = "easyToolStripMenuItem";
+            this.easyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.easyToolStripMenuItem.Text = "Easy";
+            this.easyToolStripMenuItem.Click += new System.EventHandler(this.easyToolStripMenuItem_Click);
+            // 
+            // normalToolStripMenuItem
+            // 
+            this.normalToolStripMenuItem.Image = global::RegExGen.Properties.Resources.flag_2;
+            this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
+            this.normalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.normalToolStripMenuItem.Text = "Normal";
+            // 
+            // difficultToolStripMenuItem
+            // 
+            this.difficultToolStripMenuItem.Image = global::RegExGen.Properties.Resources.flag_3;
+            this.difficultToolStripMenuItem.Name = "difficultToolStripMenuItem";
+            this.difficultToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.difficultToolStripMenuItem.Text = "Difficult";
+            // 
+            // extremeToolStripMenuItem
+            // 
+            this.extremeToolStripMenuItem.Image = global::RegExGen.Properties.Resources.flag_4;
+            this.extremeToolStripMenuItem.Name = "extremeToolStripMenuItem";
+            this.extremeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.extremeToolStripMenuItem.Text = "Extreme";
             // 
             // pb_ndfa
             // 
@@ -544,6 +582,10 @@
         private System.Windows.Forms.ToolStripMenuItem getWordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem getExcludedWordsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem questionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem easyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem normalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem difficultToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem extremeToolStripMenuItem;
     }
 }
 

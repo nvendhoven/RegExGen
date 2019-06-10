@@ -21,7 +21,7 @@ namespace RegExGen
                 Text = caption,
                 StartPosition = FormStartPosition.CenterScreen
             };
-            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
+            Label textLabel = new Label() { Left = 50, Top = 20, Width = 400, Text = text };
             TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
             Button confirmation = new Button() { Text = "Run", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
             confirmation.Click += (sender, e) => { prompt.Close(); };
@@ -43,7 +43,7 @@ namespace RegExGen
                 Text = caption,
                 StartPosition = FormStartPosition.CenterScreen
             };
-            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
+            Label textLabel = new Label() { Left = 50, Top = 20, Width = 400, Text = text };
             TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 350 }; 
             PictureBox pb = new PictureBox { Location = new Point(400, 50), Size = new Size(50, 50)};
 

@@ -369,6 +369,16 @@ namespace RegExGen
                 status(Status.ERROR, ex.Message);
             }
         }
+
+        private void easyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Question q = new QuestionGenerator().GenerateReExpQuestion(1);
+            handleAnswer(q, Prompt.ShowDialog(q.QuestionText, "Easy question"));
+        }
+
+        private void handleAnswer(Question q, string answer) {
+
+        }
     }
 }
 
