@@ -167,12 +167,18 @@ namespace RegExGen
             return dfa;
         }
 
-        private static IEnumerable<string> getEpsilonConnectedStates(Automata Ndfa, string stateToStart)
+        private static IEnumerable<string> getEpsilonConnectedStates(Automata Ndfa, string stateToStart, List<string> visited = null)
         {
+            if (visited == null) visited = new List<string>();
+
             var conectedStates = Ndfa.getToStates(stateToStart, Automata.EPSILON);
+
+            if (visited.Contains(stateToStart)) return new List<string>();
+            visited.Add(stateToStart);
+            
             if (conectedStates.Any())
                 return conectedStates.Union(
-                    conectedStates.SelectMany(state => getEpsilonConnectedStates(Ndfa, state))).ToList();
+                    conectedStates.SelectMany(state => getEpsilonConnectedStates(Ndfa, state, visited))).ToList();
             else return conectedStates;
         }
 
