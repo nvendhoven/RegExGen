@@ -75,14 +75,12 @@ namespace RegExGen
             pb_ndfa.ImageLocation = Graph.CreateImagePath(Graph.Type.NDFA, ndfa);
 
             //DFA
-            Automata dfa = NdfaToDfa.run(ndfa);
+            Automata dfa = ndfa.getDfa();
             lb_regular_lan_dfa.Text = RegularLanguageConverter.ConvertAutomataToLanguage(dfa);
             pb_dfa.ImageLocation = Graph.CreateImagePath(Graph.Type.DFA, dfa);
 
             //ODFA
-            Automata odfa = NdfaToDfa.run(
-                NdfaToDfa.run(dfa.Inverse()).Inverse()
-                );
+            Automata odfa = dfa.getOptimized();
             lb_regular_lan_odfa.Text = RegularLanguageConverter.ConvertAutomataToLanguage(odfa);
             pb_odfa.ImageLocation = Graph.CreateImagePath(Graph.Type.ODFA, odfa);
 

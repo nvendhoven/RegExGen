@@ -176,6 +176,22 @@ namespace RegExGen
             }
         }
 
+        public Automata getOptimized()
+        {
+            Automata dfa = getDfa();
+
+            dfa = NdfaToDfa.run(dfa.Inverse());
+            dfa = NdfaToDfa.run(dfa.Inverse());
+            return dfa;
+        }
+
+        public Automata getDfa()
+        {
+            if (isDFA())
+                return this;
+            return NdfaToDfa.run(this);
+        }
+
         //Function that checks if a word is in the language.
         public bool CheckWord(string word)
         {
