@@ -151,6 +151,21 @@ namespace RegExGen
             return isDFA;
         }
 
+
+       public override bool Equals(object compare)
+        {
+            if (!(compare is Automata))
+                return false;
+            var toCompare = compare as Automata;
+            
+            foreach (var character in toCompare.getAlphabet())
+                if (!symbols.Contains(character))
+                    return false;
+
+            toCompare = toCompare.Not().And(this).getOptimized();
+            return toCompare.states.Count == 1;
+
+        }
         public void renameStates()
         {
             var statecounter = 0;
