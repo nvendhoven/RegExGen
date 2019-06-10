@@ -41,8 +41,34 @@ namespace RegExGen
             foreach (string state in automata.startStates)
                 dot.AppendLine($"NOTHING -> {state}");
 
+            Dictionary<Transition, SortedSet<char>> transitions = new Dictionary<Transition, SortedSet<char>>();
             foreach (Transition transition in automata.transitions)
-                dot.AppendLine($"{transition.fromState} -> {transition.toState} [label=\"{transition.symbol}\"]");
+            {
+                Dictionary<Transition, SortedSet<char>> res = transitions.Where(t =>
+                        t.Key.fromState == transition.fromState &&
+                        t.Key.toState == transition.toState
+                    ).ToDictionary(p => p.Key, p => p.Value);
+
+                if (res.Count() > 0){
+                    KeyValuePair<Transition, SortedSet<char>> ts = res.First();
+                    SortedSet<char> symbols = ts.Value;
+                    symbols.Add(transition.symbol);
+                    transitions[ts.Key] = symbols;
+                }else {
+                    SortedSet<char> sybmols = new SortedSet<char> { transition.symbol };
+                    transitions.Add(transition, sybmols);
+                }
+            }
+
+            foreach (KeyValuePair<Transition, SortedSet<char>> t in transitions) {
+                StringBuilder sb = new StringBuilder();
+                foreach(char c in t.Value)
+                    if (t.Value.Last().Equals(c))
+                        sb.Append(c);
+                    else
+                        sb.Append($"{c},");
+                dot.AppendLine($"{t.Key.fromState} -> {t.Key.toState} [label=\"{sb.ToString()}\"]");
+            }
 
             dot.AppendLine("}");
 
