@@ -28,7 +28,8 @@ namespace RegExGen
             //TestAutomataSaveAndLoad();
             //TestAutomataCheckWord();
             //TestLanguageGenerator();
-            TestRandomQuestionGenerator();
+            //TestRandomQuestionGenerator();
+            TestCompareRegEx();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -36,6 +37,17 @@ namespace RegExGen
 
             //TestRegExp();
             //TestAutomata();
+        }
+
+        public static void TestCompareRegEx()
+        {
+            string regExp1 = "(a*b*)+ (bb*b | ab*baa)+";
+            string regExp2 = "(a|b)* (b+b | ab*baa) (ab+aa | bb+)*";
+            RegExp r1 = RegExParser.GetRegEx(regExp1);
+            Debug.WriteLine(r1.ToString());
+            RegExp r2 = RegExParser.GetRegEx(regExp2);
+            Debug.WriteLine("Equal: " + r1.Equals(r2));
+            Debug.WriteLine("Done");
         }
 
         public static void TestRandomQuestionGenerator()

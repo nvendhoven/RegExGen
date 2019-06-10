@@ -186,7 +186,7 @@ namespace RegExGen
 
             try
             {
-                string regex = Prompt.ShowDialog("Enter regex: ", "");
+                string regex = Prompt.ShowDialog("Enter regex: ", "AND");
                 Automata a = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx(regex)).getDfa();
                 and(a);
                 lb_regex.Text = "(" + lb_regex.Text + " AND " + regex + ")";
@@ -209,7 +209,7 @@ namespace RegExGen
 
             try
             {
-                string regex = Prompt.ShowDialog("Enter regex: ", "");
+                string regex = Prompt.ShowDialog("Enter regex: ", "OR");
                 Automata a = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx(regex)).getDfa();
                 or(a);
                 lb_regex.Text = "(" + lb_regex.Text + " OR " + regex + ")";
@@ -223,9 +223,9 @@ namespace RegExGen
         //Generate
         private void generateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string startRegex = Prompt.ShowDialog("Starts with: ", "");
-            string containsRegex = Prompt.ShowDialog("Contains: ", "");
-            string endswithRegex = Prompt.ShowDialog("Ends with: ", "");
+            string startRegex = Prompt.ShowDialog("Starts with: ", "Generate automata");
+            string containsRegex = Prompt.ShowDialog("Contains: ", "Generate automata");
+            string endswithRegex = Prompt.ShowDialog("Ends with: ", "Generate automata");
 
             try
             {
@@ -353,6 +353,22 @@ namespace RegExGen
             status(Status.SUCCESS, "Automata OR successful");
         }
 
+        private void checkWordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.ndfa == null)
+            {
+                status(Status.ERROR, "No automata to check from");
+                return;
+            }
+            try
+            {
+                Prompt.CheckAutmataProperty(this.ndfa.getDfa(), "Enter word: ", "Check word");
+            }
+            catch (Exception ex)
+            {
+                status(Status.ERROR, ex.Message);
+            }
+        }
     }
 }
 
