@@ -21,9 +21,9 @@ namespace RegExGen
                 Text = caption,
                 StartPosition = FormStartPosition.CenterScreen
             };
-            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
-            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
-            Button confirmation = new Button() { Text = "Run", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
+            Label textLabel = new Label() { Left = 30, Top = 20, Width = 440, Height= 60, Text = text };
+            TextBox textBox = new TextBox() { Left = 30, Top = 50, Width = 430 };
+            Button confirmation = new Button() { Text = "OK", Left = 350, Width = 110, Top = 75, DialogResult = DialogResult.OK };
             confirmation.Click += (sender, e) => { prompt.Close(); };
             prompt.Controls.Add(textBox);
             prompt.Controls.Add(confirmation);
@@ -43,8 +43,8 @@ namespace RegExGen
                 Text = caption,
                 StartPosition = FormStartPosition.CenterScreen
             };
-            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
-            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 350 }; 
+            Label textLabel = new Label() { Left = 30, Top = 30, Width = 440, Text = text };
+            TextBox textBox = new TextBox() { Left = 30, Top = 50, Width = 370 }; 
             PictureBox pb = new PictureBox { Location = new Point(400, 50), Size = new Size(50, 50)};
 
             textBox.TextChanged += new EventHandler(changed);

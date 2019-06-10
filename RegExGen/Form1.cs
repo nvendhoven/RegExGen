@@ -15,11 +15,12 @@ namespace RegExGen
 {
     public partial class Form1 : System.Windows.Forms.Form
     {
-        private enum Status { SUCCESS, ERROR, WARN }
+        private enum Status { SUCCESS, ERROR, WARN, CORRECT, INCORRECT }
         Automata ndfa;
 
         public Form1()
         {
+            this.StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
         }
 
@@ -78,8 +79,10 @@ namespace RegExGen
             switch (s)
             {
                 case Status.SUCCESS: m = "SUCCESS"; lb_status.ForeColor = Color.GreenYellow; break;
+                case Status.CORRECT:  m = "CORRECT"; lb_status.ForeColor = Color.GreenYellow; break;
                 case Status.WARN: m = "WARNING"; lb_status.ForeColor = Color.Orange; break;
                 case Status.ERROR: m = "ERROR"; lb_status.ForeColor = Color.Red; break;
+                case Status.INCORRECT: m = "INCORRECT"; lb_status.ForeColor = Color.Red; break;
             }
             lb_status.Text = m + ": " + msg;
             this.Update();
@@ -368,6 +371,40 @@ namespace RegExGen
             {
                 status(Status.ERROR, ex.Message);
             }
+        }
+
+        private void handleAnswer(Question q, string answer) {
+            if(RegExParser.GetRegEx(q.RegExpAnswer).Compare(RegExParser.GetRegEx(answer)))
+                status(Status.CORRECT, q.RegExpAnswer);
+            else
+                status(Status.INCORRECT, q.RegExpAnswer);
+
+            lb_regex.Text = q.RegExpAnswer;
+            updateAutomata(new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx(q.RegExpAnswer)));
+        }
+
+        private void easyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Question q = new QuestionGenerator().GenerateReExpQuestion(1);
+            handleAnswer(q, Prompt.ShowDialog(q.QuestionText, "Easy question"));
+        }
+
+        private void normalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Question q = new QuestionGenerator().GenerateReExpQuestion(2);
+            handleAnswer(q, Prompt.ShowDialog(q.QuestionText, "Normal question"));
+        }
+
+        private void difficultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Question q = new QuestionGenerator().GenerateReExpQuestion(3);
+            handleAnswer(q, Prompt.ShowDialog(q.QuestionText, "Difficult question"));
+        }
+
+        private void extremeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Question q = new QuestionGenerator().GenerateReExpQuestion(4);
+            handleAnswer(q, Prompt.ShowDialog(q.QuestionText, "Extreme question"));
         }
     }
 }

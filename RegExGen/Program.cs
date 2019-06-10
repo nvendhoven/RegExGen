@@ -44,9 +44,17 @@ namespace RegExGen
             string regExp1 = "(a*b*)+ (bb*b | ab*baa)+";
             string regExp2 = "(a|b)* (b+b | ab*baa) (ab+aa | bb+)*";
             RegExp r1 = RegExParser.GetRegEx(regExp1);
-            Debug.WriteLine(r1.ToString());
             RegExp r2 = RegExParser.GetRegEx(regExp2);
-            Debug.WriteLine("Equal: " + r1.Equals(r2));
+
+            Automata a1 = new ThompsonConverter().RegExToAutomata(r1);
+            Automata a2 = new ThompsonConverter().RegExToAutomata(r2);
+            Automata dfa1 = a1.getDfa();
+            Automata dfa2 = a2.getDfa();
+            Automata opdfa1 = dfa1.getOptimized();
+            Automata opdfa2 = dfa2.getOptimized();
+
+
+            Debug.WriteLine("Equal: " + r1.Compare(r2));
             Debug.WriteLine("Done");
         }
 
