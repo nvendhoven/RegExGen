@@ -138,7 +138,8 @@ namespace RegExGen
 
             try
             {
-                updateAutomata(this.ndfa.Not());
+                updateAutomata(this.ndfa.getDfa().Not());
+                tc_automata.SelectedIndex = 1;
                 lb_regex.Text = "Not " + lb_regex.Text;
                 status(Status.SUCCESS, "Automata successfully negated");
             }
