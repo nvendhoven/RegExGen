@@ -156,7 +156,7 @@ namespace RegExGen
 
         private string GetOrLettersString()
         {
-            string s = "";
+            string s = "(";
 
             SortedSet<char> letters = new SortedSet<char>();
             foreach (string word in words)
@@ -171,7 +171,7 @@ namespace RegExGen
             {
                 s += letter + "*";
             }
-
+            s += ")*";
             return s;
         }
         
