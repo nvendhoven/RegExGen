@@ -338,5 +338,5 @@ RegExGen/graphviz/dfa_fms.gv
 RegExGen/graphviz/dfa_fms\.gv
 
 *.gv
-RegExGen/test/test_automata.txt
-RegExGen/test/aaa.txt
+
+RegExGen/graphviz/odfa_fms\.gv\.png

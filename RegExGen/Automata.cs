@@ -115,6 +115,7 @@ namespace RegExGen
         }
 
         class NoDfaExeption : Exception { public NoDfaExeption(string message) : base(message) { } };
+
         public bool isDFA(bool throwExeptions = false)
         {
             bool isDFA = true;
@@ -126,6 +127,7 @@ namespace RegExGen
                 {
                     var stateCount = getToStates(from, symbol).Count;
                     isDFA = isDFA && stateCount == 1;
+
                     if (throwExeptions&& !isDFA) throw new NoDfaExeption("dfa error state: "+ from + " with symbol '"+symbol+ "' has " + stateCount + " connections where 1 was expected");
                     if (!isDFA) return false;
                 }
@@ -138,6 +140,14 @@ namespace RegExGen
             // geen meerdere start toestanden
             isDFA = isDFA && startStates.Count == 1;
             if (throwExeptions && !isDFA) throw new NoDfaExeption("dfa has more than one start state");
+
+            // geen state heeft geen ingaande pielen behalven start states
+            foreach (var state in states.Where(s => !startStates.Contains(s)).ToList())
+            {
+                isDFA = isDFA && transitions.Select(t => t.toState).Any(s => s == state);
+                if (throwExeptions && !isDFA) throw new NoDfaExeption("dfa contains state '" + state + "'with no incoming transitions");
+            }
+
             return isDFA;
         }
 
@@ -176,14 +186,7 @@ namespace RegExGen
             }
         }
 
-        public Automata getOptimized()
-        {
-            Automata dfa = getDfa();
-
-            dfa = NdfaToDfa.run(dfa.Inverse());
-            dfa = NdfaToDfa.run(dfa.Inverse());
-            return dfa;
-        }
+        public Automata getOptimized() => getDfa().Inverse().getDfa().Inverse().getDfa();
 
         public Automata getDfa()
         {
