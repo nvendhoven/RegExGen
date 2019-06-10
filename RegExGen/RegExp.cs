@@ -55,8 +55,6 @@ namespace RegExGen
             return false;
         }
 
-
-
         public Operator GetRegOperator()
         {
             return regOperator;
