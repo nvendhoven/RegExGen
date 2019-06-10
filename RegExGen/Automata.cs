@@ -259,9 +259,16 @@ namespace RegExGen
         //Returns the NOT of the automata.
         public Automata Not()
         {
+            if (!isDFA())
+            {
+                throw new Exception("The automata isn't a DFA");
+            }
             Automata returnAutomata = new Automata(this);
-            returnAutomata.startStates = finalStates;
-            returnAutomata.finalStates = startStates;
+            returnAutomata.finalStates = states;
+            foreach(string state in finalStates)
+            {
+                returnAutomata.finalStates.Remove(state);
+            }
             return returnAutomata;
         }
 
