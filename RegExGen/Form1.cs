@@ -28,16 +28,19 @@ namespace RegExGen
             SetRegex("(a|b)+|(aaa)");
         }
 
-        public void SetRegex(string regex) {
+        public void SetRegex(string regex)
+        {
             lb_regex.Text = regex;
 
             try
             {
                 RegExp r = RegExParser.GetRegEx(regex);
                 updateAutomata(new ThompsonConverter().RegExToAutomata(r));
+                tc_automata.TabPages[0].Enabled = true;
                 status(Status.SUCCESS, "Regex successfully parsed!");
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 status(Status.ERROR, e.Message);
             }
         }
@@ -48,7 +51,8 @@ namespace RegExGen
             SetRegex(tb_regex.Text);
         }
 
-        private void updateAutomata(Automata ndfa) {
+        private void updateAutomata(Automata ndfa)
+        {
             this.ndfa = ndfa;
 
             //NDFA
@@ -70,13 +74,14 @@ namespace RegExGen
 
         private void status(Status s, string msg)
         {
-            lb_status.Text = msg;
+            string m = "???";
             switch (s)
             {
-                case Status.SUCCESS: lb_status.ForeColor = Color.GreenYellow; break;
-                case Status.WARN: lb_status.ForeColor = Color.Orange; break;
-                case Status.ERROR: lb_status.ForeColor = Color.Red; break;
+                case Status.SUCCESS: m = "SUCCESS"; lb_status.ForeColor = Color.GreenYellow; break;
+                case Status.WARN: m = "WARNING"; lb_status.ForeColor = Color.Orange; break;
+                case Status.ERROR: m = "ERROR"; lb_status.ForeColor = Color.Red; break;
             }
+            lb_status.Text = m + ": " + msg;
             this.Update();
         }
 
@@ -92,7 +97,7 @@ namespace RegExGen
                     Automata a = RegularLanguageConverter.ConvertLanguageToAutomata(input.ToString());
                     updateAutomata(a);
                     status(Status.SUCCESS, "File successfully parsed!");
-                    lb_regex.Text = "---";
+                    lb_regex.Text = "";
                 }
                 catch (Exception ex)
                 {
@@ -105,16 +110,20 @@ namespace RegExGen
 
         private void iNVERTToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.ndfa == null) {
-                status(Status.ERROR, "No NDFA to invert");
+            if (this.ndfa == null)
+            {
+                status(Status.ERROR, "No automata to invert");
                 return;
             }
 
-            try {
+            try
+            {
                 updateAutomata(this.ndfa.Inverse());
                 lb_regex.Text = "Inverted " + lb_regex.Text;
                 status(Status.SUCCESS, "Automata successfully inverted");
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 status(Status.ERROR, ex.Message);
             }
         }
@@ -123,7 +132,7 @@ namespace RegExGen
         {
             if (this.ndfa == null)
             {
-                status(Status.ERROR, "No NDFA to negate");
+                status(Status.ERROR, "No automata to negate");
                 return;
             }
 
@@ -138,6 +147,211 @@ namespace RegExGen
                 status(Status.ERROR, ex.Message);
             }
         }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.ndfa == null)
+            {
+                status(Status.ERROR, "No automata to save");
+                return;
+            }
+
+            try
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Text|*.txt|All|*.*";
+                string sfdname = sfd.FileName;
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    string path = Path.GetFullPath(sfd.FileName);
+                    FileIO.saveAutomataToTextFile(path, this.ndfa);
+                }
+            }
+            catch (Exception ex)
+            {
+                status(Status.ERROR, ex.Message);
+            }
+
+        }
+
+        //ADD from regex
+        private void createNewFromRegexToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.ndfa == null)
+            {
+                status(Status.ERROR, "No automata to add");
+                return;
+            }
+
+            try
+            {
+                string regex = Prompt.ShowDialog("Enter regex: ", "");
+                Automata a = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx(regex)).getDfa();
+                and(a);
+                lb_regex.Text = "(" + lb_regex.Text + " AND " + regex + ")";
+            }
+            catch (Exception ex)
+            {
+                status(Status.ERROR, ex.Message);
+            }
+        }
+
+
+        //OR from regex
+        private void createNewFromRegexToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (this.ndfa == null)
+            {
+                status(Status.ERROR, "No automata to or");
+                return;
+            }
+
+            try
+            {
+                string regex = Prompt.ShowDialog("Enter regex: ", "");
+                Automata a = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx(regex)).getDfa();
+                or(a);
+                lb_regex.Text = "(" + lb_regex.Text + " OR " + regex + ")";
+            }
+            catch (Exception ex)
+            {
+                status(Status.ERROR, ex.Message);
+            }
+        }
+
+        //Generate
+        private void generateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string startRegex = Prompt.ShowDialog("Starts with: ", "");
+            string containsRegex = Prompt.ShowDialog("Contains: ", "");
+            string endswithRegex = Prompt.ShowDialog("Ends with: ", "");
+
+            try
+            {
+                RegExp regex = new RegExp();
+
+                #region NEVER_OPEN_DIS_PLS
+                if (startRegex != "" && containsRegex != "" && endswithRegex != "")
+                {
+                    regex = LanguageGenerator.generateRegExpStartingWith(startRegex).dot(
+                        LanguageGenerator.generateRegExpContaining(containsRegex).dot(
+                             LanguageGenerator.generateRegExpEndingWith(endswithRegex)
+                        )
+                    );
+                }
+                else if (startRegex == "" && containsRegex != "" && endswithRegex != "")
+                {
+                    regex = LanguageGenerator.generateRegExpContaining(containsRegex).dot(
+                            LanguageGenerator.generateRegExpEndingWith(endswithRegex)
+                       );
+                }
+                else if (startRegex != "" && containsRegex == "" && endswithRegex != "")
+                {
+                    regex = LanguageGenerator.generateRegExpStartingWith(startRegex).dot(
+                            LanguageGenerator.generateRegExpEndingWith(endswithRegex)
+                       );
+                }
+                else if (startRegex != "" && containsRegex != "" && endswithRegex == "")
+                {
+                    regex = LanguageGenerator.generateRegExpStartingWith(startRegex).dot(
+                            LanguageGenerator.generateRegExpContaining(containsRegex)
+                       );
+                }
+                else
+                {
+                    if (startRegex != "") regex = LanguageGenerator.generateRegExpStartingWith(startRegex);
+                    if (containsRegex != "") regex = LanguageGenerator.generateRegExpContaining(containsRegex);
+                    if (endswithRegex != "") regex = LanguageGenerator.generateRegExpEndingWith(endswithRegex);
+                }
+                #endregion
+
+                lb_regex.Text = regex.ToString();
+                updateAutomata(new ThompsonConverter().RegExToAutomata(regex));
+                status(Status.SUCCESS, "Language succesfully generated");
+            }
+            catch (Exception ex)
+            {
+                status(Status.ERROR, ex.Message);
+            }
+
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                updateAutomata(loadAutomata());
+                lb_regex.Text = "";
+            }
+            catch (Exception ex)
+            {
+                status(Status.ERROR, ex.Message);
+            }
+        }
+
+        private Automata loadAutomata()
+        {
+            try
+            {
+                OpenFileDialog file = new OpenFileDialog();
+                file.Filter = "Text|*.txt|All|*.*";
+                if (file.ShowDialog() == DialogResult.OK)
+                {
+                    status(Status.SUCCESS, "File successfully loaded");
+                    Automata a = FileIO.loadAutomataFromTextFile(file.FileName);
+                    return a;
+                }
+            }
+            catch (Exception ex)
+            {
+                status(Status.ERROR, ex.Message);
+            }
+            status(Status.WARN, "Canceled load");
+            return null;
+        }
+
+        //AND load
+        private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Automata a = loadAutomata();
+            if (a != null)
+                and(a.getDfa());
+            else
+                status(Status.ERROR, "File is not a valid automata");
+        }
+
+        //OR load
+        private void loadAutomataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Automata a = loadAutomata();
+            if (a != null)
+                or(a.getDfa());
+            else
+                status(Status.ERROR, "File is not a valid automata");
+        }
+
+        private void and(Automata a)
+        {
+            tc_automata.SelectedIndex = 1;
+
+            updateAutomata(this.ndfa.getDfa().And(a));
+            status(Status.SUCCESS, "Automata AND successful");
+
+        }
+
+        private void or(Automata a)
+        {
+            tc_automata.SelectedIndex = 1;
+
+            updateAutomata(this.ndfa.getDfa().Or(a));
+            status(Status.SUCCESS, "Automata OR successful");
+        }
+
     }
 }
 

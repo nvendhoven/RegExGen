@@ -60,6 +60,7 @@
     <Compile Include="LanguageGenerator.cs" />
     <Compile Include="NdfaToDfa.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Prompt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionGenerator.cs" />
     <Compile Include="RegExp.cs" />
