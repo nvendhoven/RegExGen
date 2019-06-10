@@ -45,9 +45,10 @@ namespace RegExGen
             };
             Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
             TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 350 }; 
-            PictureBox pb = new PictureBox { Location = new Point(400, 50), Size = new Size(50, 50), Image = RegExGen.Properties.Resources.exit };
+            PictureBox pb = new PictureBox { Location = new Point(400, 50), Size = new Size(50, 50)};
 
             textBox.TextChanged += new EventHandler(changed);
+            changed(null, null);
 
             void changed(object sender, EventArgs e)
             {
