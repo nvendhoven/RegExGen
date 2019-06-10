@@ -53,7 +53,8 @@ namespace RegExGen
             Automata opdfa1 = dfa1.getOptimized();
             Automata opdfa2 = dfa2.getOptimized();
 
-            Debug.WriteLine("Equal: " + opdfa1.Equals(opdfa2));
+
+            Debug.WriteLine("Equal: " + r1.Compare(r2));
             Debug.WriteLine("Done");
         }
 
