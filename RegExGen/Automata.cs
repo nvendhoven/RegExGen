@@ -176,14 +176,7 @@ namespace RegExGen
             }
         }
 
-        public Automata getOptimized()
-        {
-            Automata dfa = getDfa();
-
-            dfa = NdfaToDfa.run(dfa.Inverse());
-            dfa = NdfaToDfa.run(dfa.Inverse());
-            return dfa;
-        }
+        public Automata getOptimized() => getDfa().Inverse().getDfa().Inverse().getDfa();
 
         public Automata getDfa()
         {
