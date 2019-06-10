@@ -16,6 +16,7 @@ namespace RegExGen
     public partial class Form1 : System.Windows.Forms.Form
     {
         private enum Status { SUCCESS, ERROR, WARN }
+        Automata ndfa;
 
         public Form1()
         {
@@ -47,29 +48,9 @@ namespace RegExGen
             SetRegex(tb_regex.Text);
         }
 
-        private void btn_import_language_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog file = new OpenFileDialog();
-            file.Filter = "Text|*.txt|All|*.*";
-            if (file.ShowDialog() == DialogResult.OK)
-            {
-                StringBuilder input = FileIO.loadLanguage(file.FileName);
-                try
-                {
-                    Automata a = RegularLanguageConverter.ConvertLanguageToAutomata(input.ToString());
-                    updateAutomata(a);
-                    status(Status.SUCCESS, "File successfully parsed!");
-                    lb_regex.Text = "---";
-                }
-                catch (Exception ex) {
-                    status(Status.ERROR, ex.Message);
-                }
-            }
-            else
-                status(Status.WARN, "File import interrupted");      
-        }
-
         private void updateAutomata(Automata ndfa) {
+            this.ndfa = ndfa;
+
             //NDFA
             lb_regular_lan_ndfa.Text = RegularLanguageConverter.ConvertAutomataToLanguage(ndfa);
             pb_ndfa.ImageLocation = Graph.CreateImagePath(Graph.Type.NDFA, ndfa);
@@ -94,16 +75,70 @@ namespace RegExGen
             lb_status.Text = msg;
             switch (s)
             {
-                case Status.SUCCESS: lb_status.ForeColor = Color.DarkOliveGreen; break;
+                case Status.SUCCESS: lb_status.ForeColor = Color.GreenYellow; break;
                 case Status.WARN: lb_status.ForeColor = Color.Orange; break;
                 case Status.ERROR: lb_status.ForeColor = Color.Red; break;
             }
             this.Update();
         }
 
-        private void tabPage2_Click(object sender, EventArgs e)
+        private void importGramaticaToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            OpenFileDialog file = new OpenFileDialog();
+            file.Filter = "Text|*.txt|All|*.*";
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                StringBuilder input = FileIO.loadLanguage(file.FileName);
+                try
+                {
+                    Automata a = RegularLanguageConverter.ConvertLanguageToAutomata(input.ToString());
+                    updateAutomata(a);
+                    status(Status.SUCCESS, "File successfully parsed!");
+                    lb_regex.Text = "---";
+                }
+                catch (Exception ex)
+                {
+                    status(Status.ERROR, ex.Message);
+                }
+            }
+            else
+                status(Status.WARN, "File import interrupted");
+        }
 
+        private void iNVERTToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.ndfa == null) {
+                status(Status.ERROR, "No NDFA to invert");
+                return;
+            }
+
+            try {
+                updateAutomata(this.ndfa.Inverse());
+                lb_regex.Text = "Inverted " + lb_regex.Text;
+                status(Status.SUCCESS, "Automata successfully inverted");
+            } catch (Exception ex) {
+                status(Status.ERROR, ex.Message);
+            }
+        }
+
+        private void nOTToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.ndfa == null)
+            {
+                status(Status.ERROR, "No NDFA to negate");
+                return;
+            }
+
+            try
+            {
+                updateAutomata(this.ndfa.Not());
+                lb_regex.Text = "Not " + lb_regex.Text;
+                status(Status.SUCCESS, "Automata successfully negated");
+            }
+            catch (Exception ex)
+            {
+                status(Status.ERROR, ex.Message);
+            }
         }
     }
 }
