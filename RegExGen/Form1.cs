@@ -63,15 +63,30 @@ namespace RegExGen
 
             //DFA
             Automata dfa = ndfa.getDfa();
-            lb_regular_lan_dfa.Text = RegularLanguageConverter.ConvertAutomataToLanguage(dfa);
+            lb_regular_lan_dfa.Text =
+                states(dfa).ToString() + "\n\r" +
+                RegularLanguageConverter.ConvertAutomataToLanguage(dfa);
             pb_dfa.ImageLocation = Graph.CreateImagePath(Graph.Type.DFA, dfa);
 
             //ODFA
             Automata odfa = dfa.getOptimized();
-            lb_regular_lan_odfa.Text = RegularLanguageConverter.ConvertAutomataToLanguage(odfa);
+            lb_regular_lan_odfa.Text = 
+                states(odfa).ToString() + "\n\r" +
+                RegularLanguageConverter.ConvertAutomataToLanguage(odfa);
             pb_odfa.ImageLocation = Graph.CreateImagePath(Graph.Type.ODFA, odfa);
 
             this.Update();
+        }
+
+        private StringBuilder states(Automata a)
+        {
+            StringBuilder result = new StringBuilder();
+            foreach (KeyValuePair<string, string> kv in a.newNameDictionary)
+                result.AppendLine($"{kv.Key} -> {kv.Value}");
+
+            result.AppendLine(); 
+            result.AppendLine("-------------------------------------------");
+            return result;
         }
 
         private void status(Status s, string msg)
@@ -485,9 +500,13 @@ namespace RegExGen
 
         private void getWordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Prompt.Dictionary("Accepted words");
+            Prompt.Dictionary(new List<string>(), "Included words");
         }
 
+        private void getExcludedWordsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Prompt.Dictionary(new List<string>(), "Excluded words");
+        }
     }
 }
 

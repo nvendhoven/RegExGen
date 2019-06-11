@@ -65,17 +65,31 @@ namespace RegExGen
             prompt.ShowDialog();
         }
 
-        public static void Dictionary(string caption) {
+        public static void Dictionary(List<string> words, string caption) {
             Form prompt = new Form()
             {
                 Width = 600,
-                Height = 800,
+                Height = 650,
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 Text = caption,
                 StartPosition = FormStartPosition.CenterScreen
             };
-            Label left = new Label() { Left = 20, Top = 20, Width = 290, Text = "test1" };
-            Label right = new Label() { Left = 310, Top = 20, Width = 570, Text = "test2" };
+
+            StringBuilder sbl = new StringBuilder();
+            StringBuilder sbr = new StringBuilder();
+
+            int i = 0;
+            foreach(string s in words)
+            {
+                if (i % 2 == 0)
+                    sbl.AppendLine(s);
+                else
+                    sbr.AppendLine(s);
+                i++;
+            }
+
+            Label left = new Label() { Left = 20, Top = 20, Width = 290, Height= 600, Text = sbl.ToString() };
+            Label right = new Label() { Left = 310, Top = 20, Width = 570, Height = 600, Text = sbr.ToString() };
 
             prompt.Controls.Add(left);
             prompt.Controls.Add(right);
