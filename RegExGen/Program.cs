@@ -30,6 +30,7 @@ namespace RegExGen
             //TestLanguageGenerator();
             //TestRandomQuestionGenerator();
             //TestCompareRegEx();
+            TestGenerateWords();
             //TestDictionary();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
@@ -45,6 +46,15 @@ namespace RegExGen
             Automata a1 = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx("aa+ b* a b+")).getDfa();
 
             var dictionary = a1.newNameDictionary;
+            Debug.WriteLine("Done");
+        }
+
+        public static void TestGenerateWords()
+        {
+            Automata a1 = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx("aba a* b+")).getOptimized();
+            var bla = a1.generateWords(20);
+            var bla2 = a1.generateInvallidWords(30);
+
             Debug.WriteLine("Done");
         }
 

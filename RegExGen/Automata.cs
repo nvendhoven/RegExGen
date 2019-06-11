@@ -156,7 +156,7 @@ namespace RegExGen
         /// <param name="maxLeght">max word langth. to avoid boring words; 0 = dynamic number</param>
         /// <param name="logByas">if removing words how byas is it towords larger words. Uses a logarithmic scale randNum^logbyas / maxNum. value of 1 = no byas. value of less than 1 is byas towords returning larger words</param>
         public IEnumerable<string> generateInvallidWords(int maxWords = 0, int maxLeght = 0, double logByas = 1.8) 
-            => this.getDfa().Not().generateInvallidWords(maxWords, maxLeght, logByas);
+            => this.getDfa().Not().generateWords(maxWords, maxLeght, logByas);
 
         /// <param name="maxWords">the maximum amount of words that need to be generated; 0 = returns all words possible words with a given length</param>
         /// <param name="maxLeght">max word langth. to avoid boring words; 0 = dynamic number</param>
@@ -164,6 +164,7 @@ namespace RegExGen
         public IEnumerable<string> generateWords(int maxWords = 0, int maxLeght = 0, double logByas = 1.8)
         {
             var walkableAutomata = getOptimized();
+            /*
             // for each state that isnt a start state or end state
             foreach (var state in walkableAutomata.states.Where(s => !startStates.Contains(s)|| !finalStates.Contains(s)).ToList())
                 // if all the outgoing transitions of a state
@@ -175,31 +176,38 @@ namespace RegExGen
                     walkableAutomata.transitions.RemoveWhere(t => t.toState == state || t.fromState == state);
                     walkableAutomata.states.Remove(state);
                 }
+            */
 
-            if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 3;
 
             var possibleWords = new LinkedList<string>();
             void recursiveWordGeneration(string currentWord, string currentState, int maxWordLength)
             {
-                if (maxWordLength == 0) return; 
+                maxWordLength--;
+                if (maxWordLength == 0)
+                {
+                    return;
+                }
                 if (finalStates.Contains(currentState))
                     possibleWords.AddLast(currentWord);
 
-                foreach(var transition in walkableAutomata.transitions.Where(s => s.toState == currentState))
-                    recursiveWordGeneration(currentWord + transition.symbol, transition.toState, maxWordLength--);
+                foreach(var transition in walkableAutomata.transitions.Where(s => s.fromState == currentState))
+                    recursiveWordGeneration(currentWord + transition.symbol, transition.toState, maxWordLength);
             }
+
+            if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 3;
+            recursiveWordGeneration("", walkableAutomata.startStates.First(), maxLeght);
+
             var possibleWordsList = possibleWords.OrderBy(word => word.Length).ToList();
 
             // if words need to be removed
-            if(maxWords != 0 || possibleWordsList.Count > maxWords)
+            if(maxWords != 0 && possibleWordsList.Count > maxWords)
             {
+                var newList = new List<string>();
                 var rnd = new Random();
-                for (int i = 0; i < possibleWordsList.Count - maxWords; i++)
-                    // remove words with a bias towards longer words at the end
-                    possibleWordsList.RemoveAt((int)(
-                        Math.Pow(rnd.Next() * possibleWordsList.Count, logByas)
-                        /
-                        (Math.Pow( possibleWordsList.Count, logByas))));
+                for (int i = 0; i < maxWords; i++)
+                    //remove words with a bias towards longer words at the end
+                    newList.Add(possibleWordsList[i]);
+                possibleWordsList = newList;
             }
 
             return possibleWordsList;
