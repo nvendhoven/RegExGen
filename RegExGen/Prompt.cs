@@ -88,11 +88,16 @@ namespace RegExGen
                 i++;
             }
 
-            Label left = new Label() { Left = 20, Top = 20, Width = 290, Height= 590, Text = sbl.ToString() };
-            Label right = new Label() { Left = 310, Top = 20, Width = 570, Height = 590, Text = sbr.ToString() };
+            Label left = new Label() { Left = 20, Top = 20, Width = 290, Text = sbl.ToString(), AutoSize = true };
+            Label right = new Label() { Left = 310, Top = 20, Width = 290, Text = sbr.ToString(), AutoSize = true };
 
-            prompt.Controls.Add(left);
-            prompt.Controls.Add(right);
+            Panel panel = new Panel() { Width = 600, Height= 650, Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right) };
+            panel.AutoScroll = true;
+            panel.VerticalScroll.Visible = true;
+
+            panel.Controls.Add(left);
+            panel.Controls.Add(right);
+            prompt.Controls.Add(panel);
             prompt.ShowDialog();
         }
     }
