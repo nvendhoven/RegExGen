@@ -267,9 +267,9 @@ namespace RegExGen
             }
         }
 
-        public Automata getOptimized() => getDfa(false).Inverse().getDfa(false).Inverse().getDfa();
+        public Automata getOptimized() => Inverse().getDfa().Inverse().getDfa(true);
 
-        public Automata getDfa(bool renameStates = true)
+        public Automata getDfa(bool renameStates = false)
         {
             if (isDFA())
                 return this;

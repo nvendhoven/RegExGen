@@ -62,7 +62,7 @@ namespace RegExGen
             pb_ndfa.ImageLocation = Graph.CreateImagePath(Graph.Type.NDFA, ndfa);
 
             //DFA
-            Automata dfa = ndfa.getDfa();
+            Automata dfa = ndfa.getDfa(true);
             lb_regular_lan_dfa.Text =
                 states(dfa).ToString() + "\n\r" +
                 RegularLanguageConverter.ConvertAutomataToLanguage(dfa);
