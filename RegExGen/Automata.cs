@@ -167,23 +167,33 @@ namespace RegExGen
             var walkableAutomata = getOptimized();
 
             // for each state that isnt a start state or end state
-            foreach (var state in walkableAutomata.states.Where(s => (!startStates.Contains(s) && !finalStates.Contains(s)))
-                    .ToList())
+
+            var thot = walkableAutomata.states.Where(s => (!walkableAutomata.startStates.Contains(s) && !walkableAutomata.finalStates.Contains(s)))
+                .ToList();
+            foreach (var state in thot)
                 // if all the outgoing transitions of a state
                 if (walkableAutomata.transitions.Where(t=> t.fromState == state)
                     // only lead back to itself
                     .All(t => t.toState == state))
                 {
                     // it is a fuik and should be removed
-                    walkableAutomata.transitions.RemoveWhere(t => t.toState == state || t.fromState == state);
+                    //Do not remove or rework this, because the sortedset is doning weard.
+                    var temp = walkableAutomata.transitions.Where(t => (t.toState == state || t.fromState == state))
+                        .ToList();
+                    var temp2 = walkableAutomata.transitions.ToList();
+                    foreach (var transit in temp)
+                    {
+                        temp2.Remove(transit);
+                    }
+
+                    walkableAutomata.transitions = new SortedSet<Transition>(temp2);
+
                     walkableAutomata.states.Remove(state);
                 }
 
-
-
             var possibleWords = new LinkedList<string>();
             var toCheckQueue = new Stack<Tuple<string, string, int>>();
-            if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 2;
+            if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 10;
 
             toCheckQueue.Push(new Tuple<string, string, int>("",walkableAutomata.startStates.First(),maxLeght));
 

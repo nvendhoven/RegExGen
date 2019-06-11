@@ -30,7 +30,7 @@ namespace RegExGen
             //TestLanguageGenerator();
             //TestRandomQuestionGenerator();
             //TestCompareRegEx();
-            TestGenerateWords();
+            //TestGenerateWords();
             //TestDictionary();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
