@@ -118,6 +118,10 @@ namespace RegExGen
             // make new dfa
             var dfa = new Automata(new SortedSet<char>(dfaAlphabet));
             dfa.states.Add(makeStateName( startState));
+
+            if (startState.Any(statePart => Ndfa.finalStates.Contains(statePart)))
+                dfa.finalStates.Add(makeStateName(startState));
+
             var checkedStates = new List<string>();
             // define start state in dfa
             dfa.startStates.Add(makeStateName(startState));
@@ -156,7 +160,6 @@ namespace RegExGen
                     // voeg toe in de queue
                     stateQueue.Enqueue(newState);
 
-                    //complexStateList.Add(newState);
                     if (newState.Any(statePart => Ndfa.finalStates.Contains(statePart)))
                         dfa.finalStates.Add(newStateName);
                 }
