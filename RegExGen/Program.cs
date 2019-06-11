@@ -32,13 +32,12 @@ namespace RegExGen
             //TestCompareRegEx();
             //TestGenerateWords();
             //TestDictionary();
-            Debug.WriteLine("Done");
+            //TestRegExp();
+            //TestAutomata();
+            //Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
-
-            //TestRegExp();
-            //TestAutomata();
         }
 
         public static void TestDictionary()
