@@ -166,9 +166,8 @@ namespace RegExGen
             var walkableAutomata = getOptimized();
 
             // for each state that isnt a start state or end state
-            var thot = walkableAutomata.states.Where(s => (!startStates.Contains(s) && !finalStates.Contains(s)))
-                .ToList();
-            foreach (var state in thot)
+            foreach (var state in walkableAutomata.states.Where(s => (!startStates.Contains(s) && !finalStates.Contains(s)))
+                    .ToList())
                 // if all the outgoing transitions of a state
                 if (walkableAutomata.transitions.Where(t=> t.fromState == state)
                     // only lead back to itself
