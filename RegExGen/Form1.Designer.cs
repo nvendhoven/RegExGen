@@ -165,7 +165,7 @@
             this.panel1.Controls.Add(this.lb_regular_lan_ndfa);
             this.panel1.Location = new System.Drawing.Point(-1, -1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(302, 616);
+            this.panel1.Size = new System.Drawing.Size(200, 500);
             this.panel1.TabIndex = 2;
             // 
             // lb_regular_lan_ndfa
@@ -564,7 +564,7 @@
             this.panel2.Controls.Add(this.lb_regular_lan_dfa);
             this.panel2.Location = new System.Drawing.Point(-1, -1);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(302, 616);
+            this.panel2.Size = new System.Drawing.Size(200, 500);
             this.panel2.TabIndex = 2;
             // 
             // lb_regular_lan_dfa
@@ -585,7 +585,7 @@
             this.pb_dfa.Location = new System.Drawing.Point(0, 0);
             this.pb_dfa.Margin = new System.Windows.Forms.Padding(0);
             this.pb_dfa.Name = "pb_dfa";
-            this.pb_dfa.Size = new System.Drawing.Size(801, 557);
+            this.pb_dfa.Size = new System.Drawing.Size(801, 549);
             this.pb_dfa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_dfa.TabIndex = 0;
             this.pb_dfa.TabStop = false;
@@ -632,7 +632,7 @@
             this.panel3.Controls.Add(this.lb_regular_lan_odfa);
             this.panel3.Location = new System.Drawing.Point(-1, -1);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(302, 616);
+            this.panel3.Size = new System.Drawing.Size(200, 500);
             this.panel3.TabIndex = 2;
             // 
             // lb_regular_lan_odfa
