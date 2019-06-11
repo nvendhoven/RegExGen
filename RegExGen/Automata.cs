@@ -181,14 +181,14 @@ namespace RegExGen
 
 
             var possibleWords = new LinkedList<string>();
-            var toCheckQueue = new Queue<Tuple<string, string, int>>();
+            var toCheckQueue = new Stack<Tuple<string, string, int>>();
             if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 2;
 
-            toCheckQueue.Enqueue(new Tuple<string, string, int>("",walkableAutomata.startStates.First(),maxLeght));
+            toCheckQueue.Push(new Tuple<string, string, int>("",walkableAutomata.startStates.First(),maxLeght));
 
             do
             {
-                var tup = toCheckQueue.Dequeue();
+                var tup = toCheckQueue.Pop();
                 string currentWord = tup.Item1; string currentState = tup.Item2; int maxWordLength = tup.Item3;
                 if (possibleWords.Count > maxWords)
                     break;
@@ -202,7 +202,7 @@ namespace RegExGen
                     possibleWords.AddLast(currentWord);
 
                 foreach (var transition in walkableAutomata.transitions.Where(s => s.fromState == currentState))
-                    toCheckQueue.Enqueue(new Tuple<string, string, int>(currentWord + transition.symbol, transition.toState, maxWordLength));
+                    toCheckQueue.Push(new Tuple<string, string, int>(currentWord + transition.symbol, transition.toState, maxWordLength));
             } while (toCheckQueue.Any());
 
             var possibleWordsList = possibleWords.OrderBy(word => word.Length).ToList();
