@@ -84,8 +84,11 @@ namespace RegExGen
             foreach (KeyValuePair<string, string> kv in a.newNameDictionary)
                 result.AppendLine($"{kv.Key} -> {kv.Value}");
 
-            result.AppendLine(); 
-            result.AppendLine("-------------------------------------------");
+            if (result.Length != 0)
+            {
+                result.AppendLine();
+                result.AppendLine("-------------------------------------------");
+            }
             return result;
         }
 
