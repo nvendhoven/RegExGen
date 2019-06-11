@@ -189,15 +189,17 @@ namespace RegExGen
             }
             var possibleWordsList = possibleWords.OrderBy(word => word.Length).ToList();
 
-            var rnd = new Random();
             // if words need to be removed
             if(maxWords != 0 || possibleWordsList.Count > maxWords)
+            {
+                var rnd = new Random();
                 for (int i = 0; i < possibleWordsList.Count - maxWords; i++)
                     // remove words with a bias towards longer words at the end
                     possibleWordsList.RemoveAt((int)(
                         Math.Pow(rnd.Next() * possibleWordsList.Count, logByas)
                         /
                         (Math.Pow( possibleWordsList.Count, logByas))));
+            }
 
             return possibleWordsList;
         }
