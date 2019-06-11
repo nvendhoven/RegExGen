@@ -52,7 +52,7 @@ namespace RegExGen
             return x.Count == y.Count && x.Union(y).Count() == y.Count;
         }
 
-        public static Automata run(Automata Ndfa)
+        public static Automata run(Automata Ndfa, bool renameStates = true)
         {
             // "hulp tabel"
             var toestandenMet1SymboolVerwijderd = new Dictionary<ToestandSymbolPair, SortedSet<string>>(new ToestandSymbolPair());
@@ -102,10 +102,10 @@ namespace RegExGen
             // define naming function
             string makeStateName(SortedSet<string> state)
             {
-                var name = "N";
+                var name = "N(";
                 foreach (var partName in state)
-                    name += "" +(partName).ToString() + ".";
-                return name + "";
+                    name += "" +(partName).ToString() + ",";
+                return name + ")";
             }
 
             // start a new queue with the starting states
@@ -162,7 +162,8 @@ namespace RegExGen
                 }
             } while (stateQueue.Any());
 
-            dfa.renameStates();
+            if(renameStates) dfa.renameStates();
+
             dfa.isDFA(true);
             return dfa;
         }

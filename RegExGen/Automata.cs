@@ -15,6 +15,7 @@ namespace RegExGen
     {
         public static readonly char EPSILON = Transition.EPSILON;
         public static readonly String EMPTY = "#";
+        public readonly Dictionary<string, string> newNameDictionary = new Dictionary<string, string>();
 
         // node - edge - node
         public SortedSet<Transition> transitions = new SortedSet<Transition>();
@@ -218,10 +219,12 @@ namespace RegExGen
             return toCompare.states.Count == 1;
 
         }
+
         public void renameStates()
         {
+            newNameDictionary.Clear();
+
             var statecounter = 0;
-            var newNameDictionary = new Dictionary<string, string>();
             // generate new names
             string generateGetOrSetName(string stateName)
             {
@@ -253,13 +256,13 @@ namespace RegExGen
             }
         }
 
-        public Automata getOptimized() => getDfa().Inverse().getDfa().Inverse().getDfa();
+        public Automata getOptimized() => getDfa(false).Inverse().getDfa(false).Inverse().getDfa();
 
-        public Automata getDfa()
+        public Automata getDfa(bool renameStates = true)
         {
             if (isDFA())
                 return this;
-            return NdfaToDfa.run(this);
+            return NdfaToDfa.run(this, renameStates);
         }
 
         //Function that checks if a word is in the language.
