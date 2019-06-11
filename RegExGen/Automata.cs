@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
@@ -358,7 +359,7 @@ namespace RegExGen
             return returnAutomata;
         }
 
-        //Returns the AND of the automata.
+        //Returns the Or of the automata.
         public Automata Or(Automata other)
         {
             if ((getAlphabet().Equals(other.getAlphabet())))
@@ -406,7 +407,7 @@ namespace RegExGen
             var currentStates = new SortedSet<Tuple<string, string>>();
             bool notDone = true;
             Automata returnAutomata = new Automata();
-            returnAutomata.defineAsStartState(startStates.First() + "-" + other.startStates.First()); //Defineer de states die in zowel 1 als 2 start zijn.
+            returnAutomata.defineAsStartState(startStates.First() + "" + other.startStates.First()); //Defineer de states die in zowel 1 als 2 start zijn.
             returnAutomata.setAlphabet(getAlphabet());
 
             currentStates.Add(Tuple.Create(startStates.First(), other.startStates.First()));//Create the first mixed state (0,0)
@@ -418,7 +419,7 @@ namespace RegExGen
                 {
                     if (finalStates.Contains(currentState.Item1) || other.finalStates.Contains(currentState.Item2))//check of beide states in hun eigen automaat eindstates zijn.
                     {
-                        returnAutomata.defineAsFinalState(currentState.Item1 + "-" + currentState.Item2);
+                        returnAutomata.defineAsFinalState(currentState.Item1 + "" + currentState.Item2);
                     }
                     foreach (char symbol in symbols)//ga alle sybolen langs voor de 2 states.
                     {
@@ -427,10 +428,10 @@ namespace RegExGen
                                 FindDestinationBasedOnSymbolAndState(hulpTabel, statesList, letterList, currentState.Item1, symbol),
                                 FindDestinationBasedOnSymbolAndState(hulpTabelOther, statesListOther, letterListOther, currentState.Item2, symbol)
                                 );//De state waar het symbool naartoe gaat.
-                        Debug.WriteLine("Found State: " + nextState.Item1 + "-" + nextState.Item2);
+                        Debug.WriteLine("Found State: " + nextState.Item1 + "" + nextState.Item2);
                         nextStates.Add(nextState);//Voeg de nieuwe state toe aan de lijst, zodat deze hierna behandeld kan worden.
-                        result.Add(new Transition(currentState.Item1 + "-" + currentState.Item2, symbol, nextState.Item1 + "-" + nextState.Item2));
-                        Debug.WriteLine("Found Transition: " + currentState.Item1 + "-" + currentState.Item2 + " --> " + symbol + " --> " + nextState.Item1 + "-" + nextState.Item2);
+                        result.Add(new Transition(currentState.Item1 + "" + currentState.Item2, symbol, nextState.Item1 + "" + nextState.Item2));
+                        Debug.WriteLine("Found Transition: " + currentState.Item1 + "" + currentState.Item2 + " --> " + symbol + " --> " + nextState.Item1 + "" + nextState.Item2);
                     }
                 }
 
@@ -447,6 +448,8 @@ namespace RegExGen
             {
                 returnAutomata.addTransition(t);
             }
+
+            returnAutomata.renameStates();
 
             return returnAutomata;
         }
@@ -503,7 +506,7 @@ namespace RegExGen
             bool notDone = true;
             Automata returnAutomata = new Automata();
 
-            returnAutomata.defineAsStartState(startStates.First() + "-" + other.startStates.First()); //Defineer de states die in zowel 1 als 2 start zijn.
+            returnAutomata.defineAsStartState(startStates.First() + "" + other.startStates.First()); //Defineer de states die in zowel 1 als 2 start zijn.
             returnAutomata.setAlphabet(getAlphabet());
             currentStates.Add(Tuple.Create(startStates.First(), other.startStates.First()));//Create the first mixed state (0,0)
             //Heb nu beide hulparrays,
@@ -514,7 +517,7 @@ namespace RegExGen
                 {
                     if (finalStates.Contains(currentState.Item1) && other.finalStates.Contains(currentState.Item2))//check of beide states in hun eigen automaat eindstates zijn.
                     {
-                        returnAutomata.defineAsFinalState(currentState.Item1 + "-" + currentState.Item2);
+                        returnAutomata.defineAsFinalState(currentState.Item1 + "" + currentState.Item2);
                     }
                     foreach (char symbol in symbols)//ga alle sybolen langs voor de 2 states.
                     {
@@ -525,7 +528,7 @@ namespace RegExGen
                                 );//De state waar het symbool naartoe gaat.
                         //Debug.WriteLine("Found State: "+nextState.Item1 + "-" + nextState.Item2);
                         nextStates.Add(nextState);//Voeg de nieuwe state toe aan de lijst, zodat deze hierna behandeld kan worden.
-                        result.Add(new Transition(currentState.Item1 + "-" + currentState.Item2, symbol, nextState.Item1 + "-" + nextState.Item2));
+                        result.Add(new Transition(currentState.Item1 + "" + currentState.Item2, symbol, nextState.Item1 + "" + nextState.Item2));
                         //Debug.WriteLine("Found Transition: "+ currentState.Item1 + "-" + currentState.Item2 + " --> " +  symbol + " --> " + nextState.Item1 + "-" + nextState.Item2);
                     }
                 }
@@ -543,6 +546,8 @@ namespace RegExGen
             {
                 returnAutomata.addTransition(t);
             }
+
+            returnAutomata.renameStates();
 
             return returnAutomata;
         }
