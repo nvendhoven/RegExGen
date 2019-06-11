@@ -65,7 +65,7 @@ namespace RegExGen
             prompt.ShowDialog();
         }
 
-        public static void Dictionary(List<string> words, string caption) {
+        public static void Dictionary(IEnumerable<string> words, string caption) {
             Form prompt = new Form()
             {
                 Width = 600,
