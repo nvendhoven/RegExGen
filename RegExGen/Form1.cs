@@ -16,6 +16,7 @@ namespace RegExGen
     public partial class Form1 : System.Windows.Forms.Form
     {
         private enum Status { SUCCESS, ERROR, WARN, CORRECT, INCORRECT }
+        RegExp regex = null;
         Automata ndfa;
 
         public Form1()
@@ -32,10 +33,10 @@ namespace RegExGen
         public void SetRegex(string regex)
         {
             lb_regex.Text = regex;
-
             try
             {
                 RegExp r = RegExParser.GetRegEx(regex);
+                this.regex = r;
                 updateAutomata(new ThompsonConverter().RegExToAutomata(r));
                 tc_automata.TabPages[0].Enabled = true;
                 status(Status.SUCCESS, "Regex successfully parsed!");
@@ -100,7 +101,7 @@ namespace RegExGen
                     Automata a = RegularLanguageConverter.ConvertLanguageToAutomata(input.ToString());
                     updateAutomata(a);
                     status(Status.SUCCESS, "File successfully parsed!");
-                    lb_regex.Text = "";
+                    noRegex();
                 }
                 catch (Exception ex)
                 {
@@ -109,6 +110,11 @@ namespace RegExGen
             }
             else
                 status(Status.WARN, "File import interrupted");
+        }
+
+        private void noRegex() {
+            lb_regex.Text = "";
+            this.regex = null;
         }
 
         private void iNVERTToolStripMenuItem_Click(object sender, EventArgs e)
@@ -122,6 +128,7 @@ namespace RegExGen
             try
             {
                 updateAutomata(this.ndfa.Inverse());
+                noRegex();
                 lb_regex.Text = "Inverted " + lb_regex.Text;
                 status(Status.SUCCESS, "Automata successfully inverted");
             }
@@ -143,6 +150,7 @@ namespace RegExGen
             {
                 updateAutomata(this.ndfa.getDfa().Not());
                 tc_automata.SelectedIndex = 1;
+                noRegex();
                 lb_regex.Text = "Not " + lb_regex.Text;
                 status(Status.SUCCESS, "Automata successfully negated");
             }
@@ -163,7 +171,7 @@ namespace RegExGen
             try
             {
                 SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "Text|*.txt|All|*.*";
+                sfd.Filter = "Text|*.automata|All|*.*";
                 string sfdname = sfd.FileName;
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
@@ -192,6 +200,7 @@ namespace RegExGen
                 string regex = Prompt.ShowDialog("Enter regex: ", "AND");
                 Automata a = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx(regex)).getDfa();
                 and(a);
+                noRegex();
                 lb_regex.Text = "(" + lb_regex.Text + " AND " + regex + ")";
             }
             catch (Exception ex)
@@ -215,6 +224,7 @@ namespace RegExGen
                 string regex = Prompt.ShowDialog("Enter regex: ", "OR");
                 Automata a = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx(regex)).getDfa();
                 or(a);
+                noRegex();
                 lb_regex.Text = "(" + lb_regex.Text + " OR " + regex + ")";
             }
             catch (Exception ex)
@@ -270,6 +280,7 @@ namespace RegExGen
                 #endregion
 
                 lb_regex.Text = regex.ToString();
+                this.regex = regex;
                 updateAutomata(new ThompsonConverter().RegExToAutomata(regex));
                 status(Status.SUCCESS, "Language succesfully generated");
             }
@@ -290,7 +301,7 @@ namespace RegExGen
             try
             {
                 updateAutomata(loadAutomata());
-                lb_regex.Text = "";
+                noRegex();
             }
             catch (Exception ex)
             {
@@ -303,7 +314,7 @@ namespace RegExGen
             try
             {
                 OpenFileDialog file = new OpenFileDialog();
-                file.Filter = "Text|*.txt|All|*.*";
+                file.Filter = "Text|*.automata|All|*.*";
                 if (file.ShowDialog() == DialogResult.OK)
                 {
                     status(Status.SUCCESS, "File successfully loaded");
@@ -375,9 +386,9 @@ namespace RegExGen
 
         private void handleAnswer(Question q, string answer) {
             if(RegExParser.GetRegEx(q.RegExpAnswer).Compare(RegExParser.GetRegEx(answer)))
-                status(Status.CORRECT, q.RegExpAnswer);
+                status(Status.CORRECT, $"{answer}");
             else
-                status(Status.INCORRECT, q.RegExpAnswer);
+                status(Status.INCORRECT, $"Answer: {q.RegExpAnswer} --- Yours: {answer}");
 
             lb_regex.Text = q.RegExpAnswer;
             updateAutomata(new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx(q.RegExpAnswer)));
@@ -405,6 +416,52 @@ namespace RegExGen
         {
             Question q = new QuestionGenerator().GenerateReExpQuestion(4);
             handleAnswer(q, Prompt.ShowDialog(q.QuestionText, "Extreme question"));
+        }
+
+        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (this.regex == null)
+            {
+                status(Status.WARN, "No Regex to save");
+                return;
+            }
+
+            try
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Text|*.regex|All|*.*";
+                string sfdname = sfd.FileName;
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    string path = Path.GetFullPath(sfd.FileName);
+                    FileIO.saveFileString(path, this.regex.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                status(Status.ERROR, ex.Message);
+            }
+        }
+
+        private void loadToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog file = new OpenFileDialog();
+                file.Filter = "Text|*.regex|All|*.*";
+                if (file.ShowDialog() == DialogResult.OK)
+                {
+                    status(Status.SUCCESS, "File successfully loaded");
+                    SetRegex(FileIO.loadFileString(file.FileName));
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                status(Status.ERROR, ex.Message);
+                return;
+            }
+            status(Status.WARN, "Canceled load");
         }
     }
 }
