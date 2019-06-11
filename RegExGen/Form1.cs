@@ -162,7 +162,6 @@ namespace RegExGen
             try
             {
                 updateAutomata(this.ndfa.Inverse());
-                noRegex();
                 lb_regex.Text = "Inverted " + lb_regex.Text;
                 status(Status.SUCCESS, "Automata successfully inverted");
             }
@@ -184,7 +183,6 @@ namespace RegExGen
             {
                 updateAutomata(this.ndfa.getDfa().Not());
                 tc_automata.SelectedIndex = 1;
-                noRegex();
                 lb_regex.Text = "Not " + lb_regex.Text;
                 status(Status.SUCCESS, "Automata successfully negated");
             }
@@ -234,7 +232,6 @@ namespace RegExGen
                 string regex = Prompt.ShowDialog("Enter regex: ", "AND");
                 Automata a = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx(regex)).getDfa();
                 and(a);
-                noRegex();
                 lb_regex.Text = "(" + lb_regex.Text + " AND " + regex + ")";
             }
             catch (Exception ex)
@@ -258,7 +255,6 @@ namespace RegExGen
                 string regex = Prompt.ShowDialog("Enter regex: ", "OR");
                 Automata a = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx(regex)).getDfa();
                 or(a);
-                noRegex();
                 lb_regex.Text = "(" + lb_regex.Text + " OR " + regex + ")";
             }
             catch (Exception ex)
@@ -500,12 +496,13 @@ namespace RegExGen
 
         private void getWordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Prompt.Dictionary(new List<string>(), "Included words");
+            var words = this.ndfa.generateWords(100);
+            Prompt.Dictionary(words, "Included words");
         }
 
         private void getExcludedWordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Prompt.Dictionary(new List<string>(), "Excluded words");
+            Prompt.Dictionary(this.ndfa.generateInvallidWords(100), "Excluded words");
         }
     }
 }
