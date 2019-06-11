@@ -372,7 +372,7 @@ namespace RegExGen
         //Returns the Or of the automata.
         public Automata Or(Automata other)
         {
-            if ((getAlphabet().Equals(other.getAlphabet())))
+            if (!((getAlphabet().All(a=> other.getAlphabet().Contains(a))) && ((other.getAlphabet().All(a => getAlphabet().Contains(a))))))
             {
                 throw new Exception("You cant AND these 2 Automata, because the alphabets are not the same.");
             }
@@ -468,7 +468,7 @@ namespace RegExGen
         //Returns the AND of the automata.
         public Automata And(Automata other)
         {
-            if ((getAlphabet().Equals(other.getAlphabet())))
+            if (!((getAlphabet().All(a => other.getAlphabet().Contains(a))) && ((other.getAlphabet().All(a => getAlphabet().Contains(a))))))
             {
                 throw new Exception("You cant AND these 2 Automata, because the alphabets are not the same.");
             }
