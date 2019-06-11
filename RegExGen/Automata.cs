@@ -164,9 +164,9 @@ namespace RegExGen
         public IEnumerable<string> generateWords(int maxWords = 0, int maxLeght = 0, double logByas = 1.8)
         {
             var walkableAutomata = getOptimized();
-            /*
+
             // for each state that isnt a start state or end state
-            foreach (var state in walkableAutomata.states.Where(s => !startStates.Contains(s)|| !finalStates.Contains(s)).ToList())
+            foreach (var state in walkableAutomata.states.Where(s => !startStates.Contains(s) && !finalStates.Contains(s)).ToList())
                 // if all the outgoing transitions of a state
                 if (walkableAutomata.transitions.Where(t=> t.fromState == state)
                     // only lead back to itself
@@ -176,12 +176,15 @@ namespace RegExGen
                     walkableAutomata.transitions.RemoveWhere(t => t.toState == state || t.fromState == state);
                     walkableAutomata.states.Remove(state);
                 }
-            */
+
 
 
             var possibleWords = new LinkedList<string>();
             void recursiveWordGeneration(string currentWord, string currentState, int maxWordLength)
             {
+                if (possibleWords.Count > maxWords)
+                    return;
+
                 maxWordLength--;
                 if (maxWordLength == 0)
                 {
