@@ -43,7 +43,8 @@ namespace RegExGen
         public static void TestGenerateWords()
         {
             Automata a1 = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx("aba a* b+")).getOptimized();
-            var bla = a1.generateWords();
+            var bla = a1.generateWords(20);
+            var bla2 = a1.generateInvallidWords(30);
 
             Debug.WriteLine("Done");
         }

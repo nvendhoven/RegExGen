@@ -155,7 +155,7 @@ namespace RegExGen
         /// <param name="maxLeght">max word langth. to avoid boring words; 0 = dynamic number</param>
         /// <param name="logByas">if removing words how byas is it towords larger words. Uses a logarithmic scale randNum^logbyas / maxNum. value of 1 = no byas. value of less than 1 is byas towords returning larger words</param>
         public IEnumerable<string> generateInvallidWords(int maxWords = 0, int maxLeght = 0, double logByas = 1.8) 
-            => this.getDfa().Not().generateInvallidWords(maxWords, maxLeght, logByas);
+            => this.getDfa().Not().generateWords(maxWords, maxLeght, logByas);
 
         /// <param name="maxWords">the maximum amount of words that need to be generated; 0 = returns all words possible words with a given length</param>
         /// <param name="maxLeght">max word langth. to avoid boring words; 0 = dynamic number</param>
@@ -201,13 +201,12 @@ namespace RegExGen
             // if words need to be removed
             if(maxWords != 0 && possibleWordsList.Count > maxWords)
             {
+                var newList = new List<string>();
                 var rnd = new Random();
-                for (int i = 0; i < possibleWordsList.Count - maxWords; i++)
-                    // remove words with a bias towards longer words at the end
-                    possibleWordsList.RemoveAt((int)(
-                        Math.Pow(rnd.Next() * possibleWordsList.Count, logByas)
-                        /
-                        (Math.Pow( possibleWordsList.Count, logByas))));
+                for (int i = 0; i < maxWords; i++)
+                    //remove words with a bias towards longer words at the end
+                    newList.Add(possibleWordsList[i]);
+                possibleWordsList = newList;
             }
 
             return possibleWordsList;
