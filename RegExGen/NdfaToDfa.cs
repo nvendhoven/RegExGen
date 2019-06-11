@@ -105,6 +105,7 @@ namespace RegExGen
                 var name = "N(";
                 foreach (var partName in state)
                     name += "" +(partName).ToString() + ",";
+                name = name.Remove(name.Length - 1);
                 return name + ")";
             }
 
@@ -165,7 +166,9 @@ namespace RegExGen
                 }
             } while (stateQueue.Any());
 
-            if(renameStates) dfa.renameStates();
+            
+            //if(renameStates)
+                dfa.renameStates();
 
             dfa.isDFA(true);
             return dfa;
