@@ -72,7 +72,7 @@ namespace RegExGen
                 Height = 650,
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 Text = caption,
-                StartPosition = FormStartPosition.CenterScreen
+                StartPosition = FormStartPosition.CenterScreen,
             };
 
             StringBuilder sbl = new StringBuilder();
@@ -88,8 +88,8 @@ namespace RegExGen
                 i++;
             }
 
-            Label left = new Label() { Left = 20, Top = 20, Width = 290, Height= 600, Text = sbl.ToString() };
-            Label right = new Label() { Left = 310, Top = 20, Width = 570, Height = 600, Text = sbr.ToString() };
+            Label left = new Label() { Left = 20, Top = 20, Width = 290, Height= 590, Text = sbl.ToString() };
+            Label right = new Label() { Left = 310, Top = 20, Width = 570, Height = 590, Text = sbr.ToString() };
 
             prompt.Controls.Add(left);
             prompt.Controls.Add(right);

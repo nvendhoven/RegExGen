@@ -496,13 +496,12 @@ namespace RegExGen
 
         private void getWordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var words = this.ndfa.generateWords(100);
-            Prompt.Dictionary(words, "Included words");
+            Prompt.Dictionary(this.ndfa.getDfa().generateWords(100), "Included words");
         }
 
         private void getExcludedWordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Prompt.Dictionary(this.ndfa.generateInvallidWords(100), "Excluded words");
+            Prompt.Dictionary(this.ndfa.getDfa().generateInvallidWords(100), "Excluded words");
         }
     }
 }
