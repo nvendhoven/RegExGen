@@ -91,7 +91,7 @@ namespace RegExGen
             Label left = new Label() { Left = 20, Top = 20, Width = 290, Text = sbl.ToString(), AutoSize = true };
             Label right = new Label() { Left = 310, Top = 20, Width = 290, Text = sbr.ToString(), AutoSize = true };
 
-            Panel panel = new Panel() { Width = 600, Height= 650, Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right) };
+            Panel panel = new Panel() { Width = 585, Height= 605, Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right) };
             panel.AutoScroll = true;
             panel.VerticalScroll.Visible = true;
 
