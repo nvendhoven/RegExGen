@@ -166,7 +166,9 @@ namespace RegExGen
             var walkableAutomata = getOptimized();
 
             // for each state that isnt a start state or end state
-            foreach (var state in walkableAutomata.states.Where(s => !startStates.Contains(s) && !finalStates.Contains(s)).ToList())
+            var thot = walkableAutomata.states.Where(s => (!startStates.Contains(s) && !finalStates.Contains(s)))
+                .ToList();
+            foreach (var state in thot)
                 // if all the outgoing transitions of a state
                 if (walkableAutomata.transitions.Where(t=> t.fromState == state)
                     // only lead back to itself
@@ -190,14 +192,14 @@ namespace RegExGen
                 {
                     return;
                 }
-                if (finalStates.Contains(currentState))
+                if (walkableAutomata.finalStates.Contains(currentState))
                     possibleWords.AddLast(currentWord);
 
                 foreach(var transition in walkableAutomata.transitions.Where(s => s.fromState == currentState))
                     recursiveWordGeneration(currentWord + transition.symbol, transition.toState, maxWordLength);
             }
 
-            if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 3;
+            if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 2;
             recursiveWordGeneration("", walkableAutomata.startStates.First(), maxLeght);
 
             var possibleWordsList = possibleWords.OrderBy(word => word.Length).ToList();
