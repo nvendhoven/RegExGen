@@ -163,6 +163,7 @@ namespace RegExGen
         public IEnumerable<string> generateWords(int maxWords = 0, int maxLeght = 0, double logByas = 1.8)
         {
             var walkableAutomata = getOptimized();
+            /*
             // for each state that isnt a start state or end state
             foreach (var state in walkableAutomata.states.Where(s => !startStates.Contains(s)|| !finalStates.Contains(s)).ToList())
                 // if all the outgoing transitions of a state
@@ -174,23 +175,31 @@ namespace RegExGen
                     walkableAutomata.transitions.RemoveWhere(t => t.toState == state || t.fromState == state);
                     walkableAutomata.states.Remove(state);
                 }
+            */
 
-            if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 3;
 
             var possibleWords = new LinkedList<string>();
             void recursiveWordGeneration(string currentWord, string currentState, int maxWordLength)
             {
-                if (maxWordLength == 0) return; 
+                maxWordLength--;
+                if (maxWordLength == 0)
+                {
+                    return;
+                }
                 if (finalStates.Contains(currentState))
                     possibleWords.AddLast(currentWord);
 
-                foreach(var transition in walkableAutomata.transitions.Where(s => s.toState == currentState))
-                    recursiveWordGeneration(currentWord + transition.symbol, transition.toState, maxWordLength--);
+                foreach(var transition in walkableAutomata.transitions.Where(s => s.fromState == currentState))
+                    recursiveWordGeneration(currentWord + transition.symbol, transition.toState, maxWordLength);
             }
+
+            if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 3;
+            recursiveWordGeneration("", walkableAutomata.startStates.First(), maxLeght);
+
             var possibleWordsList = possibleWords.OrderBy(word => word.Length).ToList();
 
             // if words need to be removed
-            if(maxWords != 0 || possibleWordsList.Count > maxWords)
+            if(maxWords != 0 && possibleWordsList.Count > maxWords)
             {
                 var rnd = new Random();
                 for (int i = 0; i < possibleWordsList.Count - maxWords; i++)
