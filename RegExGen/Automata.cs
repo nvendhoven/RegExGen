@@ -182,25 +182,29 @@ namespace RegExGen
 
 
             var possibleWords = new LinkedList<string>();
-            void recursiveWordGeneration(string currentWord, string currentState, int maxWordLength)
+            var toCheckQueue = new Queue<Tuple<string, string, int>>();
+            if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 2;
+
+            toCheckQueue.Enqueue(new Tuple<string, string, int>("",walkableAutomata.startStates.First(),maxLeght));
+
+            do
             {
+                var tup = toCheckQueue.Dequeue();
+                string currentWord = tup.Item1; string currentState = tup.Item2; int maxWordLength = tup.Item3;
                 if (possibleWords.Count > maxWords)
-                    return;
+                    break;
 
                 maxWordLength--;
                 if (maxWordLength == 0)
                 {
-                    return;
+                    continue;
                 }
                 if (walkableAutomata.finalStates.Contains(currentState))
                     possibleWords.AddLast(currentWord);
 
-                foreach(var transition in walkableAutomata.transitions.Where(s => s.fromState == currentState))
-                    recursiveWordGeneration(currentWord + transition.symbol, transition.toState, maxWordLength);
-            }
-
-            if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 2;
-            recursiveWordGeneration("", walkableAutomata.startStates.First(), maxLeght);
+                foreach (var transition in walkableAutomata.transitions.Where(s => s.fromState == currentState))
+                    toCheckQueue.Enqueue(new Tuple<string, string, int>(currentWord + transition.symbol, transition.toState, maxWordLength));
+            } while (toCheckQueue.Any());
 
             var possibleWordsList = possibleWords.OrderBy(word => word.Length).ToList();
 
