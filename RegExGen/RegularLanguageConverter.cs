@@ -38,7 +38,7 @@ namespace RegExGen
                     sb.Append($"{s},");
             sb.AppendLine();
             sb.AppendLine();
-            sb.AppendLine("P =");
+            sb.AppendLine("P = {");
             Dictionary<string, List<string>> lines = new Dictionary<string, List<string>>();
             foreach (Transition t in a.transitions)
             {
@@ -61,7 +61,7 @@ namespace RegExGen
                 }
                 sb.AppendLine();
             }
-
+            sb.AppendLine("}");
             return sb.ToString();
         }
 

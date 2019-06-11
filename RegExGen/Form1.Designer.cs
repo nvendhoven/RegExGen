@@ -31,13 +31,10 @@
             this.tc_automata = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.lb_regular_lan_ndfa = new System.Windows.Forms.Label();
-            this.pb_ndfa = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.lb_regular_lan_dfa = new System.Windows.Forms.Label();
-            this.pb_dfa = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.lb_regular_lan_odfa = new System.Windows.Forms.Label();
-            this.pb_odfa = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lb_regex = new System.Windows.Forms.Label();
             this.tb_regex = new System.Windows.Forms.TextBox();
@@ -45,15 +42,20 @@
             this.lb_status = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.automataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.regexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.questionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.importGramaticaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.automataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.aDDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createNewFromRegexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,27 +64,26 @@
             this.loadAutomataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iNVERTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nOTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.regexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.getWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getExcludedWordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.questionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.easyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.normalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.difficultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extremeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pb_ndfa = new System.Windows.Forms.PictureBox();
+            this.pb_dfa = new System.Windows.Forms.PictureBox();
+            this.pb_odfa = new System.Windows.Forms.PictureBox();
             this.tc_automata.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_ndfa)).BeginInit();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).BeginInit();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_odfa)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_ndfa)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_odfa)).BeginInit();
             this.SuspendLayout();
             // 
             // tc_automata
@@ -124,19 +125,6 @@
             this.lb_regular_lan_ndfa.TabIndex = 1;
             this.lb_regular_lan_ndfa.Text = ".";
             // 
-            // pb_ndfa
-            // 
-            this.pb_ndfa.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_ndfa.Location = new System.Drawing.Point(400, 0);
-            this.pb_ndfa.Margin = new System.Windows.Forms.Padding(0);
-            this.pb_ndfa.Name = "pb_ndfa";
-            this.pb_ndfa.Size = new System.Drawing.Size(985, 617);
-            this.pb_ndfa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_ndfa.TabIndex = 0;
-            this.pb_ndfa.TabStop = false;
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.lb_regular_lan_dfa);
@@ -146,7 +134,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(1535, 770);
+            this.tabPage2.Size = new System.Drawing.Size(1424, 614);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "DFA";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -160,19 +148,6 @@
             this.lb_regular_lan_dfa.TabIndex = 2;
             this.lb_regular_lan_dfa.Text = ".";
             // 
-            // pb_dfa
-            // 
-            this.pb_dfa.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_dfa.Location = new System.Drawing.Point(400, 0);
-            this.pb_dfa.Margin = new System.Windows.Forms.Padding(0);
-            this.pb_dfa.Name = "pb_dfa";
-            this.pb_dfa.Size = new System.Drawing.Size(1091, 769);
-            this.pb_dfa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_dfa.TabIndex = 1;
-            this.pb_dfa.TabStop = false;
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.lb_regular_lan_odfa);
@@ -181,7 +156,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1535, 770);
+            this.tabPage3.Size = new System.Drawing.Size(1424, 614);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Optimized DFA";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -194,19 +169,6 @@
             this.lb_regular_lan_odfa.Size = new System.Drawing.Size(393, 742);
             this.lb_regular_lan_odfa.TabIndex = 2;
             this.lb_regular_lan_odfa.Text = ".";
-            // 
-            // pb_odfa
-            // 
-            this.pb_odfa.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pb_odfa.Location = new System.Drawing.Point(400, 0);
-            this.pb_odfa.Margin = new System.Windows.Forms.Padding(0);
-            this.pb_odfa.Name = "pb_odfa";
-            this.pb_odfa.Size = new System.Drawing.Size(1085, 767);
-            this.pb_odfa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_odfa.TabIndex = 1;
-            this.pb_odfa.TabStop = false;
             // 
             // label1
             // 
@@ -287,12 +249,77 @@
             this.saveToolStripMenuItem,
             this.loadToolStripMenuItem,
             this.toolStripSeparator2,
+            this.exportToolStripMenuItem,
             this.importGramaticaToolStripMenuItem,
             this.toolStripSeparator3,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(191, 6);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(191, 6);
+            // 
+            // automataToolStripMenuItem
+            // 
+            this.automataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generateToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.aDDToolStripMenuItem,
+            this.oRToolStripMenuItem,
+            this.iNVERTToolStripMenuItem,
+            this.nOTToolStripMenuItem});
+            this.automataToolStripMenuItem.Name = "automataToolStripMenuItem";
+            this.automataToolStripMenuItem.Size = new System.Drawing.Size(87, 24);
+            this.automataToolStripMenuItem.Text = "Automata";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(141, 6);
+            // 
+            // regexToolStripMenuItem
+            // 
+            this.regexToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem1,
+            this.loadToolStripMenuItem2});
+            this.regexToolStripMenuItem.Name = "regexToolStripMenuItem";
+            this.regexToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
+            this.regexToolStripMenuItem.Text = "Regex";
+            // 
+            // languageToolStripMenuItem
+            // 
+            this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkWordToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.getWordsToolStripMenuItem,
+            this.getExcludedWordsToolStripMenuItem});
+            this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(86, 24);
+            this.languageToolStripMenuItem.Text = "Language";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(212, 6);
+            // 
+            // questionsToolStripMenuItem
+            // 
+            this.questionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.easyToolStripMenuItem,
+            this.normalToolStripMenuItem,
+            this.difficultToolStripMenuItem,
+            this.extremeToolStripMenuItem});
+            this.questionsToolStripMenuItem.Name = "questionsToolStripMenuItem";
+            this.questionsToolStripMenuItem.Size = new System.Drawing.Size(86, 24);
+            this.questionsToolStripMenuItem.Text = "Questions";
             // 
             // saveToolStripMenuItem
             // 
@@ -310,11 +337,6 @@
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(191, 6);
-            // 
             // importGramaticaToolStripMenuItem
             // 
             this.importGramaticaToolStripMenuItem.Image = global::RegExGen.Properties.Resources.import;
@@ -323,10 +345,13 @@
             this.importGramaticaToolStripMenuItem.Text = "Import grammar";
             this.importGramaticaToolStripMenuItem.Click += new System.EventHandler(this.importGramaticaToolStripMenuItem_Click);
             // 
-            // toolStripSeparator3
+            // exportToolStripMenuItem
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(191, 6);
+            this.exportToolStripMenuItem.Image = global::RegExGen.Properties.Resources.export;
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.exportToolStripMenuItem.Text = "Export grammar";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -336,19 +361,6 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // automataToolStripMenuItem
-            // 
-            this.automataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generateToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.aDDToolStripMenuItem,
-            this.oRToolStripMenuItem,
-            this.iNVERTToolStripMenuItem,
-            this.nOTToolStripMenuItem});
-            this.automataToolStripMenuItem.Name = "automataToolStripMenuItem";
-            this.automataToolStripMenuItem.Size = new System.Drawing.Size(87, 24);
-            this.automataToolStripMenuItem.Text = "Automata";
-            // 
             // generateToolStripMenuItem
             // 
             this.generateToolStripMenuItem.Image = global::RegExGen.Properties.Resources.create;
@@ -356,11 +368,6 @@
             this.generateToolStripMenuItem.Size = new System.Drawing.Size(144, 26);
             this.generateToolStripMenuItem.Text = "Generate";
             this.generateToolStripMenuItem.Click += new System.EventHandler(this.generateToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(141, 6);
             // 
             // aDDToolStripMenuItem
             // 
@@ -430,15 +437,6 @@
             this.nOTToolStripMenuItem.Text = "NOT";
             this.nOTToolStripMenuItem.Click += new System.EventHandler(this.nOTToolStripMenuItem_Click);
             // 
-            // regexToolStripMenuItem
-            // 
-            this.regexToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveToolStripMenuItem1,
-            this.loadToolStripMenuItem2});
-            this.regexToolStripMenuItem.Name = "regexToolStripMenuItem";
-            this.regexToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
-            this.regexToolStripMenuItem.Text = "Regex";
-            // 
             // saveToolStripMenuItem1
             // 
             this.saveToolStripMenuItem1.Image = global::RegExGen.Properties.Resources.save;
@@ -455,17 +453,6 @@
             this.loadToolStripMenuItem2.Text = "Load";
             this.loadToolStripMenuItem2.Click += new System.EventHandler(this.loadToolStripMenuItem2_Click);
             // 
-            // languageToolStripMenuItem
-            // 
-            this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.checkWordToolStripMenuItem,
-            this.toolStripSeparator4,
-            this.getWordsToolStripMenuItem,
-            this.getExcludedWordsToolStripMenuItem});
-            this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(86, 24);
-            this.languageToolStripMenuItem.Text = "Language";
-            // 
             // checkWordToolStripMenuItem
             // 
             this.checkWordToolStripMenuItem.Image = global::RegExGen.Properties.Resources.check;
@@ -474,17 +461,13 @@
             this.checkWordToolStripMenuItem.Text = "Check word";
             this.checkWordToolStripMenuItem.Click += new System.EventHandler(this.checkWordToolStripMenuItem_Click);
             // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(212, 6);
-            // 
             // getWordsToolStripMenuItem
             // 
             this.getWordsToolStripMenuItem.Image = global::RegExGen.Properties.Resources.list;
             this.getWordsToolStripMenuItem.Name = "getWordsToolStripMenuItem";
             this.getWordsToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.getWordsToolStripMenuItem.Text = "Get words";
+            this.getWordsToolStripMenuItem.Click += new System.EventHandler(this.getWordsToolStripMenuItem_Click);
             // 
             // getExcludedWordsToolStripMenuItem
             // 
@@ -492,17 +475,6 @@
             this.getExcludedWordsToolStripMenuItem.Name = "getExcludedWordsToolStripMenuItem";
             this.getExcludedWordsToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             this.getExcludedWordsToolStripMenuItem.Text = "Get excluded words";
-            // 
-            // questionsToolStripMenuItem
-            // 
-            this.questionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.easyToolStripMenuItem,
-            this.normalToolStripMenuItem,
-            this.difficultToolStripMenuItem,
-            this.extremeToolStripMenuItem});
-            this.questionsToolStripMenuItem.Name = "questionsToolStripMenuItem";
-            this.questionsToolStripMenuItem.Size = new System.Drawing.Size(86, 24);
-            this.questionsToolStripMenuItem.Text = "Questions";
             // 
             // easyToolStripMenuItem
             // 
@@ -536,6 +508,45 @@
             this.extremeToolStripMenuItem.Text = "Extreme";
             this.extremeToolStripMenuItem.Click += new System.EventHandler(this.extremeToolStripMenuItem_Click);
             // 
+            // pb_ndfa
+            // 
+            this.pb_ndfa.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_ndfa.Location = new System.Drawing.Point(400, 0);
+            this.pb_ndfa.Margin = new System.Windows.Forms.Padding(0);
+            this.pb_ndfa.Name = "pb_ndfa";
+            this.pb_ndfa.Size = new System.Drawing.Size(985, 617);
+            this.pb_ndfa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_ndfa.TabIndex = 0;
+            this.pb_ndfa.TabStop = false;
+            // 
+            // pb_dfa
+            // 
+            this.pb_dfa.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_dfa.Location = new System.Drawing.Point(400, 0);
+            this.pb_dfa.Margin = new System.Windows.Forms.Padding(0);
+            this.pb_dfa.Name = "pb_dfa";
+            this.pb_dfa.Size = new System.Drawing.Size(980, 613);
+            this.pb_dfa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_dfa.TabIndex = 1;
+            this.pb_dfa.TabStop = false;
+            // 
+            // pb_odfa
+            // 
+            this.pb_odfa.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pb_odfa.Location = new System.Drawing.Point(400, 0);
+            this.pb_odfa.Margin = new System.Windows.Forms.Padding(0);
+            this.pb_odfa.Name = "pb_odfa";
+            this.pb_odfa.Size = new System.Drawing.Size(974, 611);
+            this.pb_odfa.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_odfa.TabIndex = 1;
+            this.pb_odfa.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -555,13 +566,13 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tc_automata.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_ndfa)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).EndInit();
             this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_odfa)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_ndfa)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_dfa)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_odfa)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -616,6 +627,7 @@
         private System.Windows.Forms.ToolStripMenuItem regexToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
     }
 }
 

@@ -112,6 +112,25 @@ namespace RegExGen
                 status(Status.WARN, "File import interrupted");
         }
 
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "Text|*.txt|All|*.*";
+                string sfdname = sfd.FileName;
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    string path = Path.GetFullPath(sfd.FileName);
+                    FileIO.saveFileString(path, RegularLanguageConverter.ConvertAutomataToLanguage(this.ndfa.getDfa().getOptimized()).ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                status(Status.ERROR, ex.Message);
+            }
+        }
+
         private void noRegex() {
             lb_regex.Text = "";
             this.regex = null;
@@ -463,6 +482,12 @@ namespace RegExGen
             }
             status(Status.WARN, "Canceled load");
         }
+
+        private void getWordsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Prompt.Dictionary("Accepted words");
+        }
+
     }
 }
 

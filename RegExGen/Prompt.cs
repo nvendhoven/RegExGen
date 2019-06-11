@@ -64,5 +64,22 @@ namespace RegExGen
             prompt.Controls.Add(pb);
             prompt.ShowDialog();
         }
+
+        public static void Dictionary(string caption) {
+            Form prompt = new Form()
+            {
+                Width = 600,
+                Height = 800,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = caption,
+                StartPosition = FormStartPosition.CenterScreen
+            };
+            Label left = new Label() { Left = 20, Top = 20, Width = 290, Text = "test1" };
+            Label right = new Label() { Left = 310, Top = 20, Width = 570, Text = "test2" };
+
+            prompt.Controls.Add(left);
+            prompt.Controls.Add(right);
+            prompt.ShowDialog();
+        }
     }
 }

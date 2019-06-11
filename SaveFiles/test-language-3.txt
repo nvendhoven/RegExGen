@@ -1,0 +1,13 @@
+G = (N, Σ, P, N1)
+N = {N0,N1,N2,N3,N4,N5,N6}
+Σ = {a,b}
+
+P = {
+   N0  -> aN0 | bN0
+   N1  -> aN2 | bN0
+   N2  -> aN3 | bN0
+   N3  -> aN3 | bN4 | b
+   N5  -> aN5 | bN6 | b
+   N4  -> aN0 | bN5
+   N6  -> aN6 | a | bN5
+}
