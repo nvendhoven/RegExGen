@@ -29,7 +29,8 @@ namespace RegExGen
             //TestAutomataCheckWord();
             //TestLanguageGenerator();
             //TestRandomQuestionGenerator();
-            TestCompareRegEx();
+            //TestCompareRegEx();
+            TestGenerateWords();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -37,6 +38,14 @@ namespace RegExGen
 
             //TestRegExp();
             //TestAutomata();
+        }
+
+        public static void TestGenerateWords()
+        {
+            Automata a1 = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx("aba a* b+")).getOptimized();
+            var bla = a1.generateWords();
+
+            Debug.WriteLine("Done");
         }
 
         public static void TestCompareRegEx()
