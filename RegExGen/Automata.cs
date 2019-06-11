@@ -15,6 +15,7 @@ namespace RegExGen
     {
         public static readonly char EPSILON = Transition.EPSILON;
         public static readonly String EMPTY = "#";
+        public readonly Dictionary<string, string> newNameDictionary = new Dictionary<string, string>();
 
         // node - edge - node
         public SortedSet<Transition> transitions = new SortedSet<Transition>();
@@ -151,8 +152,60 @@ namespace RegExGen
             return isDFA;
         }
 
+        /// <param name="maxWords">the maximum amount of words that need to be generated; 0 = returns all words possible words with a given length</param>
+        /// <param name="maxLeght">max word langth. to avoid boring words; 0 = dynamic number</param>
+        /// <param name="logByas">if removing words how byas is it towords larger words. Uses a logarithmic scale randNum^logbyas / maxNum. value of 1 = no byas. value of less than 1 is byas towords returning larger words</param>
+        public IEnumerable<string> generateInvallidWords(int maxWords = 0, int maxLeght = 0, double logByas = 1.8) 
+            => this.getDfa().Not().generateInvallidWords(maxWords, maxLeght, logByas);
 
-       public override bool Equals(object compare)
+        /// <param name="maxWords">the maximum amount of words that need to be generated; 0 = returns all words possible words with a given length</param>
+        /// <param name="maxLeght">max word langth. to avoid boring words; 0 = dynamic number</param>
+        /// <param name="logByas">if removing words how byas is it towords larger words. Uses a logarithmic scale randNum^logbyas / maxNum. value of 1 = no byas. value of less than 1 is byas towords returning larger words</param>
+        public IEnumerable<string> generateWords(int maxWords = 0, int maxLeght = 0, double logByas = 1.8)
+        {
+            var walkableAutomata = getOptimized();
+            // for each state that isnt a start state or end state
+            foreach (var state in walkableAutomata.states.Where(s => !startStates.Contains(s)|| !finalStates.Contains(s)).ToList())
+                // if all the outgoing transitions of a state
+                if (walkableAutomata.transitions.Where(t=> t.fromState == state)
+                    // only lead back to itself
+                    .All(t => t.toState == state))
+                {
+                    // it is a fuik and should be removed
+                    walkableAutomata.transitions.RemoveWhere(t => t.toState == state || t.fromState == state);
+                    walkableAutomata.states.Remove(state);
+                }
+
+            if (maxLeght == 0) maxLeght = walkableAutomata.states.Count() * 3;
+
+            var possibleWords = new LinkedList<string>();
+            void recursiveWordGeneration(string currentWord, string currentState, int maxWordLength)
+            {
+                if (maxWordLength == 0) return; 
+                if (finalStates.Contains(currentState))
+                    possibleWords.AddLast(currentWord);
+
+                foreach(var transition in walkableAutomata.transitions.Where(s => s.toState == currentState))
+                    recursiveWordGeneration(currentWord + transition.symbol, transition.toState, maxWordLength--);
+            }
+            var possibleWordsList = possibleWords.OrderBy(word => word.Length).ToList();
+
+            // if words need to be removed
+            if(maxWords != 0 || possibleWordsList.Count > maxWords)
+            {
+                var rnd = new Random();
+                for (int i = 0; i < possibleWordsList.Count - maxWords; i++)
+                    // remove words with a bias towards longer words at the end
+                    possibleWordsList.RemoveAt((int)(
+                        Math.Pow(rnd.Next() * possibleWordsList.Count, logByas)
+                        /
+                        (Math.Pow( possibleWordsList.Count, logByas))));
+            }
+
+            return possibleWordsList;
+        }
+
+        public override bool Equals(object compare)
         {
             if (!(compare is Automata))
                 return false;
@@ -166,10 +219,12 @@ namespace RegExGen
             return toCompare.states.Count == 1;
 
         }
+
         public void renameStates()
         {
+            newNameDictionary.Clear();
+
             var statecounter = 0;
-            var newNameDictionary = new Dictionary<string, string>();
             // generate new names
             string generateGetOrSetName(string stateName)
             {
@@ -201,13 +256,13 @@ namespace RegExGen
             }
         }
 
-        public Automata getOptimized() => getDfa().Inverse().getDfa().Inverse().getDfa();
+        public Automata getOptimized() => getDfa(false).Inverse().getDfa(false).Inverse().getDfa();
 
-        public Automata getDfa()
+        public Automata getDfa(bool renameStates = true)
         {
             if (isDFA())
                 return this;
-            return NdfaToDfa.run(this);
+            return NdfaToDfa.run(this, renameStates);
         }
 
         //Function that checks if a word is in the language.

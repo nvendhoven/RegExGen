@@ -29,7 +29,8 @@ namespace RegExGen
             //TestAutomataCheckWord();
             //TestLanguageGenerator();
             //TestRandomQuestionGenerator();
-            TestCompareRegEx();
+            //TestCompareRegEx();
+            //TestDictionary();
             Debug.WriteLine("Done");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -37,6 +38,14 @@ namespace RegExGen
 
             //TestRegExp();
             //TestAutomata();
+        }
+
+        public static void TestDictionary()
+        {
+            Automata a1 = new ThompsonConverter().RegExToAutomata(RegExParser.GetRegEx("aa+ b* a b+")).getDfa();
+
+            var dictionary = a1.newNameDictionary;
+            Debug.WriteLine("Done");
         }
 
         public static void TestCompareRegEx()
