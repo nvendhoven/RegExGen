@@ -477,33 +477,40 @@ namespace RegExGen
             {
                 throw new Exception("One or both of the automata aren't DFA's");
             }
-
+            var temp1 = getOptimized();
             //Creat Hulptabellen.
-            string[] statesList = states.ToArray();
-            char[] letterList = getAlphabet().ToArray();
-            string[,] hulpTabel = new string[states.Count, getAlphabet().Count];
-            
+            string[] statesList = temp1.states.ToArray();
+            char[] letterList = temp1.getAlphabet().ToArray();
+            string[,] hulpTabel = new string[temp1.states.Count, temp1.getAlphabet().Count];
+
+
+            var babd = temp1.GetDestination(2, 1);
+
             //Hulptabel vullen.
-            for (int letter = 0; letter < getAlphabet().Count; letter++)
+            for (int letter = 0; letter < temp1.getAlphabet().Count; letter++)
             {
-                for (int state = 0; state < states.Count; state++)
+                for (int state = 0; state < temp1.states.Count; state++)
                 {
-                    hulpTabel[state, letter] = GetDestination(state, letter);
+                    var ab = temp1.GetDestination(state, letter);
+
+
+                    hulpTabel[state, letter] = ab;
                 }
             }
 
             print2dArray(hulpTabel);
 
-            string[] statesListOther = other.states.ToArray();
-            char[] letterListOther = other.getAlphabet().ToArray();
-            string[,] hulpTabelOther = new string[other.states.Count,other.getAlphabet().Count];
+            var temp2 = other.getOptimized();
+            string[] statesListOther = temp2.states.ToArray();
+            char[] letterListOther = temp2.getAlphabet().ToArray();
+            string[,] hulpTabelOther = new string[temp2.states.Count, temp2.getAlphabet().Count];
 
             //Hulptabel vullen.
-            for (int letter = 0; letter < other.getAlphabet().Count; letter++)
+            for (int letter = 0; letter < temp2.getAlphabet().Count; letter++)
             {
-                for (int state = 0; state < other.states.Count; state++)
+                for (int state = 0; state < temp2.states.Count; state++)
                 {
-                    hulpTabelOther[state, letter] = other.GetDestination(state, letter);
+                    hulpTabelOther[state, letter] = temp2.GetDestination(state, letter);
                 }
             }
 
@@ -516,16 +523,16 @@ namespace RegExGen
             bool notDone = true;
             Automata returnAutomata = new Automata();
 
-            returnAutomata.defineAsStartState(startStates.First() + "" + other.startStates.First()); //Defineer de states die in zowel 1 als 2 start zijn.
-            returnAutomata.setAlphabet(getAlphabet());
-            currentStates.Add(Tuple.Create(startStates.First(), other.startStates.First()));//Create the first mixed state (0,0)
+            returnAutomata.defineAsStartState(temp1.startStates.First() + "" + temp2.startStates.First()); //Defineer de states die in zowel 1 als 2 start zijn.
+            returnAutomata.setAlphabet(temp1.getAlphabet());
+            currentStates.Add(Tuple.Create(temp1.startStates.First(), temp2.startStates.First()));//Create the first mixed state (0,0)
             //Heb nu beide hulparrays,
-            while (result.Count < transitions.Count * other.transitions.Count && notDone)//blijf doorgaan tot het maximum aantal states bereikt is.
+            while (result.Count < temp1.transitions.Count * other.transitions.Count && notDone)//blijf doorgaan tot het maximum aantal states bereikt is.
             {
                 var nextStates = new SortedSet<Tuple<string, string>>();
                 foreach (var currentState in currentStates)//Alle huidige states             
                 {
-                    if (finalStates.Contains(currentState.Item1) && other.finalStates.Contains(currentState.Item2))//check of beide states in hun eigen automaat eindstates zijn.
+                    if (temp1.finalStates.Contains(currentState.Item1) && temp2.finalStates.Contains(currentState.Item2))//check of beide states in hun eigen automaat eindstates zijn.
                     {
                         returnAutomata.defineAsFinalState(currentState.Item1 + "" + currentState.Item2);
                     }
@@ -634,12 +641,12 @@ namespace RegExGen
         public string GetDestination(int state, int letter)
         {
             //Zoek de state op die bij het nummer hoort
-            string previousState = transitions.First().fromState;
+            string previousState = states.First();
             int stateCounter = 0;
             string savedState = "#";
-            foreach (Transition t in transitions)
+            foreach(string s in states)
             {
-                if (!t.fromState.Equals(previousState))
+                if (!s.Equals(previousState))
                 {
                     stateCounter++;
                 }
@@ -647,9 +654,9 @@ namespace RegExGen
                 if (stateCounter == state)
                 {
                     //Will enter this if once for every letter in the alphabet.
-                    savedState = t.fromState;
+                    savedState = s;
                 }
-                previousState = t.fromState;
+                previousState = s;
             }
 
             //Zoek de letter op die bij het nummer hoort.

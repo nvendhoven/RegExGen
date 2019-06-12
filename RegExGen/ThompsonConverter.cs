@@ -62,12 +62,19 @@ namespace RegExGen
                     {
                         //Save the start state so it can later be used to create an epsilon transiton from the endstate to the startstate.
                         startState = statenumber;
+                        statenumber++;
+                        var temp = statenumber;
+                        transitions.Add(new Transition(startState.ToString(), statenumber.ToString()));
 
                         //Add all transitions from left part, only left side is used with the PLUS operator.
                         transitions.UnionWith(GetTransitions(regExp.GetLeftRegExp()));
 
                         //Add a transiton from the endstate to the startstate.
                         transitions.Add(new Transition(statenumber.ToString(), startState.ToString()));
+
+                        var prev = statenumber;
+                        statenumber++;
+                        transitions.Add(new Transition(prev.ToString(),statenumber.ToString()));
 
                     } break;  //herhaal dit stuk volgens de plus wijze
                 case RegExp.Operator.STAR:

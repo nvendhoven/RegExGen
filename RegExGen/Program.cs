@@ -35,9 +35,23 @@ namespace RegExGen
             //TestRegExp();
             //TestAutomata();
             //Debug.WriteLine("Done");
+            //TestAnd();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+        }
+
+        public static void TestAnd()
+        {
+            RegExp r1 = RegExParser.GetRegEx("a+b+");
+            RegExp r2 = RegExParser.GetRegEx("a*b*");
+
+            Automata a1 = new ThompsonConverter().RegExToAutomata(r1).getOptimized();
+            Automata a2 = new ThompsonConverter().RegExToAutomata(r2).getOptimized();
+
+            Automata a3 = a1.And(a2);
+
+            Debug.WriteLine("Done");
         }
 
         public static void TestDictionary()
